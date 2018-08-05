@@ -1,0 +1,15 @@
+<FilesMatch "\.svg\.br$">
+AddEncoding br .br
+Header set Content-Encoding: br
+Header set Vary "Accept-Encoding"
+AddDefaultCharset utf-8
+ForceType image/svg+xml
+</FilesMatch>
+
+<FilesMatch "\.svg\.gz$">
+AddEncoding x-gzip .gz
+Header set Content-Encoding: gzip
+Header set Vary "Accept-Encoding"
+AddDefaultCharset utf-8
+ForceType image/svg+xml
+</FilesMatch>

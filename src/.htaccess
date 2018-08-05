@@ -1,0 +1,101 @@
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^ericperrets.info$
+RewriteRule ^(.*)$ http://www.ericperrets.info/$1 [R=301]
+
+AddType text/cache-manifest .appcache
+
+RewriteBase /
+RewriteCond %{HTTP:Accept-encoding} br
+RewriteCond %{REQUEST_FILENAME}\.br -s
+RewriteRule (.*) $1.br [L,QSA]
+
+RewriteCond %{HTTP:Accept-encoding} gzip
+RewriteCond %{REQUEST_FILENAME}.gz -f
+RewriteRule (.*) $1.gz [L,QSA]
+
+ExpiresActive on
+ExpiresByType image/jpg "access plus 7 days"
+ExpiresByType image/jpeg "access plus 7 days"
+ExpiresByType image/gif "access plus 7 days"
+ExpiresByType image/png "access plus 7 days"
+ExpiresByType text/html "access plus 7 days"
+ExpiresByType text/css "access plus 7 days"
+ExpiresByType image/x-icon "access plus 7 days"
+ExpiresByType image/svg+xml "access plus 7 days"
+
+<FilesMatch "\.js\.gz$">
+AddEncoding x-gzip .gz
+Header set Content-Encoding: gzip
+Header set Vary "Accept-Encoding"
+AddDefaultCharset utf-8
+ForceType text/javascript
+</FilesMatch>
+
+<FilesMatch "\.css\.gz$">
+AddEncoding x-gzip .gz
+Header set Content-Encoding: gzip
+Header set Vary "Accept-Encoding"
+AddDefaultCharset utf-8
+ForceType text/css
+</FilesMatch>
+
+<FilesMatch "\.html\.gz$">
+AddEncoding x-gzip .gz
+Header set Content-Encoding: gzip
+Header set Vary "Accept-Encoding"
+Header append X-Frame-Options DENY
+Header set "X-UA-Compatible" "IE=edge"
+Header set Link "<https://fonts.googleapis.com>; rel=preconnect, <https://fonts.gstatic.com>; rel=preconnect; crossorigin, <https://lh3.googleusercontent.com>; rel=preconnect"
+AddDefaultCharset utf-8
+ForceType text/html
+</FilesMatch>
+
+<FilesMatch "\.html\.br$">
+AddEncoding br .br
+Header set Content-Encoding: br
+Header set Cache-Control "max-age=604800,public"
+Header set Vary "Accept-Encoding"
+Header set "X-UA-Compatible" "IE=edge"
+Header set Link "<https://fonts.googleapis.com>; rel=preconnect, <https://fonts.gstatic.com>; rel=preconnect; crossorigin, <https://lh3.googleusercontent.com>; rel=preconnect"
+AddDefaultCharset utf-8
+ForceType text/html
+</FilesMatch>
+
+<FilesMatch "\.html$">
+Header set "X-UA-Compatible" "IE=edge"
+Header append X-Frame-Options DENY
+Header set Link "<https://fonts.googleapis.com>; rel=preconnect, <https://fonts.gstatic.com>; rel=preconnect; crossorigin, <https://lh3.googleusercontent.com>; rel=preconnect"
+AddDefaultCharset utf-8
+</FilesMatch>
+
+<FilesMatch "\.ico\.gz$">
+AddEncoding x-gzip .gz
+Header set Content-Encoding: gzip
+Header set Cache-Control "max-age=604800,public"
+Header set Vary "Accept-Encoding"
+ForceType image/x-icon
+</FilesMatch>
+
+<FilesMatch "\.ico\.br$">
+AddEncoding br .br
+Header set Content-Encoding: br
+Header set Vary "Accept-Encoding"
+ForceType image/x-icon
+</FilesMatch>
+
+<FilesMatch "\.appcache\.gz$">
+AddEncoding x-gzip .gz
+Header set Content-Encoding: gzip
+Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+Header set Pragma "no-cache"
+Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
+Header set Vary "Accept-Encoding"
+AddDefaultCharset utf-8
+</FilesMatch>
+
+<FilesMatch "epi\.appcache$">
+Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+Header set Pragma "no-cache"
+Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
+AddDefaultCharset utf-8
+</FilesMatch>

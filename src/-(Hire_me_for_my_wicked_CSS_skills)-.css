@@ -1,0 +1,363 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+    pointer-events: none;
+}
+.fontsLoaded .font {
+    font-family: 'Montserrat', sans-serif;
+    font-display: optional;
+}
+/* Clip text element */
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+    .clip-text {
+        line-height: .8;
+        position: relative;
+        display: inline-block;
+        text-align: center;
+        /* Color fallback */
+        color: #fff;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: cover;
+        background-attachment: fixed;
+        margin-bottom: -1rem;
+        margin-top: 1rem;
+        overflow: hidden;
+        -webkit-text-stroke: .5px rgba(255, 255, 255, 0.5);
+    }
+    .clip-text:before,
+    .clip-text:after {
+        position: absolute;
+        content: '';
+    }
+    /* Background */
+    .clip-text:before {
+        z-index: -2;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-image: inherit;
+    }
+    /* Text Background (black zone) */
+    .clip-text:after {
+        position: absolute;
+        z-index: -1;
+        top: .125em;
+        right: .125em;
+        bottom: .125em;
+        left: .125em;
+        background-color: #000;
+    }
+}
+.body {
+    margin: auto;
+    margin-bottom: 1rem;
+    max-width: 800px;
+    pointer-events: none;
+    min-width: 300px;
+}
+.title {
+    font-variant: small-caps;
+    letter-spacing: 5px;
+    text-align: center;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+.fontsLoaded .title {
+    font-family: 'Cinzel', serif;
+    font-display: optional;
+}
+.title > span {
+    font-size: 8rem;
+    display: block;
+    background-color: #000;
+    color: #add8e6;
+    line-height: calc(1em - 14px);
+    pointer-events: auto;
+    width: 100%;
+    overflow-y: hidden
+}
+.content {
+    background: #fff;
+    margin-top: 1em;
+    color: #fafff6;
+    line-height: 1.55556;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    padding: 1rem 1rem 0 1rem;
+}
+.content > main {
+    background-color: #000;
+    pointer-events: auto;
+    border-bottom: 0;
+    padding: 1rem 1rem .5rem 1rem;
+}
+.content p + p {
+    padding-top: 1em;
+}
+.content ol {
+    margin-top: 0;
+    padding-left: 1rem;
+}
+.content > main a {
+    color: #fff;
+}
+.me {
+    float: left;
+    padding-right: 1rem;
+}
+.grid {
+    display: grid;
+    grid-auto-columns: auto;
+    grid-auto-flow: column;
+}
+.grid.background > div > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: .5s;
+}
+.grid.background > .orange > div {
+    background-color: rgba(255, 152, 0, .5);
+}
+.grid.background > .blue > div {
+    background-color: rgba(111, 205, 223, .5);
+}
+.grid.background > .grey > div {
+    background-color: rgba(153, 156, 194, .5);
+}
+.grid.background > .hide > div {
+    background-color: #fff;
+}
+.grid.background > .pattern > div {
+    background-image: repeating-linear-gradient(125deg, transparent, transparent 2px, rgba(255,255,255,.3) 2px, rgba(255,255,255,.3) 3px, transparent 3px, transparent 5px, rgba(255,255,255,.3) 5px);
+}
+.grid.background.option1 {
+    grid-template-rows: repeat(36, 1fr);
+    grid-template-columns: repeat(36, 1fr);
+}
+.grid.background.option2 {
+    grid-template-rows: repeat(7, 1fr);
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 2px;
+}
+.grid.background.option2 > div,
+.grid.background.option2 > div > div {
+    border-radius: .75rem;
+}
+.background {
+    top: 0;
+    position: fixed;
+    z-index: -2;
+    pointer-events: auto;
+    height: 100vmax;
+    width: 100vmax;
+}
+.icons {
+    pointer-events: auto;
+    margin: auto;
+    padding: 4px 1em 2px;
+}
+.icons > ul {
+    padding: 0;
+    margin: 0;
+}
+.icons > ul > li,
+.icons > ul > li > div {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    margin-right: 2px;
+}
+#contact,
+#resume {
+    display: inline;
+    vertical-align: super;
+}
+#resume {
+    font-size: 1.2rem;
+    vertical-align: center;
+}
+#changeColor {
+    float: right;
+    padding-right: 0;
+}
+#wordpress {
+    border-right: 2px solid #000;
+    padding-right: .5rem;
+}
+#wordpress > div {
+    background: #21759b;
+    padding: 1px;
+    border-radius: 1rem;
+}
+.shadow {
+    position: relative;
+    border-radius: 4px;
+}
+.shadow:after,
+.shadow:before {
+    bottom: 15px;
+    left: 10px;
+    width: 50%;
+    height: 20%;
+    max-width: 300px;
+    max-height: 100px;
+    box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7);
+    transform: rotate(-3deg);
+}
+.shadow:after {
+    right: 10px;
+    left: auto;
+    transform: rotate(3deg);
+}
+.shadow:after,
+.shadow:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+}
+#changeColor svg.rotate {
+    animation: spin 600ms;
+    transform: rotate(360deg);
+}
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* entire container, keeps perspective */
+.flip-container {
+	perspective: 1000px;
+}
+
+/* flip the pane when hovered */
+.flip-container.hover .flipper {
+    transform: rotateY(180deg);
+}
+
+.flip-container, .front, .back {
+	width: 100%;
+	height: 100%;
+}
+
+/* flip speed goes here */
+.flipper {
+	transition: 5s;
+	transform-style: preserve-3d;
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/* front pane, placed above back */
+.front {
+	z-index: 2;
+	/* for firefox 31 */
+    transform: rotateY(0deg);
+    background-image: url(img/bg2.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+/* back, initially hidden pane */
+.back {
+    transform: rotateY(180deg);
+    background-image: url(img/bg1.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+
+@media (max-width: 799px) {
+    .body {
+        margin: 1rem;
+    }
+    .title {
+        padding: 0;
+    }
+    .title > span {
+        font-size: 4rem;
+        line-height: 1;
+        border-radius: 4px;
+    }
+    .content {
+        padding: 0;
+    }
+    .content > main {
+        border-radius: 4px;
+    }
+    .clip-text {
+        line-height: 1;
+        margin: 0;
+    }
+    .grid.background{background-repeat:no-repeat;background-attachment:fixed;background-size:cover}
+    .grid.background.bg0{background-image:url(img/bg0.jpg)}
+    .grid.background.bg1{background-image:url(img/bg1.jpg)}
+    .grid.background.bg2{background-image:url(img/bg2.jpg)}
+    .grid.background.bg3{background-image:url(img/bg3.jpg)}
+    .grid.background.bg4{background-image:url(img/bg4.jpg)}
+    .grid {
+        display: block;
+    }
+}
+@media (max-width: 400px) {
+    .content > main,
+    .title > span {
+        border-radius: 0;
+    }
+    .me {
+        float: none;
+        margin-left: auto;
+        margin-right: auto;
+        display:block
+    }
+    .background {
+        display: none;
+    }
+    .grid.background > div {
+        background-image: none
+    }
+}
