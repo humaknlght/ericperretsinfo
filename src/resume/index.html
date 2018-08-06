@@ -547,8 +547,12 @@
     </body>
     <script>
     {
-        let date = new Date(document.lastModified);
-        document.querySelector("#lastModified .date").innerHTML = `<time datetime="${date.toISOString()}">${date.toLocaleString()}</time>`;
+    let date = new Date(document.lastModified);
+    document.querySelector("#lastModified .date").innerHTML = `<time datetime="${date.toISOString()}">${date.toLocaleString()}</time>`;
+    window.ga=function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga("create","UA-39357422-1","auto");
+    ga("send","pageview");
     }
     </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
 </html>
