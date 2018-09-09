@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Eric Perret&#8217;s Info: Online Portfolio, Resume, Photos, &amp; Contact Info</title><meta name="description" content="Eric Perret&#39;s online portfolio detailing information about my work with websites and photography."/><meta name="keywords" content="Eric, Perret, Eric Perret, Eric, Eric Perret&#39;s.Info, Resume, Web, HTML, User Interface, UI, JavaScript, JS, Java, Developer, Usability, Performance, XHTML, DHTML, CSS, DOJO, ExtJS, AJAX, JAVA Swing, JSP, JSTL, Spring Core, MVC, Tiles, SQL, XML, VB.NET, ASP.NET, SFTP, FTP, WebSphere, PC, Mac, UNIX, IBM Mainframe, photo, photography"/><meta name="application-name" content="Eric Perret&#8217;s Info online portfolio"/>
+<!DOCTYPE html><html lang="en"><head><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Eric Perret&#8217;s Info: Online Portfolio, Resume, Photos, &amp; Contact Info</title>
+<meta name="description" content="Eric Perret&#39;s online portfolio detailing information about my work with websites and photography."/><meta name="keywords" content="Eric, Perret, Eric Perret, Eric, Eric Perret&#39;s.Info, Resume, Web, HTML, User Interface, UI, JavaScript, JS, Java, Developer, Usability, Performance, XHTML, DHTML, CSS, DOJO, ExtJS, AJAX, JAVA Swing, JSP, JSTL, Spring Core, MVC, Tiles, SQL, XML, VB.NET, ASP.NET, SFTP, FTP, WebSphere, PC, Mac, UNIX, IBM Mainframe, photo, photography"/><meta name="application-name" content="Eric Perret&#8217;s Info online portfolio"/>
+<script>let imgClass = "bg" + Math.floor(Math.random() * 5);</script>
 <style>
 .grid.background>div{background-repeat:no-repeat;background-attachment:fixed;background-size:cover;position:relative}
 .grid.background.bg0>div,.clip-text.bg0{background-image:url(img/bg0.jpg)}
@@ -6,8 +8,11 @@
 .grid.background.bg2>div,.clip-text.bg2{background-image:url(img/bg2.jpg)}
 .grid.background.bg3>div,.clip-text.bg3{background-image:url(img/bg3.jpg)}
 .grid.background.bg4>div,.clip-text.bg4{background-image:url(img/bg4.jpg)}
+.grid.background.bg5>div,.clip-text.bg5{background-image:url(img/bg5.jpg)}
 </style>
 <link href="-(Hire_me_for_my_wicked_CSS_skills)-.css" rel="stylesheet" type="text/css" media="screen" /><meta name="application-name" content="Eric Perret’s Info"/><meta name="msapplication-TileColor" content="#74777e"/><link href="https://fonts.googleapis.com/css?family=Cinzel:900%7CMontserrat" rel="stylesheet">
+<link rel="preload" href="https://fonts.gstatic.com/s/montserrat/v12/JTUSjIg1_i6t8kCHKm459WlhyyTh89Y.woff2" as="font" crossorigin>
+<link rel="preload" href="https://fonts.gstatic.com/s/cinzel/v7/8vIK7ww63mVu7gtzdUPuE2ZaGf_4-g.woff2" as="font" crossorigin>
 </head>
 <body class="fontsLoaded">
 <div class="body">
@@ -53,8 +58,7 @@
     function setBackground(options) {
         let background = document.querySelector(".background"),
             titleText = document.querySelector(".clip-text"),
-            backgroundContent = "",
-            imgClass = "bg" + Math.floor(Math.random() * 5);
+            backgroundContent = "";
         for(let i = 0; i < options.num; i++) {
             backgroundContent += "<div><div></div></div>";
         }
@@ -62,36 +66,19 @@
         background.classList.add(options.className, imgClass);
         titleText.classList.add(imgClass);
     }
-    function setFlipBackground(options) {
-        let backgroundContent = "",
-            background = document.querySelector(".background");
-        for(let i = 0; i < options.num; i++) {
-            backgroundContent += '<div class="flip-container"><div class="flipper"><div class="front"></div><div class="back"></div></div></div>';
-        }
-        background.innerHTML = backgroundContent;
-        background.classList.add(options.className);
-        document.querySelectorAll(".background > div").forEach(el => {
-            el.addEventListener("mouseover", event => {
-                event.currentTarget.classList.add("hover");
-            }, false);
-        });
-    }
     function setup() {
-        if(/*Math.floor(Math.random() * 2) === 0*/false) {
-            isColor = (Math.floor(Math.random() * 2) === 0);
-            setBackground(backgroundOptions[Math.floor(Math.random() * 2)]);
-            document.querySelectorAll(".background > div").forEach(el => {
-                el.addEventListener("mouseover", changeColorFromEvent, false);
-                el.addEventListener("click", changeColorFromEvent, false);
-            });
-        } else {
-            setFlipBackground(backgroundOptions[Math.floor(Math.random() * 2)]);
-        }
+        isColor = (Math.floor(Math.random() * 2) === 0);
+        setBackground(backgroundOptions[Math.floor(Math.random() * 2)]);
+        document.querySelectorAll(".background > div").forEach(el => {
+            el.addEventListener("mouseover", changeColorFromEvent, false);
+            el.addEventListener("click", changeColorFromEvent, false);
+        });
     }
     function resetColors() {
         refresh.classList.toggle("rotate");
         document.querySelector(".background").className = "grid background";
         document.querySelector(".clip-text").className = "clip-text";
+        imgClass = "bg" + Math.floor(Math.random() * 5);
         setup();
     }
     function changeColor(targetEl, allowDupes) {
@@ -134,11 +121,16 @@
     "@context": "http://schema.org",
     "@type": "Person",
     "name": "Eric Perret",
+    "givenName": "Eric",
+    "familyName": "Perret",
     "url": "http://www.ericperrets.info/",
     "sameAs": [
         "https://www.linkedin.com/in/ericperret",
         "https://twitter.com/humaknlght",
         "https://www.instagram.com/perreteric/",
+        "https://github.com/eperret",
+        "https://stackexchange.com/users/217473/eric",
+        "https://developer.salesforce.com/blogs/author/eperret",
         "https://www.pinterest.com/eperret0245/",
         "https://plus.google.com/+EricPerret"
     ],
