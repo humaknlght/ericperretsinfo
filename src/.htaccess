@@ -2,6 +2,8 @@ RewriteEngine on
 RewriteCond %{HTTP_HOST} ^ericperrets.info$
 RewriteRule ^(.*)$ http://www.ericperrets.info/$1 [R=301]
 
+ServerSignature Off
+
 AddType text/cache-manifest .appcache
 
 RewriteBase /
