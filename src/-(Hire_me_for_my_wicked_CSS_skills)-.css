@@ -18,19 +18,19 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	vertical-align: baseline;
+	vertical-align: baseline
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
-	display: block;
+	display: block
 }
 body {
-    pointer-events: none;
+    pointer-events: none
 }
 .fontsLoaded .font {
     font-family: 'Montserrat', sans-serif;
-    font-display: optional;
+    font-display: optional
 }
 /* Clip text element */
 @supports (background-clip: text) or (-webkit-background-clip: text) {
@@ -49,12 +49,12 @@ body {
         margin-bottom: -1rem;
         margin-top: 1rem;
         overflow: hidden;
-        -webkit-text-stroke: .5px rgba(255, 255, 255, 0.5);
+        -webkit-text-stroke: .5px rgba(255, 255, 255, 0.5)
     }
     .clip-text:before,
     .clip-text:after {
         position: absolute;
-        content: '';
+        content: ''
     }
     /* Background */
     .clip-text:before {
@@ -63,7 +63,7 @@ body {
         right: 0;
         bottom: 0;
         left: 0;
-        background-image: inherit;
+        background-image: inherit
     }
     /* Text Background (black zone) */
     .clip-text:after {
@@ -73,7 +73,7 @@ body {
         right: .125em;
         bottom: .125em;
         left: .125em;
-        background-color: #000;
+        background-color: #000
     }
 }
 .body {
@@ -81,7 +81,7 @@ body {
     margin-bottom: 1rem;
     max-width: 800px;
     pointer-events: none;
-    min-width: 300px;
+    min-width: 300px
 }
 .title {
     font-variant: small-caps;
@@ -90,11 +90,11 @@ body {
     margin-top: 1rem;
     padding: 1rem;
     background: #fff;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset
 }
 .fontsLoaded .title {
     font-family: 'Cinzel', serif;
-    font-display: optional;
+    font-display: optional
 }
 .title > span {
     font-size: 8rem;
@@ -112,32 +112,42 @@ body {
     color: #fafff6;
     line-height: 1.55556;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    padding: 1rem 1rem 0 1rem;
+    padding: 1rem 1rem 0 1rem
 }
 .content > main {
     background-color: #000;
     pointer-events: auto;
     border-bottom: 0;
-    padding: 1rem 1rem .5rem 1rem;
+    padding: 1rem 1rem .5rem 1rem
 }
 .content p + p {
-    padding-top: 1em;
+    padding-top: 1em
 }
 .content ol {
     margin-top: 0;
-    padding-left: 1rem;
+    padding-left: 1rem
 }
 .content > main a {
-    color: #fff;
+    color: #fff
 }
 .me {
     float: left;
-    padding-right: 1rem;
+    padding-right: 1rem
 }
 .grid {
     display: grid;
     grid-auto-columns: auto;
-    grid-auto-flow: column;
+    grid-auto-flow: column
+}
+.grid.background > div {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    position: relative
+}
+.grid.background > div,
+.clip-text {
+    background-image: var(--bgUrl)
 }
 .grid.background > div > div {
     position: absolute;
@@ -145,35 +155,35 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    transition: .5s;
+    transition: .5s
 }
 .grid.background > .orange > div {
-    background-color: rgba(255, 152, 0, .5);
+    background-color: rgba(255, 152, 0, .5)
 }
 .grid.background > .blue > div {
-    background-color: rgba(111, 205, 223, .5);
+    background-color: rgba(111, 205, 223, .5)
 }
 .grid.background > .grey > div {
-    background-color: rgba(153, 156, 194, .5);
+    background-color: rgba(153, 156, 194, .5)
 }
 .grid.background > .hide > div {
-    background-color: #fff;
+    background-color: #fff
 }
 .grid.background > .pattern > div {
-    background-image: repeating-linear-gradient(125deg, transparent, transparent 2px, rgba(255,255,255,.3) 2px, rgba(255,255,255,.3) 3px, transparent 3px, transparent 5px, rgba(255,255,255,.3) 5px);
+    background-image: repeating-linear-gradient(125deg, transparent, transparent 2px, rgba(255,255,255,.3) 2px, rgba(255,255,255,.3) 3px, transparent 3px, transparent 5px, rgba(255,255,255,.3) 5px)
 }
 .grid.background.option1 {
     grid-template-rows: repeat(36, 1fr);
-    grid-template-columns: repeat(36, 1fr);
+    grid-template-columns: repeat(36, 1fr)
 }
 .grid.background.option2 {
     grid-template-rows: repeat(7, 1fr);
     grid-template-columns: repeat(7, 1fr);
-    grid-gap: 2px;
+    grid-gap: 2px
 }
 .grid.background.option2 > div,
 .grid.background.option2 > div > div {
-    border-radius: .75rem;
+    border-radius: .75rem
 }
 .background {
     top: 0;
@@ -181,49 +191,49 @@ body {
     z-index: -2;
     pointer-events: auto;
     height: 100vmax;
-    width: 100vmax;
+    width: 100vmax
 }
 .icons {
     pointer-events: auto;
     margin: auto;
-    padding: 4px 1em 2px;
+    padding: 4px 1em 2px
 }
 .icons > ul {
     padding: 0;
-    margin: 0;
+    margin: 0
 }
 .icons > ul > li,
 .icons > ul > li > div {
     width: 25px;
     height: 25px;
     display: inline-block;
-    margin-right: 2px;
+    margin-right: 2px
 }
 #contact,
 #resume {
     display: inline;
-    vertical-align: super;
+    vertical-align: super
 }
 #resume {
     font-size: 1.2rem;
-    vertical-align: center;
+    vertical-align: center
 }
 #changeColor {
     float: right;
-    padding-right: 0;
+    padding-right: 0
 }
 #wordpress {
     border-right: 2px solid #000;
-    padding-right: .5rem;
+    padding-right: .5rem
 }
 #wordpress > div {
     background: #21759b;
     padding: 1px;
-    border-radius: 1rem;
+    border-radius: 1rem
 }
 .shadow {
     position: relative;
-    border-radius: 4px;
+    border-radius: 4px
 }
 .shadow:after,
 .shadow:before {
@@ -234,22 +244,22 @@ body {
     max-width: 300px;
     max-height: 100px;
     box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7);
-    transform: rotate(-3deg);
+    transform: rotate(-3deg)
 }
 .shadow:after {
     right: 10px;
     left: auto;
-    transform: rotate(3deg);
+    transform: rotate(3deg)
 }
 .shadow:after,
 .shadow:before {
     content: "";
     position: absolute;
-    z-index: -1;
+    z-index: -1
 }
 #changeColor svg.rotate {
     animation: spin 600ms;
-    transform: rotate(360deg);
+    transform: rotate(360deg)
 }
 @keyframes spin {
     0% {
@@ -261,41 +271,40 @@ body {
 }
 @media (max-width: 799px) {
     .body {
-        margin: 1rem;
+        margin: 1rem
     }
     .title {
-        padding: 0;
+        padding: 0
     }
     .title > span {
         font-size: 4rem;
         line-height: 1;
-        border-radius: 4px;
+        border-radius: 4px
     }
     .content {
-        padding: 0;
+        padding: 0
     }
     .content > main {
-        border-radius: 4px;
+        border-radius: 4px
     }
     .clip-text {
         line-height: 1;
-        margin: 0;
+        margin: 0
     }
-    .grid.background{background-repeat:no-repeat;background-attachment:fixed;background-size:cover}
-    .grid.background.bg0{background-image:url(img/bg0.jpg)}
-    .grid.background.bg1{background-image:url(img/bg1.jpg)}
-    .grid.background.bg2{background-image:url(img/bg2.jpg)}
-    .grid.background.bg3{background-image:url(img/bg3.jpg)}
-    .grid.background.bg3{background-image:url(img/bg4.jpg)}
-    .grid.background.bg3{background-image:url(img/bg5.jpg)}
+    .grid.background {
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-image: var(--bgUrl)
+    }
     .grid {
-        display: block;
+        display: block
     }
 }
 @media (max-width: 400px) {
     .content > main,
     .title > span {
-        border-radius: 0;
+        border-radius: 0
     }
     .me {
         float: none;
@@ -304,12 +313,9 @@ body {
         display:block
     }
     .background {
-        display: none;
+        display: none
     }
-    .grid.background.bg0 > div,
-    .grid.background.bg1 > div,
-    .grid.background.bg2 > div,
-    .grid.background.bg3 > div {
+    .grid.background > div {
         background-image: none
     }
 }
