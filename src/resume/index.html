@@ -548,7 +548,7 @@
     </body>
     <script>
     {
-    let date = new Date(document.lastModified);
+    let date = new Date(/*LAST_MODIFIED*/);
     document.querySelector("#lastModified .date").innerHTML = `<time datetime="${date.toISOString()}">${date.toLocaleString()}</time>`;
     window.ga=function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
     ga("create","UA-39357422-1","auto");
