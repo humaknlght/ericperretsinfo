@@ -216,15 +216,15 @@ body {
     display: inline;
     vertical-align: super
 }
-#changeColor {
+.changeColor {
     float: right;
     padding-right: 0
 }
-#wordpress {
+.wordpress {
     border-right: 2px solid #000;
     padding-right: .5rem
 }
-#wordpress > div {
+.wordpress > div {
     background: #21759b;
     padding: 1px;
     border-radius: 1rem
@@ -254,10 +254,6 @@ body {
     position: absolute;
     z-index: -1
 }
-#changeColor svg.rotate {
-    animation: spin 600ms;
-    transform: rotate(360deg)
-}
 @keyframes spin {
     0% {
         transform: rotate(0deg);
@@ -265,6 +261,10 @@ body {
     100% {
         transform: rotate(360deg);
     }
+}
+.changeColor svg.rotate {
+    animation: spin 600ms;
+    transform: rotate(360deg)
 }
 @media (max-width: 799px) {
     .body {
