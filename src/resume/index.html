@@ -7,6 +7,19 @@
         <meta name="keywords" content="Eric, Perret, Eric Perret, Eric, Eric Perret&#39;s.Info, Resume, Web, HTML, User Interface, UI, JavaScript, JS, Java, Developer, Usability, Performance, XHTML, DHTML, CSS, DOJO, ExtJS, AJAX, JAVA Swing, JSP, JSTL, Spring Core, MVC, Tiles, SQL, XML, VB.NET, ASP.NET, SFTP, FTP, WebSphere, PC, Mac, UNIX, IBM Mainframe, photo, photography"/>
         <meta name="application-name" content="Eric Perret&#8217;s Info Online Portfolio"/>
         <meta name="msapplication-TileColor" content="#74777e"/>
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@humaknlght" />
+        <meta name="twitter:creator" content="@humaknlght" />
+        <meta property="og:title" content="Eric Perret&#8217;s Info: Resume"/>
+        <meta property="og:description" content="Eric Perret&#8217;s resume of his work experience, education, and technical skills."/>
+        <meta property="og:url" content="https://www.ericperrets.info/resume"/>
+        <meta property="og:type" content="profile"/>
+        <meta property="og:image" content="https://www.ericperrets.info/img/me2.jpg"/>
+        <meta property="og:image:alt" content="Portrait of Eric Perret">
+        <meta property="profile:first_name" content="Eric">
+        <meta property="profile:last_name" content="Perret">
+        <meta property="profile:gender" content="male">
+        <meta property="profile:username" content="perret.eric">
         <link href="https://fonts.googleapis.com/css?family=Kanit:200,300,700" rel="stylesheet">
         <style>
             * {
@@ -112,6 +125,9 @@
             .contact dt::after {
                 content: ":"
             }
+            .contact address {
+                font-style: normal
+            }
             .phoneNumber {
                 white-space: nowrap;
             }
@@ -133,13 +149,15 @@
             .experience > div + div {
                 padding-top: 1rem
             }
-            .experience h3 > address {
+            .experience h3 > address,
+            .education h3 > address {
                 font-style: normal;
                 font-family: 'Kanit', sans-serif;
                 font-size: 16px;
                 line-height: 1
             }
-            .experience h3 > address > span {
+            .experience h3 > address > span,
+            .education h3 > address > span {
                 font-weight: 400
             }
             .experience p,
@@ -308,7 +326,8 @@
                     margin: 0
                 }
                 .contact > dl {
-                    grid-template-columns: max-content auto
+                    grid-template-columns: max-content auto;
+                    float: unset
                 }
                 .contact dt {
                     margin-left: 0
@@ -326,11 +345,15 @@
                     color: #0900ef
                 }
                 abbr[title],
-                .phoneNumber,
-                .email,
-                .colophon a {
+                a,
+                a:visited {
                     text-decoration: unset;
-                    color: inherit;
+                    color: #000;
+                }
+                .website,
+                .website:visited {
+                    text-decoration: underline;
+                    color: #0900ef;
                 }
                 .content {
                     font-size: 12px;
@@ -359,10 +382,10 @@
             <div class="name"><h1>Eric Perret</h1></div>
             <section class="contact">
                 <dl>
-                    <dt><abbr title="Address">A</abbr></dt><dd>Available upon request.</dd>
+                    <dt><abbr title="Address">A</abbr></dt><dd><a href="https://goo.gl/maps/hTxk5audvYo"><address>San Francisco, CA</address></a></dd>
                     <dt><abbr title="Email">E</abbr></dt><dd><a class="email" href="mailto:resume@ericperrets.info">resume@ericperrets.info</a></dd>
                     <dt><abbr title="Phone">P</abbr></dt><dd><a class="phoneNumber" href="tel:650-241-1836">(650) 241-1836</a></dd>
-                    <dt><abbr title="Website">W</abbr></dt><dd><a href="http://www.ericperrets.info">www.ericperrets.info</a></dd>
+                    <dt><abbr title="Website">W</abbr></dt><dd><a class="website" href="https://www.ericperrets.info">www.ericperrets.info</a></dd>
                 </dl>
             </section>
             <section class="objective">
@@ -442,7 +465,7 @@
             </section>
             <section class="education">
                 <h2 class="main">Education:</h2>
-                <h3><a href="https://www.rpi.edu">Rensselaer Polytechnic Institute</a>, Troy, New York</h3>
+                <h3><address><a href="https://www.rpi.edu">Rensselaer Polytechnic Institute</a><span>, Troy, New York</span></address></h3>
                 <div>
                     <div class="jobTitle"><a href="https://science.rpi.edu/itws/programs/graduate/ms">Master of Science, Information Technology</a> <time datetime="2005-05" class="when">May&nbsp;2005</time></div>
                     <div class="subTitle">Concentration: Human-Computer Interaction (Usability)</div>
@@ -529,7 +552,7 @@
                     </ul>
                 </div>
                 <div class="qr">
-                    <img src="qr.svg" width="140" height="140" alt="QR code for http://www.ericperrets.info"/>
+                    <img src="qr.svg" width="140" height="140" alt="QR code for https://www.ericperrets.info"/>
                 </div>
             </section>
             <section class="colophon">
@@ -555,4 +578,27 @@
     }
     </script>
     <script async src="https://www.google-analytics.com/analytics.js"></script>
+    <script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "Person",
+    "name": "Eric Perret",
+    "url": "https://www.ericperrets.info/",
+    "image": "https://www.ericperrets.info/img/me2.jpg",
+    "sameAs": [
+    "https://www.linkedin.com/in/ericperret",
+    "https://twitter.com/humaknlght",
+    "https://www.instagram.com/perreteric/",
+    "https://github.com/eperret",
+    "https://github.com/humaknlght",
+    "https://stackexchange.com/users/217473/eric",
+    "https://developer.salesforce.com/blogs/author/eperret",
+    "https://www.pinterest.com/eperret0245/",
+    "https://plus.google.com/+EricPerret"
+    ],
+    "jobTitle": "Lead Software Engineer",
+    "worksFor": {
+    "@type": "Organization",
+    "name": "Salesforce"
+    }
+    }</script>
 </html>
