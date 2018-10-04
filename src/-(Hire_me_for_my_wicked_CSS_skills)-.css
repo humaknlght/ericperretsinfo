@@ -74,6 +74,11 @@ body {
         left: .125em;
         background-color: #000
     }
+    @supports ( -moz-appearance:none ) {
+        .clip-text {
+            background-attachment: unset;
+        }
+    }
 }
 .body {
     margin-bottom: 1rem;
