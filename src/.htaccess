@@ -1,6 +1,6 @@
 RewriteEngine on
 RewriteCond %{HTTP_HOST} ^ericperrets.info$
-RewriteRule ^(.*)$ http://www.ericperrets.info/$1 [R=301]
+RewriteRule ^(.*)$ https://www.ericperrets.info/$1 [R=301]
 
 ServerSignature Off
 
