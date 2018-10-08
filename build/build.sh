@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/bash -p
+
+set -ue
 
 rm -rf ./prod
 mkdir ./prod
@@ -12,10 +14,17 @@ for FILE in ./prod/*.css
 do
     echo "uglify ${FILE} to ${FILE}.min"
     uglifycss "$FILE" > "${FILE}.min"
-    #workaroiund for bug in uglifycss
+    #workaround for bug in uglifycss
     sed -i .bk "s: or(: or (:" "${FILE}.min"
     rm -f "${FILE}.min.bk"
     mv "${FILE}.min" "$FILE"
+done
+#npm install html-minifier-cli -g
+for FILE in ./prod/*.html ./prod/resume/*.html
+do
+    echo "Minifying ${FILE} to ${FILE}.min"
+    htmlmin -o "${FILE}.min" "${FILE}"
+    mv "${FILE}.min" "${FILE}"
 done
 for FILE in ./prod/*.{html,css} ./prod/resume/*.{html,svg,pdf}
 do
