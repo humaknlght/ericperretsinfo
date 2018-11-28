@@ -28,7 +28,7 @@ footer, header, hgroup, menu, nav, section {
 body {
     pointer-events: none
 }
-.fontsLoaded .font {
+.fontsLoaded {
     font-family: 'Montserrat', sans-serif;
 }
 /* Clip text element */
@@ -48,7 +48,6 @@ body {
         margin-bottom: -1rem;
         margin-top: 1rem;
         overflow: hidden;
-        -webkit-text-stroke: .5px rgba(255, 255, 255, 0.5)
     }
     .clip-text:before,
     .clip-text:after {
@@ -72,7 +71,6 @@ body {
         right: .125em;
         bottom: .125em;
         left: .125em;
-        background-color: #000
     }
     @supports ( -moz-appearance:none ) {
         .clip-text {
@@ -81,46 +79,72 @@ body {
     }
 }
 .body {
-    margin-bottom: 1rem;
-    max-width: 600px;
     pointer-events: none;
     min-width: 300px
 }
 .tile {
-    background: #fff;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     padding: 1rem;
 }
 .title {
     font-variant: small-caps;
     letter-spacing: 5px;
     text-align: center;
-    margin-top: 1rem;
+    margin-top: 3rem;
+    overflow: hidden;
+    position: absolute;
 }
 .fontsLoaded .title {
     font-family: 'Cinzel', serif;
 }
 .title > span {
-    font-size: 8rem;
+    font-size: 5rem;
     display: block;
-    background-color: #000;
-    color: #add8e6;
-    line-height: calc(1em - 14px);
+    color: #fff;
+    line-height: calc(1em - 16px);
     pointer-events: auto;
-    width: 100%;
-    overflow-y: hidden
+    overflow-y: hidden;
+    width: 600px;
 }
 .content {
-    margin-top: 1em;
+    margin-top: 8.5em;
+    margin-left: 1em;
     color: #fafff6;
     line-height: 1.55556;
+    width: calc(600px - 1em);
+    height: 650px;
+    position: absolute;
+    overflow: hidden;
+    border-radius: 2px;
+}
+.content:before,
+.title:before,
+.navHolder:before {
+    content: "";
+    position: absolute;
+    left: -25px;
+    right: 0;
+    top: -25px; 
+    bottom: 0;
+    box-shadow: inset 0 0 0 3000px rgba(0,0,0,0.3);
+    background: inherit;
+    filter: blur(10px);
+    width: 660px;
+    height: 200%;
+    opacity: .96;
+}
+.navHolder:before {
+    box-shadow: inset 0 0 0 3000px rgba(255,255,255,0.7);
+}
+.title:before {
+    box-shadow: inset 0 0 0 3000px rgba(0,0,0,0.7);
 }
 .content > main {
-    background-color: #000;
+    /*background-color: rgba(0,0,0,.9);*/
     pointer-events: auto;
     border-bottom: 0;
     padding: 1rem 1rem .5rem 1rem;
-    text-align: justify
+    text-align: justify;
+    position: absolute;
 }
 .content p + p {
     padding-top: 1em
@@ -129,12 +153,21 @@ body {
     margin-top: 0;
     padding-left: 1rem
 }
+.content > main,
+h1 > span,
+nav {
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px
+}
 .content > main a {
     color: #fff
 }
+.meHolder {
+    text-align: center;
+}
 .me {
-    float: left;
-    padding-right: 1rem
+    margin-right: 1rem;
+    border-radius: 100px;
 }
 .grid {
     display: grid;
@@ -142,14 +175,31 @@ body {
     grid-auto-flow: column
 }
 .grid.background > div {
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
     position: relative
 }
+.grid.background,
 .grid.background > div,
-.clip-text {
+.content:before,
+.title:before,
+.navHolder:before,
+body {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover
+}
+.clip-text,
+.content:before,
+.title:before,
+.navHolder:before,
+body {
     background-image: var(--bgUrl)
+}
+.grid.background,
+.grid.background > div {
+    background-image: inherit;
+    background-repeat: inherit;
+    background-attachment: inherit;
+    background-size: inherit
 }
 .grid.background > div > div {
     position: absolute;
@@ -186,6 +236,14 @@ body {
     grid-template-columns: repeat(7, 1fr);
     grid-gap: 2px
 }
+.grid.background.option2::before {
+      background-color: #fff;
+      content: '';
+      display: block;
+      height: 100%;
+      position: absolute;
+      width: 100%;
+}
 .grid.background.option2 > div,
 .grid.background.option2 > div > div {
     border-radius: .75rem
@@ -198,10 +256,20 @@ body {
     height: 100vmax;
     width: 100vmax
 }
+.navHolder {
+    width: calc(600px - 1rem);
+    margin-left: 1rem;
+    min-width: max-content;
+    position: absolute;
+    height: 2.125rem;
+    overflow: hidden;
+}
 .icons {
     pointer-events: auto;
     margin: auto;
-    padding: 4px 1em 2px
+    padding: 4px 1rem 2px;
+    width: calc(100% - 2rem);
+    position: absolute;
 }
 .icons.tile {
     border-top-right-radius: unset;
@@ -219,11 +287,21 @@ body {
 }
 .icons .navLink {
     display: inline;
-    vertical-align: super
+    vertical-align: super;
+    font-variant: small-caps;
+    padding-left: .5rem;
+}
+.icons .navLink > a {
+    text-decoration: none;
+    color: #000;
+}
+.icons .navLink > a:hover {
+    text-decoration: underline;
 }
 .changeColor {
     float: right;
-    padding-right: 0
+    padding-right: 0;
+    padding-left: .5rem;
 }
 .wordpress {
     border-right: 2px solid #000;
@@ -233,31 +311,6 @@ body {
     background: #21759b;
     padding: 1px;
     border-radius: 1rem
-}
-.shadow {
-    position: relative;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px
-}
-.shadow:after,
-.shadow:before {
-    bottom: 15px;
-    right: 10px;
-    width: 50%;
-    height: 20%;
-    max-width: 300px;
-    max-height: 100px;
-    box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7);
-    transform: rotate(3deg)
-}
-.shadow:before {
-    left: 10px;
-    transform: rotate(-3deg)
-}
-.shadow:after {
-    content: "";
-    position: absolute;
-    z-index: -1
 }
 @keyframes spin {
     0% {
@@ -280,40 +333,50 @@ body {
         padding: 0
     }
     .title > span {
-        font-size: 4rem;
-        line-height: 1;
         border-radius: 4px
     }
     .content {
-        padding: 0
+        padding: 0;
+        height: 100vh;
     }
     .content > main {
         border-radius: 4px
     }
-    .clip-text {
-        line-height: 1;
-        margin: 0
-    }
-    .shadow,
     .icons.tile {
         border-radius: 4px
-    }
-    .shadow:before {
-        content: "";
-        position: absolute;
-        z-index: -1
-    }
-    .grid.background {
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: cover;
-        background-image: var(--bgUrl)
     }
     .grid {
         display: block
     }
+    .grid.background.option2::before {
+        content: none;
+     }
 }
-@media (max-width: 400px) {
+@media (max-width: 600px) {
+    .title,
+    .title > span,
+    .content,
+    .navHolder {
+        width: 100%;
+        margin-left: 0;
+    }
+    .content {
+        margin-top: 7.5rem
+    }
+    .title > span {
+        font-size: 4rem;
+        line-height: calc(1em - 8px)
+    }
+}
+@media (max-width: 415px) {
+    img {
+        width: 150px;
+        height: 150px;
+    }
+    .title > span {
+        font-size: 3rem;
+        line-height: calc(1em + 3px)
+    }
     .content > main,
     .title > span {
         border-radius: 0
