@@ -128,7 +128,7 @@ body {
     box-shadow: inset 0 0 0 3000px rgba(0,0,0,0.3);
     background: inherit;
     filter: blur(10px);
-    width: 660px;
+    width: 120%;
     height: 200%;
     opacity: .96;
 }
@@ -257,8 +257,7 @@ body {
     width: 100vmax
 }
 .navHolder {
-    width: calc(600px - 1rem);
-    margin-left: 1rem;
+    width: 100%;
     min-width: max-content;
     position: absolute;
     height: 2.125rem;
@@ -283,7 +282,7 @@ body {
     width: 25px;
     height: 25px;
     display: inline-block;
-    margin-right: 2px
+    margin-right: .5rem
 }
 .icons .navLink {
     display: inline;
@@ -299,13 +298,12 @@ body {
     text-decoration: underline;
 }
 .changeColor {
-    float: right;
     padding-right: 0;
     padding-left: .5rem;
 }
 .wordpress {
     border-right: 2px solid #000;
-    padding-right: .5rem
+    padding-right: 1rem
 }
 .wordpress > div {
     background: #21759b;
@@ -355,8 +353,7 @@ body {
 @media (max-width: 600px) {
     .title,
     .title > span,
-    .content,
-    .navHolder {
+    .content {
         width: 100%;
         margin-left: 0;
     }
