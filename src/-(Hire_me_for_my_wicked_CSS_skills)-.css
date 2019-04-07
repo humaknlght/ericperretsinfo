@@ -89,7 +89,8 @@ body {
     font-variant: small-caps;
     letter-spacing: 5px;
     text-align: center;
-    margin-top: 3rem;
+    margin-top: 4rem;
+    margin-left: 3rem;
     overflow: hidden;
     position: absolute;
 }
@@ -106,19 +107,19 @@ body {
     width: 600px;
 }
 .content {
-    margin-top: 8.5em;
-    margin-left: 1em;
+    margin-top: 9.5rem;
+    margin-left: 4rem;
     color: #fafff6;
     line-height: 1.55556;
     width: calc(600px - 1em);
-    height: 650px;
+    height: 1060px;
     position: absolute;
     overflow: hidden;
     border-radius: 2px;
+    font-weight: 800
 }
 .content:before,
-.title:before,
-.navHolder:before {
+.title:before {
     content: "";
     position: absolute;
     left: -25px;
@@ -166,8 +167,15 @@ nav {
     text-align: center;
 }
 .me {
-    margin-right: 1rem;
     border-radius: 100px;
+}
+.insta-wrapper {
+    text-align: center;
+}
+.insta-photo {
+    border-radius: 2px;
+    -webkit-clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
+    clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
 }
 .grid {
     display: grid;
@@ -253,8 +261,9 @@ body {
     position: fixed;
     z-index: -2;
     pointer-events: auto;
-    height: 100vmax;
-    width: 100vmax
+    height: calc(100vmax - 6rem);
+    width: calc(100vmax - 6rem);
+    border: 3rem solid #fff;
 }
 .navHolder {
     width: 100%;
@@ -335,7 +344,7 @@ body {
     }
     .content {
         padding: 0;
-        height: 100vh;
+        height: 1200px;
     }
     .content > main {
         border-radius: 4px
@@ -348,14 +357,28 @@ body {
     }
     .grid.background.option2::before {
         content: none;
-     }
+    }
+    .topnav.responsive {position: relative;}
+    .menu {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    .topnav.responsive a {
+        float: none;
+        display: block;
+        text-align: left;
+    }
 }
-@media (max-width: 600px) {
+@media (max-width: 675px) {
+    .navHolder {
+        top: 1rem;
+    }
     .title,
     .title > span,
     .content {
         width: 100%;
-        margin-left: 0;
+        margin-left: .5rem;
     }
     .content {
         margin-top: 7.5rem
@@ -364,12 +387,14 @@ body {
         font-size: 4rem;
         line-height: calc(1em - 8px)
     }
+    .insta-photo {
+        height: auto;
+    }
+    .background {
+        border: .5rem solid #fff;
+    }
 }
 @media (max-width: 415px) {
-    img {
-        width: 150px;
-        height: 150px;
-    }
     .title > span {
         font-size: 3rem;
         line-height: calc(1em + 3px)
@@ -378,11 +403,19 @@ body {
     .title > span {
         border-radius: 0
     }
+    .title,
+    .title > span,
+    .content {
+        width: 100%;
+        margin-left: 0;
+    }
     .me {
         float: none;
         margin-left: auto;
         margin-right: auto;
-        display:block
+        display:block;
+        width: 150px;
+        height: 150px;
     }
     .background {
         display: none

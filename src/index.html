@@ -38,23 +38,27 @@
                 <li class="navLink"><a href="resume/">Resume</a></li>
                 <li class="navLink"><a href="https://github.com/eperret">Work Git</a></li>
                 <li class="navLink"><a href="https://github.com/humaknlght">Personal Git</a></li>
+                <li class="navLink"><a href="https://500px.com/ericahperret">Photos</a></li>
                 <li class="changeColor"><a href="javascript:void(0)" onclick="resetColors(this)"><!-- htmlmin:ignore --><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 322 322"><title id="refresh-icon">Refresh Background Overlay</title><path d="M322 230c-2-6-9-10-16-8l-16 6a152 152 0 1 0-137 86 13 13 0 0 0 0-25 128 128 0 1 1 114-72l-5-17a13 13 0 0 0-24 7l15 46a13 13 0 0 0 15 8l46-15c6-2 10-9 8-16z"/></svg><!-- htmlmin:ignore --></a></li>
+                <li style="display:none"><a href="javascript:void(0)" class="menu" onclick="expand()"><i class="fa fa-bars">menu</i></a></li>
             </ul>
         </nav>
     </div>
     <header><h1 class="font title" title="⠗⠊⠉ ⠏⠑⠗⠗⠑⠞"><span><span class="clip-text" contenteditable="true" spellcheck="false">Eric Perret</span></span></h1></header>
     <div class="font content">
         <main contenteditable="true" spellcheck="false">
-            <div class="meHolder"><a href="javascript:void(0)" onclick="swap(this)" contenteditable="false"><img class="me" width="200" height="200" src="img/me.jpg" alt="Portrait of Eric Perret"/></a></div>
+            <div class="meHolder"><a href="javascript:void(0)" onclick="swap(this)" contenteditable="false"><img width="200" height="200" class="me" src="img/me.jpg" alt="Portrait of Eric Perret (Me)"/></a></div>
             <p>For the past <time datetime="2000">18 years</time>, I have been building <b>Web Applications</b> in some fashion or another from <b>UX</b>/<b>Accessibility</b> to <b>full-stack dev</b> to <b>performance engineering.</b></p>
             <p>Day to day, I work for <a contenteditable="false" href="https://www.salesforce.com">Salesforce</a> as a developer, creating the front-end web framework for its core product.</p>
-            <p></p>
             <p>Currently, I am interested in&hellip;</p>
             <ol>
                 <li>Leveraging computers to enhance the productivity of employees through the automation of everyday tasks.</li>
                 <li>Improvements in web-based interfaces can create a more enjoyable experience for users.</li>
                 <li>Web performance improvements that increase the browser&rsquo;s response to the user.</li>
             </ol>
+            <p>One of my non-tech passions is <a href="https://500px.com/ericahperret">photography</a>
+                <div class="insta-wrapper"><a contenteditable="false" href="https://www.instagram.com/p/BWvcFx-B9jW/"><img width="380" height="380" class="insta-photo" src="img/bball.jpg" alt="Thank you @salesforce #autohash #SanFrancisco #UnitedStates #California #stadium #competition #baseball #athlete #audience #crowd #group #spectator #outfit #people #ball #uniform #enthusiasm #soccer #pitcher #game" /></a></div>
+            </p>
             <p>I also enjoy hiking around the <a contenteditable="false" href="https://goo.gl/maps/mPQSeoEmtm12">San Francisco Bay Area</a>, where I am presently residing.</p>
         </main>
     </div>
@@ -141,6 +145,9 @@
         div.innerHTML = '<iframe width="200" height="200" title="YouTube Video" src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=1&amp;modestbranding=1" frameborder="0" allow="autoplay;encrypted-media"></iframe>';
         link.parentNode.replaceChild(div, link);
     }
+    function expand() {
+
+    }
     window.ga=function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
     ga("create","UA-39357422-1","auto");
     ga("send","pageview");
@@ -160,8 +167,7 @@
         "https://github.com/humaknlght",
         "https://stackexchange.com/users/217473/eric",
         "https://developer.salesforce.com/blogs/author/eperret",
-        "https://www.pinterest.com/eperret0245/",
-        "https://plus.google.com/+EricPerret"
+        "https://www.pinterest.com/eperret0245/"
     ],
     "jobTitle": "Lead Software Engineer",
     "worksFor": {
