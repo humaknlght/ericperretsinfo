@@ -1,3 +1,5 @@
 .DS_Store
+BingSiteAuth.xml
+google*.html
 build/prod/
 build/dev/
