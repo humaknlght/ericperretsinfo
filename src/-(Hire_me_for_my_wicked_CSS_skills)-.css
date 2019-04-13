@@ -185,8 +185,6 @@ nav {
 .grid.background > div {
     position: relative
 }
-.grid.background,
-.grid.background > div,
 .content:before,
 .title:before,
 .navHolder:before,
@@ -202,6 +200,7 @@ body {
 body {
     background-image: var(--bgUrl)
 }
+.backgroundWrapper,
 .grid.background,
 .grid.background > div {
     background-image: inherit;
@@ -245,25 +244,30 @@ body {
     grid-gap: 2px
 }
 .grid.background.option2::before {
-      background-color: #fff;
-      content: '';
-      display: block;
-      height: 100%;
-      position: absolute;
-      width: 100%;
+    background-color: #fff;
+    content: '';
+    display: block;
+    height: 100%;
+    position: absolute;
+    width: 100%;
 }
 .grid.background.option2 > div,
 .grid.background.option2 > div > div {
     border-radius: .75rem
 }
-.background {
+.backgroundWrapper {
     top: 0;
     position: fixed;
     z-index: -2;
     pointer-events: auto;
+    height: calc(100% - 6rem);
+    width: calc(100% - 6rem);
+    border: 3rem solid #fff;
+    overflow: hidden
+}
+.background {
     height: calc(100vmax - 6rem);
     width: calc(100vmax - 6rem);
-    border: 3rem solid #fff;
 }
 .navHolder {
     width: 100%;
@@ -371,30 +375,96 @@ body {
     }
 }
 @media (max-width: 675px) {
+    .navOpener {
+        margin: 1rem 1.5rem;
+        position: absolute;
+        pointer-events: all;
+    }
+    .navOpener .bar1,
+    .navOpener .bar2,
+    .navOpener .bar3 {
+        width: 35px;
+        height: 5px;
+        background-color: #333;
+        margin: 6px 0;
+        transition: 0.4s;
+        display: block;
+    }
+    .open.navOpener .bar1 {
+        -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+        transform: rotate(-45deg) translate(-9px, 6px);
+    }
+    .open.navOpener .bar2 {
+        opacity: 0;
+    }
+    .open.navOpener .bar3 {
+        -webkit-transform: rotate(45deg) translate(-8px, -8px);
+        transform: rotate(45deg) translate(-8px, -8px);
+    }
     .navHolder {
-        top: 1rem;
+        top: 4rem;
+        z-index: 100;
+        height: unset;
+        max-width: 0;
+        max-height: 0;
+        transition: max-height .5s cubic-bezier(0.23, 1, 0.32, 1), max-width .25s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .open.navHolder {
+        max-width: 100%;
+        max-height: 200px;
+    }
+    .icons {
+        position: unset;
+        padding: 2px 1.5rem 2px;
+        background-color: rgba(255, 255, 255, .9)
+    }
+    .icons .wordpress {
+        border-right: unset;
+        padding: unset;
+    }
+    .icons .navLink {
+        width: 100%;
+        display: block;
+        padding-left: 0;
+    }
+    .icons .changeColor {
+        margin: 0;
+        padding: 0;
+    }
+    .backgroundWrapper {
+        top: 0;
+        position: fixed;
+        z-index: -2;
+        pointer-events: auto;
+        height: calc(100% - 1rem);
+        width: calc(100% - 1rem);
+        border: .5rem solid #fff;
+        border-top-width: 4rem;
+        overflow: hidden
     }
     .title,
     .title > span,
     .content {
-        width: 100%;
         margin-left: .5rem;
+        margin-right: .5rem;
+    }
+    .title {
+        width: calc(100% - 1rem);
     }
     .content {
-        margin-top: 7.5rem
+        margin-top: 7.5rem;
+        width: calc(100% - 1rem)
     }
     .title > span {
         font-size: 4rem;
-        line-height: calc(1em - 8px)
+        line-height: calc(1em - 8px);
+        width: unset;
     }
     .insta-photo {
         height: auto;
     }
-    .background {
-        border: .5rem solid #fff;
-    }
 }
-@media (max-width: 415px) {
+@media (max-width: 460px) {
     .title > span {
         font-size: 3rem;
         line-height: calc(1em + 3px)
@@ -416,6 +486,11 @@ body {
         display:block;
         width: 150px;
         height: 150px;
+    }
+    .backgroundWrapper {
+        height: 100%;
+        width: 100%;
+        border: unset;
     }
     .background {
         display: none

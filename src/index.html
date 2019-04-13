@@ -26,6 +26,11 @@
     </head>
 <body class="fontsLoaded">
 <div class="body">
+    <a class="navOpener" contenteditable="false" href="javascript:void(0)" onclick="this.classList.toggle('open');document.querySelector('.navHolder').classList.toggle('open')">
+        <span class="bar1"></span>
+        <span class="bar2"></span>
+        <span class="bar3"></span>
+    </a>
     <div class="navHolder">
         <nav class="icons tile">
             <ul>
@@ -56,14 +61,16 @@
                 <li>Improvements in web-based interfaces can create a more enjoyable experience for users.</li>
                 <li>Web performance improvements that increase the browser&rsquo;s response to the user.</li>
             </ol>
-            <p>One of my non-tech passions is <a href="https://500px.com/ericahperret">photography</a>
+            <p>One of my non-tech passions is <a contenteditable="false" href="https://500px.com/ericahperret">photography</a>
                 <div class="insta-wrapper"><a contenteditable="false" href="https://www.instagram.com/p/BWvcFx-B9jW/"><img width="380" height="380" class="insta-photo" src="img/bball.jpg" alt="Thank you @salesforce #autohash #SanFrancisco #UnitedStates #California #stadium #competition #baseball #athlete #audience #crowd #group #spectator #outfit #people #ball #uniform #enthusiasm #soccer #pitcher #game" /></a></div>
             </p>
             <p>I also enjoy hiking around the <a contenteditable="false" href="https://goo.gl/maps/mPQSeoEmtm12">San Francisco Bay Area</a>, where I am presently residing.</p>
         </main>
     </div>
 </div>
-<div class="grid background" role="presentation"></div>
+<div class="backgroundWrapper">
+    <div class="grid background" role="presentation"></div>
+</div>
 <script>
     const colors = ["orange", "blue", "grey", "hide", "pattern", ""],
         backgroundOptions = [
