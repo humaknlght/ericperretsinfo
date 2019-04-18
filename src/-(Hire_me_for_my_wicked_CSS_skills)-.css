@@ -190,6 +190,9 @@ nav {
 .grid.background > div {
     position: relative
 }
+.navOpener {
+    display: none;
+}
 .content:before,
 .title:before,
 .navHolder:before,
@@ -340,6 +343,10 @@ body {
     animation: spin 600ms;
     transform: rotate(360deg)
 }
+.changeColor > button {
+    border: 0;
+    background: transparent;
+}
 @media (max-width: 799px) {
     .body {
         margin: 1rem;
@@ -382,6 +389,8 @@ body {
         margin: 1rem 1.5rem;
         position: absolute;
         pointer-events: all;
+        border: 0;
+        display: unset;
     }
     .navOpener .bar1,
     .navOpener .bar2,
@@ -414,7 +423,7 @@ body {
     }
     .open.navHolder {
         max-width: 100%;
-        max-height: 200px;
+        max-height: 215px;
     }
     .icons {
         position: unset;

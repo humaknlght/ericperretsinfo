@@ -20,13 +20,13 @@ do
     mv "${FILE}.min" "$FILE"
 done
 #npm install html-minifier -g
-for FILE in ./prod/*.html ./prod/resume/*.html
+for FILE in ./prod/*.html ./prod/resume/*.html ./prod/art/*.html
 do
     echo "Minifying ${FILE} to ${FILE}.min"
     html-minifier --keep-closing-slash --remove-comments --collapse-whitespace --minify-js --minify-css --decode-entities --no-html5 --process-conditional-comments --remove-redundant-attributes --remove-script-type-attributes --remove-style-link-type-attributes --sort-attributes --use-short-doctype --trim-custom-fragments -o "${FILE}.min" "${FILE}"
     mv "${FILE}.min" "${FILE}"
 done
-for FILE in ./prod/*.{html,css} ./prod/resume/*.{html,svg,pdf}
+for FILE in ./prod/*.{html,css} ./prod/resume/*.{html,svg,pdf} ./prod/art/*.html
 do
     echo "$FILE"
     ./zopfli "$FILE"
