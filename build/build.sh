@@ -4,7 +4,7 @@ set -ue
 
 rm -rf ./prod
 mkdir ./prod
-cp -r ../src/* ./prod/
+cp -r ../src/ ./prod/
 NUM=`stat -f "%Sm" -t "%s" ../src/resume/index.html`"000"
 sed -i .bk "s:/\*LAST_MODIFIED\*/:$NUM:" ./prod/resume/index.html
 rm -f ./prod/resume/index.html.bk

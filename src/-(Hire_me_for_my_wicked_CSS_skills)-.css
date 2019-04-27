@@ -28,6 +28,9 @@ footer, header, hgroup, menu, nav, section {
 body {
     pointer-events: none
 }
+button {
+    cursor: pointer;
+}
 .fontsLoaded {
     font-family: 'Montserrat', sans-serif;
 }
@@ -390,6 +393,7 @@ body {
         position: absolute;
         pointer-events: all;
         border: 0;
+        background: transparent;
         display: unset;
     }
     .navOpener .bar1,

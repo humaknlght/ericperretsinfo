@@ -44,37 +44,29 @@ ForceType text/css
 <FilesMatch "\.html\.gz$">
 AddEncoding x-gzip .gz
 Header set Content-Encoding: gzip
-Header set Vary "Accept-Encoding"
-Header append X-Frame-Options DENY
-Header set "X-UA-Compatible" "IE=edge"
-Header set Link "<https://fonts.googleapis.com>; rel=preconnect, <https://fonts.gstatic.com>; rel=preconnect; crossorigin, <https://lh3.googleusercontent.com>; rel=preconnect"
-AddDefaultCharset utf-8
 ForceType text/html
 </FilesMatch>
 
 <FilesMatch "\.html\.br$">
 AddEncoding br .br
 Header set Content-Encoding: br
-Header set Cache-Control "max-age=604800,public"
-Header set Vary "Accept-Encoding"
-Header set "X-UA-Compatible" "IE=edge"
-Header set Link "<https://fonts.googleapis.com>; rel=preconnect, <https://fonts.gstatic.com>; rel=preconnect; crossorigin, <https://lh3.googleusercontent.com>; rel=preconnect"
-AddDefaultCharset utf-8
 ForceType text/html
 </FilesMatch>
 
-<FilesMatch "\.html$">
-Header set "X-UA-Compatible" "IE=edge"
-Header append X-Frame-Options DENY
-Header set Link "<https://fonts.googleapis.com>; rel=preconnect, <https://fonts.gstatic.com>; rel=preconnect; crossorigin, <https://lh3.googleusercontent.com>; rel=preconnect"
+<FilesMatch "\.html">
+Header set Link "<https://fonts.googleapis.com>; rel=preconnect, <https://fonts.gstatic.com>; rel=preconnect; crossorigin"
+Header always set "X-UA-Compatible" "IE=edge"
+Header always append X-Frame-Options DENY
+Header set Vary "Accept-Encoding"
+Header always set Content-Security-Policy "default-src 'none'; script-src 'unsafe-inline' https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; connect-src 'self'; img-src data: 'self' https://www.google-analytics.com; font-src data: https://fonts.gstatic.com; frame-src https://www.youtube-nocookie.com"
 AddDefaultCharset utf-8
 </FilesMatch>
 
 <FilesMatch "\.ico\.gz$">
 AddEncoding x-gzip .gz
 Header set Content-Encoding: gzip
-Header set Cache-Control "max-age=604800,public"
 Header set Vary "Accept-Encoding"
+Header set Cache-Control "max-age=604800,public"
 ForceType image/x-icon
 </FilesMatch>
 
@@ -82,22 +74,9 @@ ForceType image/x-icon
 AddEncoding br .br
 Header set Content-Encoding: br
 Header set Vary "Accept-Encoding"
+Header set Cache-Control "max-age=604800,public"
 ForceType image/x-icon
 </FilesMatch>
 
-<FilesMatch "\.appcache\.gz$">
-AddEncoding x-gzip .gz
-Header set Content-Encoding: gzip
-Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-Header set Pragma "no-cache"
-Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
-Header set Vary "Accept-Encoding"
-AddDefaultCharset utf-8
-</FilesMatch>
-
-<FilesMatch "epi\.appcache$">
-Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-Header set Pragma "no-cache"
-Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
-AddDefaultCharset utf-8
-</FilesMatch>
+Header always set "X-Xss-Protection" "1; mode=block"
+Header always set "X-Content-Type-Options" "nosniff"

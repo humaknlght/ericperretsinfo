@@ -1,0 +1,3 @@
+<FilesMatch "^index.html">
+Header unset Link
+</FilesMatch>
