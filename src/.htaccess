@@ -24,6 +24,9 @@ ExpiresByType text/html "access plus 7 days"
 ExpiresByType text/css "access plus 7 days"
 ExpiresByType image/x-icon "access plus 7 days"
 ExpiresByType image/svg+xml "access plus 7 days"
+ExpiresByType application/x-javascript "access plus 7 days"
+ExpiresByType text/javascript "access plus 7 days"
+ExpiresByType application/javascript "access plus 7 days"
 
 <FilesMatch "\.js\.gz$">
 AddEncoding x-gzip .gz
@@ -33,9 +36,25 @@ AddDefaultCharset utf-8
 ForceType text/javascript
 </FilesMatch>
 
+<FilesMatch "\.js\.br$">
+AddEncoding br .br
+Header set Content-Encoding: br
+Header set Vary "Accept-Encoding"
+AddDefaultCharset utf-8
+ForceType text/javascript
+</FilesMatch>
+
 <FilesMatch "\.css\.gz$">
 AddEncoding x-gzip .gz
 Header set Content-Encoding: gzip
+Header set Vary "Accept-Encoding"
+AddDefaultCharset utf-8
+ForceType text/css
+</FilesMatch>
+
+<FilesMatch "\.css\.br$">
+AddEncoding br .br
+Header set Content-Encoding: br
 Header set Vary "Accept-Encoding"
 AddDefaultCharset utf-8
 ForceType text/css
@@ -58,7 +77,7 @@ Header set Link "<https://fonts.googleapis.com>; rel=preconnect, <https://fonts.
 Header always set "X-UA-Compatible" "IE=edge"
 Header always append X-Frame-Options DENY
 Header set Vary "Accept-Encoding"
-Header always set Content-Security-Policy "default-src 'none'; script-src 'unsafe-inline' https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; connect-src 'self'; img-src data: 'self' https://www.google-analytics.com; font-src data: https://fonts.gstatic.com; frame-src https://www.youtube-nocookie.com"
+Header always set Content-Security-Policy "default-src 'none'; script-src 'self' https://www.google-analytics.com; style-src 'self' https://fonts.googleapis.com; connect-src 'self'; img-src data: 'self' https://www.google-analytics.com; font-src data: https://fonts.gstatic.com; frame-src https://www.youtube-nocookie.com"
 AddDefaultCharset utf-8
 </FilesMatch>
 

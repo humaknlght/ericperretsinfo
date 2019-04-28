@@ -350,6 +350,19 @@ body {
     border: 0;
     background: transparent;
 }
+.artContent > figure {
+    width: calc(600px - 3rem);
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    border-bottom: 1px solid #000;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+.artContent > figure img {
+    width: calc(600px - 3rem);
+    max-width: calc(100vw - 2em);
+}
 @media (max-width: 799px) {
     .body {
         margin: 1rem;
