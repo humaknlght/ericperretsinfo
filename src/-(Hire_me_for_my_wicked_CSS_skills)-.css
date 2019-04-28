@@ -179,6 +179,8 @@ nav {
 }
 .insta-wrapper {
     text-align: center;
+    display: inline-block;
+    width: 100%;
 }
 .insta-photo {
     border-radius: 2px;

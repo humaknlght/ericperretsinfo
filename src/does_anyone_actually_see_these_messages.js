@@ -1,3 +1,4 @@
+"use strict";
 {
     let bgImgName = "bg" + Math.floor(Math.random() * 5);
     const colors = ["orange", "blue", "grey", "hide", "pattern", ""],
