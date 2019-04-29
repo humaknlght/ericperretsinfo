@@ -1,0 +1,353 @@
+* {
+    box-sizing: border-box
+}
+body {
+    background: #666;
+    text-align: center;
+}
+.name {grid-area: name}
+.contact {grid-area: contact}
+.objective {grid-area: objective}
+.experience {grid-area: experience}
+.education {grid-area: education}
+.certification {grid-area: certification}
+.leadership {grid-area: leadership}
+.skills {grid-area: skills}
+.colophon {grid-area: colophon}
+.content {
+    font-family: "Times New Roman", Times, serif;
+    text-align: left;
+    position: relative;
+    background: #fff;
+    padding: 2rem 3rem;
+    max-width: 1000px;
+    display: inline-grid;
+    grid-row-gap: 1em;
+    row-gap: 1em;
+    grid-template-columns: auto auto min-content auto;
+    grid-template-areas: 
+        "name contact contact"
+        "objective objective skills"
+        "experience experience skills"
+        "education education skills"
+        "certification certification skills"
+        "leadership leadership colophon"
+}
+.content,
+#download,
+#print {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+#download:hover:before,
+#download:hover:after,
+#print:hover:before,
+#print:hover:after,
+.content::before,
+.content::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    top: 10px;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    -moz-border-radius: 100px / 10px;
+    border-radius: 100px / 10px
+}
+#download:hover:after,
+#print:hover:after,
+.content:after {
+    right: 10px;
+    left: auto;
+    transform: skew(8deg) rotate(3deg)
+}
+h2, h3 {
+    margin: 0
+}
+h2 {
+    text-transform: uppercase;
+    font-size: 16px
+}
+p {
+    margin: 0;
+}
+ul {
+    margin: 0
+}
+.name > h1 {
+    font-family: 'Kanit', sans-serif;
+    font-weight: 100;
+    font-size: 4rem;
+    margin: 0;
+    line-height: .75
+}
+.contact > dl {
+    display: grid;
+    grid-template-columns: max-content auto max-content auto;
+    margin: 0;
+    float: right
+}
+.contact dt,
+.contact dd {
+    display:block;
+    margin: 0;
+    width: max-content
+}
+.contact dt {
+    margin-right: .5rem;
+    margin-left: 1rem
+}
+.contact dt::after {
+    content: ":"
+}
+.contact address {
+    font-style: normal
+}
+.phoneNumber {
+    white-space: nowrap;
+}
+.objective ol {
+    padding: 0;
+    margin: 0;
+    counter-reset: LIST-ITEMS
+}
+.objective ol > li {
+    display: inline
+}
+.objective ol > li:before {
+    content: counter( LIST-ITEMS ) ".";
+    counter-increment: LIST-ITEMS;
+    padding-right: 0.25em;
+    font-style: italic;
+    font-weight: bold
+}
+.experience > div + div {
+    padding-top: 1rem
+}
+.experience h3 > address,
+.education h3 > address {
+    font-style: normal;
+    font-family: 'Kanit', sans-serif;
+    font-size: 16px;
+    line-height: 1
+}
+.experience h3 > address > span,
+.education h3 > address > span {
+    font-weight: 400
+}
+.experience p,
+.education .subTitle,
+.leadership > p {
+    padding-left: 1rem
+}
+.experience .jobTitle,
+.education .jobTitle {
+    font-style: italic;
+    font-family: 'Kanit', sans-serif
+}
+.experience .jobTitle > .when,
+.education .jobTitle > .when {
+    padding-left: 3em
+}
+.experience ul ,
+.certification ul {
+    padding-left: 2rem
+}
+.experience p + p {
+    text-indent: 2rem
+}
+.objective h2 {
+    text-transform: uppercase
+}
+.skills {
+    font-family: 'Kanit', sans-serif;
+    font-weight:lighter;
+    font-size: 16px;
+    text-align: right;
+    border-left: 1px dashed #000;
+    padding-left: .5rem;
+    margin-left: .5rem
+}
+.skills h2 {
+    font-size: 16px
+}
+.skills ul {
+    padding: 0
+}
+.skills li {
+    list-style: none;
+    line-height: 1.1
+}
+.skills div + div {
+    margin-top: 1rem
+}
+.skills .qr {
+    margin: 1rem -1rem -1rem -1rem
+}
+#actions {
+    display: inline-block;
+    vertical-align: top;
+    width: 0;
+    height: 0;
+    margin-left: .25rem;
+}
+.colophon {
+    position: relative
+}
+.colophon > div {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+.colophon,
+.colophon > div > h2 {
+    font-size: .625rem
+}
+#download, #print {
+    padding: 0;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 3rem;
+    position: relative;
+}
+#download:hover, #print:hover {
+    cursor: pointer;
+}
+@page {
+    margin: 1rem .75rem 0;
+}
+@media only screen and (max-width: 1125px) {
+    body {
+        text-align: unset;
+    }
+}
+@media only screen and (max-width: 1080px) {
+    #actions {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-width: 1000px;
+        background: #000;
+        padding: .5rem;
+        margin-left: 0;
+    }
+    #download, #print {
+        vertical-align: middle; 
+    }
+}
+@media only screen and (max-width: 800px) {
+    .content {
+        margin: 0;
+        grid-template-areas: 
+            "name contact contact"
+            "objective objective objective"
+            "experience experience experience"
+            "education education education"
+            "certification certification certification"
+            "leadership leadership leadership"
+            "skills skills skills"
+            "colophon colophon colophon"
+    }
+    .content::before,
+    .content::after {
+        content: unset
+    }
+    .skills {
+        display: grid;
+        grid-auto-columns: auto;
+        grid-auto-flow: row;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 1em;
+        gap: 1em;
+        padding: 0;
+        margin: 0;
+        border: none;
+        text-align: left;
+        margin: 0;
+        padding: 0
+    }
+    .skills div + div {
+        margin: 0
+    }
+    .colophon > div {
+        position: initial;
+    }
+    .colophon > div > h2,
+    .colophon > div > div {
+        display: inline-block;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .content {
+        grid-template-areas: 
+            "name"
+            "contact"
+            "objective"
+            "experience"
+            "education"
+            "certification"
+            "leadership"
+            "skills"
+            "colophon";
+        padding: 1rem
+    }
+    .experience .jobTitle > .when,
+    .education .jobTitle > .when {
+        padding-left: 1rem
+    }
+}
+@media only screen and (max-width: 500px) {
+    .content {
+        margin: 0
+    }
+    .contact > dl {
+        grid-template-columns: max-content auto;
+        float: unset
+    }
+    .contact dt {
+        margin-left: 0
+    }
+    .skills {
+        grid-template-columns: repeat(2, 1fr)
+    }
+}
+@media print {
+    body {
+        background-color: unset
+    }
+    a,
+    a:visited {
+        color: #0900ef
+    }
+    abbr[title],
+    a,
+    a:visited {
+        text-decoration: unset;
+        color: #000;
+    }
+    .website,
+    .website:visited {
+        text-decoration: underline;
+        color: #0900ef;
+    }
+    .content {
+        font-size: 12px;
+        box-shadow: unset;
+        background-color: unset;
+        padding: 0
+    }
+    .content::before,
+    .content::after {
+        content: unset
+    }
+    .skills {
+        font-size: 14px
+    }
+    .skills div + div {
+        margin-top: .5rem
+    }
+    #actions {
+        display: none;
+    }
+}
