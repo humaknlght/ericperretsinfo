@@ -115,7 +115,7 @@ button {
     color: #fafff6;
     line-height: 1.55556;
     width: calc(600px - 1em);
-    height: 76rem;
+    height: 79rem;
     position: absolute;
     overflow: hidden;
     border-radius: 2px;
@@ -198,6 +198,16 @@ nav {
 .navOpener {
     display: none;
 }
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 1rem 0;
+    background: #fff
+}
+footer > div {
+    padding: 0 3rem;
+}
 .content:before,
 .title:before,
 .navHolder:before,
@@ -247,13 +257,11 @@ body {
 .grid.background > .invert {
     filter: invert(100%)
 }
-.grid.background.option1 {
-    grid-template-rows: repeat(36, 1fr);
-    grid-template-columns: repeat(36, 1fr)
+.grid.background {
+    grid-template-rows: repeat(var(--gridRows), 1fr);
+    grid-template-columns: repeat(var(--gridRows), 1fr)
 }
 .grid.background.option2 {
-    grid-template-rows: repeat(7, 1fr);
-    grid-template-columns: repeat(7, 1fr);
     grid-gap: 2px
 }
 .grid.background.option2::before {
@@ -280,7 +288,7 @@ body {
 }
 .background {
     height: calc(100vmax - 6rem);
-    width: calc(100vmax - 6rem);
+    width: 100%;
 }
 .navHolder {
     width: 100%;
@@ -383,7 +391,7 @@ body {
         border-radius: 4px
     }
     .grid {
-        display: block
+        display: none
     }
     .grid.background.option2::before {
         content: none;
@@ -462,6 +470,9 @@ body {
         margin: 0;
         padding: 0;
     }
+    footer > div {
+        padding: 0 1rem;
+    }
     .backgroundWrapper {
         top: 0;
         position: fixed;
@@ -485,7 +496,7 @@ body {
     .content {
         margin-top: 7.5rem;
         width: calc(100% - 1rem);
-        height: 82rem;
+        height: 84rem;
     }
     .title > span {
         font-size: 4rem;
@@ -493,6 +504,9 @@ body {
         width: unset;
     }
     .insta-photo {
+        height: auto;
+    }
+    .artContent > figure img {
         height: auto;
     }
 }
@@ -523,6 +537,10 @@ body {
         display:block;
         width: 150px;
         height: 150px;
+    }
+    footer {
+        background: #000;
+        color: #fff;
     }
     .backgroundWrapper {
         height: 100%;

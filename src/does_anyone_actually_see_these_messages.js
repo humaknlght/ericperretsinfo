@@ -3,20 +3,21 @@
     let bgImgName = "bg" + Math.floor(Math.random() * 5);
     const colors = ["orange", "blue", "grey", "hide", "pattern", ""],
         backgroundOptions = [
-            {num: 1296, className: "option1"},
-            {num: 49, className: "option2"}
+            {num: 36, className: "option1"},
+            {num: 7 , className: "option2"}
         ];
     let colorOption,
         refresh = document.querySelector(".changeColor svg");
     function setBackground(options) {
         let background = document.querySelector(".background"),
             backgroundContent = "";
-        for(let i = 0; i < options.num; i++) {
+        for(let i = 0, numDivs = options.num * options.num; i < numDivs; i++) {
             backgroundContent += "<div><div></div></div>";
         }
+        document.documentElement.style.setProperty("--gridRows", options.num);
+        document.documentElement.style.setProperty("--bgUrl", `url(img/${bgImgName}.jpg)`);
         background.innerHTML = backgroundContent;
         background.classList.add(options.className);
-        document.documentElement.style.setProperty("--bgUrl", `url(img/${bgImgName}.jpg)`);
     }
     function changeColor(targetEl, allowDupes) {
         let newColor;
@@ -53,12 +54,18 @@
         }
     }
     function setup() {
-        colorOption = Math.floor(Math.random() * 3);
-        setBackground(backgroundOptions[Math.floor(Math.random() * 2)]);
-        document.querySelectorAll(".background > div").forEach(el => {
-            el.addEventListener("mouseover", changeColorFromEvent, false);
-            el.addEventListener("click", changeColorFromEvent, false);
-        });
+        let selOpt = backgroundOptions[Math.floor(Math.random() * 2)];
+        if (document.documentElement.clientWidth >= 675) {
+            colorOption = Math.floor(Math.random() * 3);
+            setBackground(selOpt);
+            document.querySelectorAll(".background > div").forEach(el => {
+                el.addEventListener("mouseover", changeColorFromEvent, false);
+                el.addEventListener("click", changeColorFromEvent, false);
+            });
+        } else {
+            selOpt.num = 1;
+            setBackground(selOpt);
+        }
     }
     refresh.addEventListener("animationend", function () {
         refresh.classList.toggle("rotate");
@@ -106,7 +113,7 @@
             if (httpRequest.readyState === XMLHttpRequest.DONE) {
                 if (httpRequest.status === 200) {
                     let content = document.querySelector(".content");
-                    content.style.height = "1078rem";
+                    content.style.height = "1079rem";
                     content.querySelector("main").innerHTML = httpRequest.responseText;
                 } else {
                     alert("There was a problem with the request. :-(");
