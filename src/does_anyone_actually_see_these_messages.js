@@ -1,7 +1,12 @@
 "use strict";
 {
-    let bgImgName = "bg" + Math.floor(Math.random() * 5);
-    const colors = ["orange", "blue", "grey", "hide", "pattern", ""],
+    let bgImgIndex = Math.floor(Math.random() * 5);
+    const backgoundTheme = [
+            "#232323", "#969ab2",
+            "#52504d", "##e3c6b0",
+            "#f8a688", "#707885"
+        ],
+        colors = ["orange", "blue", "grey", "hide", "pattern", ""],
         backgroundOptions = [
             {num: 36, className: "option1"},
             {num: 7 , className: "option2"}
@@ -15,9 +20,11 @@
             backgroundContent += "<div><div></div></div>";
         }
         document.documentElement.style.setProperty("--gridRows", options.num);
-        document.documentElement.style.setProperty("--bgUrl", `url(img/${bgImgName}.jpg)`);
+        document.documentElement.style.setProperty("--bgUrl", `url(img/bg${bgImgIndex}.jpg)`);
         background.innerHTML = backgroundContent;
         background.classList.add(options.className);
+        let metaThemeColor = document.querySelector("meta[name=theme-color]");
+        metaThemeColor.setAttribute("content", backgoundTheme[bgImgIndex]);
     }
     function changeColor(targetEl, allowDupes) {
         let newColor;
@@ -82,11 +89,11 @@
             refresh.classList.toggle("rotate");
             document.querySelector(".background").className = "grid background";
             document.querySelector(".clip-text").className = "clip-text";
-            let newBgImgName;
+            let newBgImgIndex;
             do {
-                newBgImgName = "bg" + Math.floor(Math.random() * 6);
-            } while(bgImgName === newBgImgName);
-            bgImgName = newBgImgName;
+                newBgImgIndex = Math.floor(Math.random() * 6);
+            } while(bgImgIndex === newBgImgIndex);
+            bgImgIndex = newBgImgIndex;
             setup();
         });
         document.querySelector("#me").addEventListener("click", (link) => {
