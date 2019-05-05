@@ -115,7 +115,7 @@ button {
     color: #fafff6;
     line-height: 1.55556;
     width: calc(600px - 1em);
-    height: 79rem;
+    height: 90rem;
     position: absolute;
     overflow: hidden;
     border-radius: 2px;
@@ -147,15 +147,10 @@ button {
     pointer-events: auto;
     border-bottom: 0;
     padding: 1rem 1rem .5rem 1rem;
-    text-align: justify;
     position: absolute;
 }
 .content p + p {
     padding-top: 1em
-}
-.content ol {
-    margin-top: 0;
-    padding-left: 1rem
 }
 .tagline {
     font-size: 1.5rem;
@@ -181,6 +176,7 @@ nav {
     text-align: center;
     display: inline-block;
     width: 100%;
+    padding-top: 1rem;
 }
 .insta-photo {
     border-radius: 2px;
@@ -496,7 +492,7 @@ body {
     .content {
         margin-top: 7.5rem;
         width: calc(100% - 1rem);
-        height: 84rem;
+        height: 93rem;
     }
     .title > span {
         font-size: 4rem;
