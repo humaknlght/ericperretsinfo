@@ -97,5 +97,5 @@ Header set Cache-Control "max-age=604800,public"
 ForceType image/x-icon
 </FilesMatch>
 
-Header always set "X-Xss-Protection" "1; mode=block"
+Header always set "X-XSS-Protection" "1; mode=block"
 Header always set "X-Content-Type-Options" "nosniff"
