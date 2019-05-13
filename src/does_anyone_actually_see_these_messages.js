@@ -1,6 +1,8 @@
 "use strict";
 {
-    let bgImgIndex = Math.floor(Math.random() * 5);
+    function randInt(max) {
+        return Math.floor(Math.random() * max);
+    }
     const backgoundTheme = [
             "#232323", "#969ab2",
             "#52504d", "##e3c6b0",
@@ -11,7 +13,8 @@
             {num: 36, className: "option1"},
             {num: 7 , className: "option2"}
         ];
-    let colorOption,
+    let bgImgIndex = randInt(5),
+        colorOption,
         refresh = document.querySelector(".changeColor svg");
     function setBackground(options) {
         let background = document.querySelector(".background"),
@@ -29,7 +32,7 @@
     function changeColor(targetEl, allowDupes) {
         let newColor;
         do {
-            let rand = Math.floor(Math.random() * 7);
+            let rand = randInt(7);
             newColor = colors[(rand === 6) ? 4 : rand];
         } while((newColor === targetEl.className) && !allowDupes);
 
@@ -39,7 +42,7 @@
         let newColor,
             el = targetEl.children[0];
         do {
-            newColor = ((Math.floor(Math.random() * 2) === 0) ? "rgba(0,0,0," : "rgba(255,255,255,") + (Math.floor(Math.random() * 6) / 10) + ")";
+            newColor = ((randInt(2) === 0) ? "rgba(0,0,0," : "rgba(255,255,255,") + (randInt(6) / 10) + ")";
         } while((newColor === el.style.backgroundColor) && !allowDupes);
 
         el.style.backgroundColor = newColor;
@@ -61,9 +64,9 @@
         }
     }
     function setup() {
-        let selOpt = backgroundOptions[Math.floor(Math.random() * 2)];
+        let selOpt = backgroundOptions[randInt(2)];
         if (document.documentElement.clientWidth >= 675) {
-            colorOption = Math.floor(Math.random() * 3);
+            colorOption = randInt(3);
             setBackground(selOpt);
             document.querySelectorAll(".background > div").forEach(el => {
                 el.addEventListener("mouseover", changeColorFromEvent, false);
@@ -79,7 +82,7 @@
     });
     window.addEventListener("DOMContentLoaded", () => {
         setup();
-        document.querySelector(".navOpener").addEventListener("click", (button) => {
+        document.querySelector(".navOpener > button").addEventListener("click", (button) => {
             button = button.currentTarget;
             button.classList.toggle("open");
             button.setAttribute("aria-expanded", (button.getAttribute("aria-expanded") === "false"));
@@ -91,7 +94,7 @@
             document.querySelector(".clip-text").className = "clip-text";
             let newBgImgIndex;
             do {
-                newBgImgIndex = Math.floor(Math.random() * 6);
+                newBgImgIndex = randInt(6);
             } while(bgImgIndex === newBgImgIndex);
             bgImgIndex = newBgImgIndex;
             setup();
@@ -104,7 +107,8 @@
             link.parentNode.replaceChild(div, link);
         });
         let httpRequest;
-        document.querySelector("a.art").addEventListener("click", () => {
+        document.querySelector("a.art").addEventListener("click", (event) => {
+            event.preventDefault();
             httpRequest = new XMLHttpRequest();
 
             if (!httpRequest) {

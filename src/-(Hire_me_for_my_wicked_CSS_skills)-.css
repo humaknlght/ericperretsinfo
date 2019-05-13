@@ -204,20 +204,16 @@ footer {
 footer > div {
     padding: 0 3rem;
 }
+.clip-text,
 .content:before,
 .title:before,
 .navHolder:before,
 body {
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-size: cover
-}
-.clip-text,
-.content:before,
-.title:before,
-.navHolder:before,
-body {
-    background-image: var(--bgUrl)
+    background-size: cover;
+    background-image: var(--bgUrl);
+    background-position: bottom;
 }
 .backgroundWrapper,
 .grid.background,
@@ -225,7 +221,8 @@ body {
     background-image: inherit;
     background-repeat: inherit;
     background-attachment: inherit;
-    background-size: inherit
+    background-size: inherit;
+    background-position: inherit;
 }
 .grid.background > div > div {
     position: absolute;
@@ -279,7 +276,8 @@ body {
     pointer-events: auto;
     height: calc(100% - 6rem);
     width: calc(100% - 6rem);
-    border: 3rem solid #fff;
+    border: solid #fff;
+    border-width: 3rem 3rem 0;
     overflow: hidden
 }
 .background {
@@ -289,9 +287,11 @@ body {
 .navHolder {
     width: 100%;
     min-width: max-content;
-    position: absolute;
-    height: 2.125rem;
+    position: fixed;
+    height: 3rem;
     overflow: hidden;
+    background: #fff;
+    z-index: 2
 }
 .icons {
     pointer-events: auto;
@@ -355,6 +355,7 @@ body {
 .changeColor > button {
     border: 0;
     background: transparent;
+    padding: 0;
 }
 .artContent > figure {
     width: calc(600px - 3rem);
@@ -386,38 +387,37 @@ body {
     .icons.tile {
         border-radius: 4px
     }
+    .icons > ul > li,
+    .icons > ul > li > div {
+        margin: 0;
+    }
+    .wordpress {
+        padding-right: .25rem
+    }
     .grid {
         display: none
     }
     .grid.background.option2::before {
         content: none;
     }
-    .topnav.responsive {
-        position: relative;
-    }
-    .menu {
-        position: absolute;
-        right: 0;
-        top: 0;
-    }
-    .topnav.responsive a {
-        float: none;
-        display: block;
-        text-align: left;
-    }
 }
 @media (max-width: 675px) {
     .navOpener {
-        margin: 1rem 1.5rem;
-        position: absolute;
+        display: unset;
+        background: #fff;
+        position: fixed;
+        z-index: 2;
+        width: 100%;
+    }
+    .navOpener > button {
+        margin: 0 1.5rem;
         pointer-events: all;
         border: 0;
         background: transparent;
-        display: unset;
     }
-    .navOpener .bar1,
-    .navOpener .bar2,
-    .navOpener .bar3 {
+    .navOpener > button > .bar1,
+    .navOpener > button > .bar2,
+    .navOpener > button > .bar3 {
         width: 35px;
         height: 5px;
         background-color: #333;
@@ -425,19 +425,19 @@ body {
         transition: 0.4s;
         display: block;
     }
-    .open.navOpener .bar1 {
+    .navOpener > button.open > .bar1 {
         -webkit-transform: rotate(-45deg) translate(-9px, 6px);
         transform: rotate(-45deg) translate(-9px, 6px);
     }
-    .open.navOpener .bar2 {
+    .navOpener > button.open > .bar2 {
         opacity: 0;
     }
-    .open.navOpener .bar3 {
+    .navOpener > button.open > .bar3 {
         -webkit-transform: rotate(45deg) translate(-8px, -8px);
         transform: rotate(45deg) translate(-8px, -8px);
     }
     .navHolder {
-        top: 4rem;
+        top: 2.75rem;
         z-index: 100;
         height: unset;
         max-width: 0;
@@ -477,7 +477,6 @@ body {
         height: calc(100% - 1rem);
         width: calc(100% - 1rem);
         border: .5rem solid #fff;
-        border-top-width: 4rem;
         overflow: hidden
     }
     .title,
@@ -488,9 +487,10 @@ body {
     }
     .title {
         width: calc(100% - 1rem);
+        margin-top: 2.75rem;
     }
     .content {
-        margin-top: 7.5rem;
+        margin-top: 6.5rem;
         width: calc(100% - 1rem);
         height: 93rem;
     }
@@ -537,6 +537,7 @@ body {
     footer {
         background: #000;
         color: #fff;
+        font-size: .75rem;
     }
     .backgroundWrapper {
         height: 100%;
