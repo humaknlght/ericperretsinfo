@@ -60,6 +60,12 @@ AddDefaultCharset utf-8
 ForceType text/css
 </FilesMatch>
 
+<FilesMatch "\.css$">
+Header set Vary "Accept-Encoding"
+AddDefaultCharset utf-8
+ForceType text/css
+</FilesMatch>
+
 <FilesMatch "\.html\.gz$">
 AddEncoding x-gzip .gz
 Header set Content-Encoding: gzip

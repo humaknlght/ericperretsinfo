@@ -115,7 +115,7 @@ button {
     color: #fafff6;
     line-height: 1.55556;
     width: calc(600px - 1em);
-    height: 90rem;
+    height: 80rem;
     position: absolute;
     overflow: hidden;
     border-radius: 2px;
@@ -166,8 +166,8 @@ nav {
 .content > main a {
     color: #fff
 }
-.meHolder {
-    text-align: center;
+#me {
+    float: right;
 }
 .me {
     border-radius: 100px;
@@ -402,6 +402,10 @@ body {
     }
 }
 @media (max-width: 675px) {
+    .clip-text,
+    .title:before {
+        background-position: unset;
+    }
     .navOpener {
         display: unset;
         background: #fff;
@@ -549,5 +553,42 @@ body {
     }
     .grid.background > div {
         background-image: none
+    }
+}
+@media (prefers-color-scheme: dark) {
+    footer,
+    .grid.background > .hide > div,
+    .grid.background.option2::before,
+    .navHolder {
+        background-color: #000;
+    }
+    svg {
+        fill: #fff;
+    }
+    .backgroundWrapper {
+        border-color: #000;
+    }
+    .wordpress {
+        border-right-color: #fff;
+    }
+    .icons .navLink > a,
+    footer {
+        color: #fff;
+    }
+    body::-webkit-scrollbar {
+        background-color:  #111;
+        width: 1rem;
+        border-left: 1px solid #333;
+    }
+    body::-webkit-scrollbar-thumb {
+        background-color:#999;
+        border-radius: 1rem;
+        border: solid #111;
+    }
+    body::-webkit-scrollbar-thumb:hover {
+        background-color:#bbb;
+    }
+    body {
+        scrollbar-color: dark;
     }
 }
