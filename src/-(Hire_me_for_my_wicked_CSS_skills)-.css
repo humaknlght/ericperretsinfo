@@ -22,7 +22,7 @@ time, mark, audio, video {
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
+footer, header, hgroup, menu, section {
 	display: block
 }
 body {
@@ -290,7 +290,7 @@ body {
     position: fixed;
     height: 3rem;
     overflow: hidden;
-    background: #fff;
+    background-color: #fff;
     z-index: 2
 }
 .icons {
@@ -298,6 +298,9 @@ body {
     margin: auto;
     padding: 4px 1rem 2px;
     width: calc(100% - 2rem);
+    height: calc(100% - 6px);
+    display: flex;
+    align-items: center;
     position: absolute;
 }
 .icons.tile {
@@ -455,7 +458,6 @@ body {
     .icons {
         position: unset;
         padding: 2px 1.5rem 2px;
-        background-color: rgba(255, 255, 255, .9)
     }
     .icons .wordpress {
         border-right: unset;
@@ -591,5 +593,10 @@ body {
     }
     body {
         scrollbar-color: dark;
+    }
+    .navOpener > button > .bar1,
+    .navOpener > button > .bar2,
+    .navOpener > button > .bar3 {
+        background-color: #ddd;
     }
 }
