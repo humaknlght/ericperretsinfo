@@ -34,6 +34,8 @@ do
     babel "${FILE}" --presets minify > "${FILE}.min"
     mv "${FILE}.min" "${FILE}"
 done
+# https://github.com/google/brotli
+# https://github.com/google/zopfli
 for FILE in ./prod/*.{html,css,js} ./prod/resume/*.{html,svg,pdf} ./prod/resume/.css ./prod/art/*.html
 do
     echo "$FILE"
