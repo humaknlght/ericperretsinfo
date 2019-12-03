@@ -558,6 +558,7 @@ body {
     }
 }
 @media (prefers-color-scheme: dark) {
+    html,
     footer,
     .grid.background > .hide > div,
     .grid.background.option2::before,
