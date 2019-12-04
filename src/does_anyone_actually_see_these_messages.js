@@ -107,8 +107,7 @@
             link.parentNode.replaceChild(div, link);
         });
         let httpRequest;
-        document.querySelector("a.art").addEventListener("click", (event) => {
-            event.preventDefault();
+        function getAndLoadArt() {
             httpRequest = new XMLHttpRequest();
 
             if (!httpRequest) {
@@ -118,6 +117,10 @@
             httpRequest.onreadystatechange = swapContents;
             httpRequest.open("GET", "art/");
             httpRequest.send();
+        }
+        document.querySelector("a.art").addEventListener("click", (event) => {
+            event.preventDefault();
+            getAndLoadArt();
         });
 
         function swapContents() {
@@ -130,6 +133,9 @@
                     alert("There was a problem with the request. :-(");
                 }
             }
+        }
+        if (window.location.search === "?art") {
+            getAndLoadArt();
         }
     });
     window.ga=function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
