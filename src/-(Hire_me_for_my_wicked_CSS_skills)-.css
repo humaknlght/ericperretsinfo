@@ -25,8 +25,15 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, section {
 	display: block
 }
+html {
+    --background-color: #fff;
+    --nav-text-color: #000;
+    --content-text-color: #fafff6;
+    --secondary-text-color: rgba(0, 0, 0, .6);
+}
 body {
-    pointer-events: none
+    pointer-events: none;
+    background-color: var(--background-color);
 }
 button {
     cursor: pointer;
@@ -42,7 +49,7 @@ button {
         display: inline-block;
         text-align: center;
         /* Color fallback */
-        color: #fff;
+        color: var(--content-text-color);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -103,7 +110,7 @@ button {
 .title > span {
     font-size: 5rem;
     display: block;
-    color: #fff;
+    color: var(--content-text-color);
     line-height: calc(1em - 16px);
     pointer-events: auto;
     overflow-y: hidden;
@@ -112,7 +119,7 @@ button {
 .content {
     margin-top: 9.5rem;
     margin-left: 4rem;
-    color: #fafff6;
+    color: var(--content-text-color);
     line-height: 1.55556;
     width: calc(600px - 1em);
     height: 80rem;
@@ -129,7 +136,7 @@ button {
     right: 0;
     top: -25px; 
     bottom: 0;
-    box-shadow: inset 0 0 0 3000px rgba(0,0,0,0.3);
+    box-shadow: inset 0 0 0 3000px rgba(0, 0, 0, 0.3);
     background: inherit;
     filter: blur(10px);
     width: 120%;
@@ -137,13 +144,12 @@ button {
     opacity: .96;
 }
 .navHolder:before {
-    box-shadow: inset 0 0 0 3000px rgba(255,255,255,0.7);
+    box-shadow: inset 0 0 0 3000px rgba(255, 255, 255, 0.7);
 }
 .title:before {
-    box-shadow: inset 0 0 0 3000px rgba(0,0,0,0.7);
+    box-shadow: inset 0 0 0 3000px rgba(0, 0, 0, 0.7);
 }
 .content > main {
-    /*background-color: rgba(0,0,0,.9);*/
     pointer-events: auto;
     border-bottom: 0;
     padding: 1rem 1rem .5rem 1rem;
@@ -163,8 +169,9 @@ nav {
     border-top-right-radius: 2px;
     border-bottom-right-radius: 2px
 }
+
 .content > main a {
-    color: #fff
+    color: rgba(144, 202, 249, .87);
 }
 #me {
     float: right;
@@ -199,7 +206,8 @@ footer {
     bottom: 0;
     width: 100%;
     padding: 1rem 0;
-    background: #fff
+    background: var(--background-color);
+    color: var(--secondary-text-color);
 }
 footer > div {
     padding: 0 3rem;
@@ -242,7 +250,7 @@ body {
     background-color: rgba(153, 156, 194, .5)
 }
 .grid.background > .hide > div {
-    background-color: #fff
+    background-color: var(--background-color);
 }
 .grid.background > .pattern > div {
     background-image: repeating-linear-gradient(125deg, transparent, transparent 2px, rgba(255,255,255,.3) 2px, rgba(255,255,255,.3) 3px, transparent 3px, transparent 5px, rgba(255,255,255,.3) 5px)
@@ -258,7 +266,7 @@ body {
     grid-gap: 2px
 }
 .grid.background.option2::before {
-    background-color: #fff;
+    background-color: var(--background-color);
     content: '';
     display: block;
     height: 100%;
@@ -276,7 +284,7 @@ body {
     pointer-events: auto;
     height: calc(100% - 6rem);
     width: calc(100% - 6rem);
-    border: solid #fff;
+    border: solid var(--background-color);
     border-width: 3rem 3rem 0;
     overflow: hidden
 }
@@ -290,7 +298,7 @@ body {
     position: fixed;
     height: 3rem;
     overflow: hidden;
-    background-color: #fff;
+    background-color: var(--background-color);
     z-index: 2
 }
 .icons {
@@ -325,7 +333,7 @@ body {
 }
 .icons .navLink > a {
     text-decoration: none;
-    color: #000;
+    color: var(--nav-text-color);
 }
 .icons .navLink > a:hover {
     text-decoration: underline;
@@ -335,7 +343,7 @@ body {
     padding-left: .5rem;
 }
 .wordpress {
-    border-right: 2px solid #000;
+    border-right: 2px solid var(--nav-text-color);
     padding-right: 1rem
 }
 .wordpress > div {
@@ -365,7 +373,7 @@ body {
     padding: 0;
     margin: 0;
     display: inline-block;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid var(--content-text-color);
     padding-bottom: 1rem;
     margin-bottom: 1rem;
 }
@@ -404,14 +412,10 @@ body {
         content: none;
     }
 }
-@media (max-width: 675px) {
-    .clip-text,
-    .title:before {
-        background-position: unset;
-    }
+@media (max-width: 715px) {
     .navOpener {
         display: unset;
-        background: #fff;
+        background: var(--background-color);
         position: fixed;
         z-index: 2;
         width: 100%;
@@ -427,7 +431,7 @@ body {
     .navOpener > button > .bar3 {
         width: 35px;
         height: 5px;
-        background-color: #333;
+        background-color: var(--nav-text-color);
         margin: 6px 0;
         transition: 0.4s;
         display: block;
@@ -482,7 +486,7 @@ body {
         pointer-events: auto;
         height: calc(100% - 1rem);
         width: calc(100% - 1rem);
-        border: .5rem solid #fff;
+        border: .5rem solid var(--background-color);
         overflow: hidden
     }
     .title,
@@ -499,6 +503,10 @@ body {
         margin-top: 6.5rem;
         width: calc(100% - 1rem);
         height: 93rem;
+    }
+    .content,
+    .content > main {
+        border-radius: 0;
     }
     .title > span {
         font-size: 4rem;
@@ -532,8 +540,10 @@ body {
         padding: .25rem;
         width: calc(100% - .5rem)
     }
-    .me {
+    #me {
         float: none;
+    }
+    .me {
         margin-left: auto;
         margin-right: auto;
         display:block;
@@ -541,8 +551,6 @@ body {
         height: 150px;
     }
     footer {
-        background: #000;
-        color: #fff;
         font-size: .75rem;
     }
     .backgroundWrapper {
@@ -558,26 +566,17 @@ body {
     }
 }
 @media (prefers-color-scheme: dark) {
-    html,
-    footer,
-    .grid.background > .hide > div,
-    .grid.background.option2::before,
-    .navHolder,
-    .navOpener {
-        background-color: #000;
+    html {
+        --background-color: #121212;
+        --nav-text-color: rgba(255, 255, 255, .87);
+        --content-text-color: var(--nav-text-color);
+        --secondary-text-color: rgba(255, 255, 255, .6);
     }
     svg {
-        fill: #fff;
+        fill: var(--nav-text-color);
     }
-    .backgroundWrapper {
-        border-color: #000;
-    }
-    .wordpress {
-        border-right-color: #fff;
-    }
-    .icons .navLink > a,
-    footer {
-        color: #fff;
+    .content:before {
+        box-shadow: inset 0 0 0 3000px rgba(0, 0, 0, 0.7);
     }
     body::-webkit-scrollbar {
         background-color:  #111;
@@ -594,10 +593,5 @@ body {
     }
     body {
         scrollbar-color: dark;
-    }
-    .navOpener > button > .bar1,
-    .navOpener > button > .bar2,
-    .navOpener > button > .bar3 {
-        background-color: #ddd;
     }
 }
