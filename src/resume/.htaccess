@@ -15,5 +15,5 @@ ForceType image/svg+xml
 </FilesMatch>
 
 <FilesMatch "\.html">
-Header always set Content-Security-Policy "default-src 'none'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; connect-src 'self'; img-src data: 'self' https://www.google-analytics.com; font-src data: https://fonts.gstatic.com; frame-src https://www.youtube-nocookie.com"
+Header always set Content-Security-Policy "default-src 'none'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; connect-src 'self'; img-src data: 'self' https://www.googletagmanager.com; font-src data: https://fonts.gstatic.com; frame-src https://www.youtube-nocookie.com"
 </FilesMatch>
