@@ -13,7 +13,7 @@
             {num: 36, className: "option1"},
             {num: 7 , className: "option2"}
         ];
-    let bgImgIndex = randInt(5),
+    let bgImgIndex = randInt(8),
         colorOption,
         refresh = document.querySelector(".changeColor svg");
     function setBackground(options) {
@@ -32,8 +32,8 @@
     function changeColor(targetEl, allowDupes) {
         let newColor;
         do {
-            let rand = randInt(7);
-            newColor = colors[(rand === 6) ? 4 : rand];
+            let rand = randInt(8);
+            newColor = colors[(rand === 8) ? 4 : rand];
         } while((newColor === targetEl.className) && !allowDupes);
 
         targetEl.className = newColor;
@@ -42,7 +42,7 @@
         let newColor,
             el = targetEl.children[0];
         do {
-            newColor = ((randInt(2) === 0) ? "rgba(0,0,0," : "rgba(255,255,255,") + (randInt(6) / 10) + ")";
+            newColor = ((randInt(2) === 0) ? "rgba(0,0,0," : "rgba(255,255,255,") + (randInt(8) / 10) + ")";
         } while((newColor === el.style.backgroundColor) && !allowDupes);
 
         el.style.backgroundColor = newColor;
@@ -94,7 +94,7 @@
             document.querySelector(".clip-text").className = "clip-text";
             let newBgImgIndex;
             do {
-                newBgImgIndex = randInt(6);
+                newBgImgIndex = randInt(8);
             } while(bgImgIndex === newBgImgIndex);
             bgImgIndex = newBgImgIndex;
             setup();
