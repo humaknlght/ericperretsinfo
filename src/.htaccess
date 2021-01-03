@@ -16,23 +16,13 @@ RewriteCond %{REQUEST_FILENAME}.gz -f
 RewriteRule (.*) $1.gz [L,QSA]
 
 ExpiresActive on
-ExpiresByType image/jpg "access plus 7 days"
-ExpiresByType image/jpeg "access plus 7 days"
-ExpiresByType image/gif "access plus 7 days"
-ExpiresByType image/png "access plus 7 days"
-ExpiresByType text/html "access plus 7 days"
-ExpiresByType text/css "access plus 7 days"
-ExpiresByType image/x-icon "access plus 7 days"
-ExpiresByType image/svg+xml "access plus 7 days"
-ExpiresByType application/x-javascript "access plus 7 days"
-ExpiresByType text/javascript "access plus 7 days"
-ExpiresByType application/javascript "access plus 7 days"
+Header set Cache-Control "max-age=2419200, public"
 
 <FilesMatch "\.js\.gz$">
 AddEncoding x-gzip .gz
 Header set Content-Encoding: gzip
 Header set Vary "Accept-Encoding"
-AddDefaultCharset utf-8
+AddDefaultCharset UTF-8
 ForceType text/javascript
 </FilesMatch>
 
@@ -40,7 +30,7 @@ ForceType text/javascript
 AddEncoding br .br
 Header set Content-Encoding: br
 Header set Vary "Accept-Encoding"
-AddDefaultCharset utf-8
+AddDefaultCharset UTF-8
 ForceType text/javascript
 </FilesMatch>
 
@@ -48,7 +38,7 @@ ForceType text/javascript
 AddEncoding x-gzip .gz
 Header set Content-Encoding: gzip
 Header set Vary "Accept-Encoding"
-AddDefaultCharset utf-8
+AddDefaultCharset UTF-8
 ForceType text/css
 </FilesMatch>
 
@@ -56,13 +46,13 @@ ForceType text/css
 AddEncoding br .br
 Header set Content-Encoding: br
 Header set Vary "Accept-Encoding"
-AddDefaultCharset utf-8
+AddDefaultCharset UTF-8
 ForceType text/css
 </FilesMatch>
 
 <FilesMatch "\.css$">
 Header set Vary "Accept-Encoding"
-AddDefaultCharset utf-8
+AddDefaultCharset UTF-8
 ForceType text/css
 </FilesMatch>
 
@@ -84,7 +74,7 @@ Header always set "X-UA-Compatible" "IE=edge"
 Header always append X-Frame-Options DENY
 Header set Vary "Accept-Encoding"
 Header always set Content-Security-Policy "default-src 'none'; script-src 'self' 'sha256-I/2MSZRcaETmHpt/gbnZIuMGIKBisPLfPmteUx/WHdY=' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' https://fonts.googleapis.com; connect-src 'self'; img-src data: 'self' https://www.googletagmanager.com; font-src data: https://fonts.gstatic.com; frame-src https://www.youtube-nocookie.com"
-AddDefaultCharset utf-8
+AddDefaultCharset UTF-8
 </FilesMatch>
 
 <FilesMatch "\.ico\.gz$">

@@ -2,7 +2,7 @@
 AddEncoding br .br
 Header set Content-Encoding: br
 Header set Vary "Accept-Encoding"
-AddDefaultCharset utf-8
+AddDefaultCharset UTF-8
 ForceType image/svg+xml
 </FilesMatch>
 
@@ -10,7 +10,7 @@ ForceType image/svg+xml
 AddEncoding x-gzip .gz
 Header set Content-Encoding: gzip
 Header set Vary "Accept-Encoding"
-AddDefaultCharset utf-8
+AddDefaultCharset UTF-8
 ForceType image/svg+xml
 </FilesMatch>
 

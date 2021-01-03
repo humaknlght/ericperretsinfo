@@ -33,7 +33,7 @@
         let newColor;
         do {
             let rand = randInt(8);
-            newColor = colors[(rand === 8) ? 4 : rand];
+            newColor = colors[(rand === 6) ? 4 : rand];
         } while((newColor === targetEl.className) && !allowDupes);
 
         targetEl.className = newColor;
