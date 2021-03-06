@@ -63,15 +63,51 @@
                 break; 
         }
     }
+    function isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
     function setup() {
-        let selOpt = backgroundOptions[randInt(2)];
+        const selOpt = backgroundOptions[randInt(2)];
         if (document.documentElement.clientWidth >= 675) {
             colorOption = randInt(3);
             setBackground(selOpt);
-            document.querySelectorAll(".background > div").forEach(el => {
+            const allSquares = document.querySelectorAll(".background > div"),
+                selected = [];
+            allSquares.forEach(el => {
                 el.addEventListener("mouseover", changeColorFromEvent, false);
                 el.addEventListener("click", changeColorFromEvent, false);
             });
+            setInterval(function() {
+                if (!document.hidden) {
+                    let square;
+                    do {
+                        square = allSquares[randInt(allSquares.length)];
+                    } while (!isInViewport(square))
+                    if (selected.length >= 3) {
+                        const removedItem = selected.shift();
+                        removedItem.className = "";
+                        removedItem.children[0].style.backgroundColor = "";
+                    }
+                    selected.push(square);
+                    switch(colorOption) {
+                        case 0:
+                            changeColor(square);
+                            break;
+                        case 1:
+                            changeColorGreyScale(square)
+                            break;
+                        case 2:
+                            changeColorInvert(square)
+                            break; 
+                    }
+                }
+            }, 4000);
         } else {
             selOpt.num = 1;
             setBackground(selOpt);

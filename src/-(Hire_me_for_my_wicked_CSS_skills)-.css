@@ -196,7 +196,8 @@ nav {
     grid-auto-flow: column
 }
 .grid.background > div {
-    position: relative
+    position: relative;
+    transition: .5s
 }
 .navOpener {
     display: none;
@@ -221,7 +222,7 @@ body {
     background-attachment: fixed;
     background-size: cover;
     background-image: var(--bgUrl);
-    background-position: bottom;
+    background-position: center;
 }
 .backgroundWrapper,
 .grid.background,
