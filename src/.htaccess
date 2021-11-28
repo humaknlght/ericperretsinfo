@@ -78,7 +78,7 @@ Header set Link "<https://fonts.googleapis.com>; rel=preconnect, <https://fonts.
 Header always set "X-UA-Compatible" "IE=edge"
 Header always append X-Frame-Options DENY
 Header set Vary "Accept-Encoding"
-Header always set "Content-Security-Policy" "default-src 'none'; script-src 'self' 'sha256-I/2MSZRcaETmHpt/gbnZIuMGIKBisPLfPmteUx/WHdY=' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' https://fonts.googleapis.com; connect-src 'self' https://www.google-analytics.com; img-src data: 'self' https://www.googletagmanager.com https://www.google-analytics.com; font-src data: https://fonts.gstatic.com; frame-src https://www.youtube-nocookie.com"
+Header always set "Content-Security-Policy" "default-src 'none'; script-src 'self' 'sha256-I/2MSZRcaETmHpt/gbnZIuMGIKBisPLfPmteUx/WHdY=' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' https://fonts.googleapis.com; connect-src 'self' https://www.google-analytics.com; img-src data: 'self' https://www.googletagmanager.com https://www.google-analytics.com; font-src data: https://fonts.gstatic.com; frame-src https://www.youtube-nocookie.com; form-action 'none'; base-uri 'none'; frame-ancestors 'none'"
 AddDefaultCharset UTF-8
 </FilesMatch>
 
