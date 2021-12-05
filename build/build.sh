@@ -10,7 +10,7 @@ sed -i .bk "s:/\*LAST_MODIFIED\*/:$NUM:" ./prod/resume/index.html
 rm -f ./prod/resume/index.html.bk
 shopt -s nullglob
 #npm install uglifycss -g
-for FILE in ./prod/*.css ./prod/resume/.css
+for FILE in ./prod/*.css ./prod/resume/*.css
 do
     echo "uglify ${FILE} to ${FILE}.min"
     uglifycss "$FILE" > "${FILE}.min"
@@ -36,7 +36,7 @@ do
 done
 # https://github.com/google/brotli
 # https://github.com/google/zopfli
-for FILE in ./prod/*.{html,css,js} ./prod/resume/*.{html,svg,pdf} ./prod/resume/.css ./prod/art/*.html
+for FILE in ./prod/*.{html,css,js} ./prod/resume/*.{html,svg,pdf,css} ./prod/art/*.html
 do
     echo "$FILE"
     ./zopfli "$FILE"
