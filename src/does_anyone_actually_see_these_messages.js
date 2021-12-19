@@ -17,14 +17,10 @@
         colorOption,
         refresh = document.querySelector(".changeColor svg");
     function setBackground(options) {
-        let background = document.querySelector(".background"),
-            backgroundContent = "";
-        for(let i = 0, numDivs = options.num * options.num; i < numDivs; i++) {
-            backgroundContent += "<div><div></div></div>";
-        }
+        const background = document.querySelector(".background");
         document.documentElement.style.setProperty("--gridRows", options.num);
         document.documentElement.style.setProperty("--bgUrl", `url(img/bg${bgImgIndex}.jpg)`);
-        background.innerHTML = backgroundContent;
+        background.innerHTML = new Array(options.num * options.num).fill("<div><div></div></div>").join("");
         background.classList.add(options.className);
         let metaThemeColor = document.querySelector("meta[name=theme-color]");
         metaThemeColor.setAttribute("content", backgoundTheme[bgImgIndex]);
@@ -51,15 +47,16 @@
         targetEl.classList.toggle("invert");
     }
     function changeColorFromEvent(event) {
+        const div = event.target.parentElement;
         switch(colorOption) {
             case 0:
-                changeColor(event.currentTarget);
+                changeColor(div);
                 break;
             case 1:
-                changeColorGreyScale(event.currentTarget)
+                changeColorGreyScale(div);
                 break;
             case 2:
-                changeColorInvert(event.currentTarget)
+                changeColorInvert(div);
                 break; 
         }
     }
@@ -77,37 +74,9 @@
         if (document.documentElement.clientWidth >= 675) {
             colorOption = randInt(3);
             setBackground(selOpt);
-            const allSquares = document.querySelectorAll(".background > div"),
-                selected = [];
-            allSquares.forEach(el => {
-                el.addEventListener("mouseover", changeColorFromEvent, false);
-                el.addEventListener("click", changeColorFromEvent, false);
-            });
-            setInterval(function() {
-                if (!document.hidden) {
-                    let square;
-                    do {
-                        square = allSquares[randInt(allSquares.length)];
-                    } while (!isInViewport(square))
-                    if (selected.length >= 3) {
-                        const removedItem = selected.shift();
-                        removedItem.className = "";
-                        removedItem.children[0].style.backgroundColor = "";
-                    }
-                    selected.push(square);
-                    switch(colorOption) {
-                        case 0:
-                            changeColor(square);
-                            break;
-                        case 1:
-                            changeColorGreyScale(square)
-                            break;
-                        case 2:
-                            changeColorInvert(square)
-                            break; 
-                    }
-                }
-            }, 4000);
+            const background = document.querySelector(".background");
+            background.addEventListener("mouseover", changeColorFromEvent, false);
+            background.addEventListener("click", changeColorFromEvent, false);
         } else {
             selOpt.num = 1;
             setBackground(selOpt);
@@ -124,10 +93,13 @@
             button.setAttribute("aria-expanded", (button.getAttribute("aria-expanded") === "false"));
             document.querySelector(".navHolder").classList.toggle("open")
         });
-        document.querySelector(".changeColor button").addEventListener("click", (buton) => {
+        document.querySelector(".changeColor > button").addEventListener("click", (buton) => {
             refresh.classList.toggle("rotate");
             document.querySelector(".background").className = "grid background";
             document.querySelector(".clip-text").className = "clip-text";
+            const background = document.querySelector(".background");
+            background.removeEventListener("mouseover", changeColorFromEvent, false);
+            background.removeEventListener("click", changeColorFromEvent, false);
             let newBgImgIndex;
             do {
                 newBgImgIndex = randInt(8);
