@@ -2,3 +2,6 @@
 Header set Cache-Control "max-age=2419200, public"
 Header always set "Cross-Origin-Resource-Policy" "same-site"
 </FilesMatch>
+<FilesMatch "perret2.jpg$">
+Header always set "Cross-Origin-Resource-Policy" "cross-origin"
+</FilesMatch>   
