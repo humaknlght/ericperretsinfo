@@ -173,6 +173,9 @@ nav {
 .content > main a {
     color: rgba(144, 202, 249, .87);
 }
+#and {
+    fill: #fff;
+}
 #me {
     float: right;
 }
