@@ -100,5 +100,4 @@ ForceType image/x-icon
 Header always set "Cross-Origin-Resource-Policy" "same-site"
 </FilesMatch>
 
-Header always set "X-XSS-Protection" "1; mode=block"
 Header always set "X-Content-Type-Options" "nosniff"
