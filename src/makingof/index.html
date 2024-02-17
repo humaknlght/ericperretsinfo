@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Resume - Eric Perret&#8217;s Info</title>
+    <meta name="description" content="Eric Perret&#39;s online portfolio detailing information about my work with websites and photography."/>
+    <meta name="keywords" content="Eric, Perret, Eric Perret, Eric, Eric Perret&#39;s.Info, Resume, Web, HTML, User Interface, UI, JavaScript, JS, Java, Developer, Usability, Performance, XHTML, DHTML, CSS, DOJO, ExtJS, AJAX, JAVA Swing, JSP, JSTL, Spring Core, MVC, Tiles, SQL, XML, VB.NET, ASP.NET, SFTP, FTP, WebSphere, PC, Mac, UNIX, IBM Mainframe, photo, photography"/>
+    <meta name="application-name" content="Eric Perret&#8217;s Info Online Portfolio"/>
+    <meta name="msapplication-TileColor" content="#74777e"/>
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@humaknlght" />
+    <meta name="twitter:creator" content="@humaknlght" />
+    <meta property="og:title" content="Eric Perret&#8217;s Info: Making Of"/>
+    <meta property="og:description" content="How was Eric Perret&#8217;s website is built and what technology went into it."/>
+    <meta property="og:url" content="https://www.ericperrets.info/makingof"/>
+    <meta property="og:type" content="profile"/>
+    <meta property="og:image" content="https://www.ericperrets.info/img/me2.jpg"/>
+    <meta property="og:image:alt" content="Portrait of Eric Perret">
+    <meta property="profile:first_name" content="Eric">
+    <meta property="profile:last_name" content="Perret">
+    <meta property="profile:gender" content="male">
+    <meta property="profile:username" content="perret.eric">
+</head>
+<body>
+    <main class="content">
+        <section>
+            <h2>Client Technologies</h2>
+            <ul>
+                <li>No <abbr title="JavaScript">JS</abbr> Frameworks</li>
+                <li>No <abbr title="Cascading Style Sheets">CSS</abbr> Frameworks</li>
+            </ul>
+            <section>
+                <h3>Head</h3>
+                <dl>
+                    <dt>Google Fonts</dt>
+                    <dd>Custom fonts are used on this site. For ease of use, they are loaded from the <a href ="https://fonts.google.com/">Google&nbsp;Font</a> service.
+                        The service will handle returning the correct font for the browser and I did not have add my own browser deletection logic. There are 2 additional benifits:
+                        <ul>
+                            <li>The site uses 2 fonts and Google Fonts allow me to specify in the URL which fonts I, and which font weights, and that I only need the latin characters.
+                                All of this is done to reduce the number of requests and the size of the response payload.</li>
+                            <li>The reuqest URL has <code>display=swap</code>. This allows the responding CSS to contain <code>font&#8209;display:&nbsp;swap</code> which is allows the text to
+                                render in the brower's default font while the Google font is being downloaded. A huge improvement in performance.</li>
+                        </ul></dd>
+                    <dt>Person Schema</dt>
+                    <dt>viewport meta tag</dt>
+                    <dt>metadata names</dt>
+                    <dt>msapplication-TileColor</dt>
+                    <dt>Link Sharing preview</dt>
+                    <dt>Twitter site preview</dt>
+                    <dt>canonical</dt>
+                </dl>
+            </section>
+            <section>
+                <h3>Body</h3>
+                <dl>
+                    <dt></dt>
+                    <dt>contenteditable</dt>
+                    <dt>spellcheck</dt>
+                </dl>
+            </section>
+            <section>
+                <h3><abbr title="Cascading Style Sheets">CSS</abbr></h3>
+                <dl>
+                    <dt>ddd</dt>
+                </dl>
+            </section>
+            <section>
+                <dt><abbr title="Search Engine Optimization">SEO</abbr></dt>
+                <dd><ul>
+                    <li>Organization Schema</li>
+                    <li>My website includes https://schema.org/Organization information about the company I am currently working for. Google uses this information in its search index: https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data</li>
+                </ul></dd>
+            </section>
+            </dl>
+        </section>
+        <section>
+            <h2>Server Technologies</h2>
+            <dl>
+                <dt>.htaccess</dt>
+                <dt>Content-Encoding</dt>
+                <dt><abbr title="Content Distribution Network">CDN</abbr></dt>
+                <dt><abbr title="Transport Layer Security">TLS</abbr></dt>
+                <dt>Security Headers</dt>
+                <dt><abbr title="Hypertext Transfer Protocol">HTTP</abbr> Caching</dt>
+            </dl>
+        </section>
+    </main>
+</body>
