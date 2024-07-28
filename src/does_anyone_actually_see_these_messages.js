@@ -116,9 +116,17 @@
             div.innerHTML = '<iframe width="200" height="200" title="YouTube Video" src="https://www.youtube-nocookie.com/embed/EErY75MXYXI?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=1&amp;modestbranding=1" frameborder="0" allow="autoplay;encrypted-media"></iframe>';
             link.parentNode.replaceChild(div, link);
         });
-        let httpRequest;
-        function getAndLoadArt() {
-            httpRequest = new XMLHttpRequest();
+        //let httpRequest;
+        async function getAndLoadArt() {
+            const response = await fetch("art/");
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+            const text = await response.text();
+            let content = document.querySelector(".content");
+            content.style.height = "1079rem";
+            content.querySelector("main").innerHTML = text;
+            /*httpRequest = new XMLHttpRequest();
 
             if (!httpRequest) {
                 alert("Giving up :( Cannot create an XMLHTTP instance");
@@ -126,7 +134,7 @@
             }
             httpRequest.onreadystatechange = swapContents;
             httpRequest.open("GET", "art/");
-            httpRequest.send();
+            httpRequest.send();*/
         }
         document.querySelector("a.art").addEventListener("click", (event) => {
             event.preventDefault();

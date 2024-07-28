@@ -1,3 +1,4 @@
 <FilesMatch "^index.html">
 Header unset Link
+Header always set "Cross-Origin-Resource-Policy" "same-site"
 </FilesMatch>
