@@ -48,16 +48,18 @@
     }
     function changeColorFromEvent(event) {
         const div = event.target.parentElement;
-        switch(colorOption) {
-            case 0:
-                changeColor(div);
-                break;
-            case 1:
-                changeColorGreyScale(div);
-                break;
-            case 2:
-                changeColorInvert(div);
-                break; 
+        if (!div.classList.contains("backgroundWrapper")) {
+            switch(colorOption) {
+                case 0:
+                    changeColor(div);
+                    break;
+                case 1:
+                    changeColorGreyScale(div);
+                    break;
+                case 2:
+                    changeColorInvert(div);
+                    break; 
+            }
         }
     }
     function isInViewport(element) {
