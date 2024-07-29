@@ -30,8 +30,7 @@ body {
         "objective objective skills"
         "experience experience skills"
         "education education skills"
-        "certification certification skills"
-        "leadership leadership colophon"
+        "certification leadership colophon"
 }
 .content,
 #download,
@@ -182,7 +181,7 @@ ul {
     margin-top: 1rem
 }
 .skills .qr {
-    margin: 1rem -1rem -1rem -1rem
+    margin: .5rem -.5rem -2rem -1rem
 }
 #actions {
     display: inline-block;
@@ -313,11 +312,12 @@ ul {
 }
 @media print {
     body {
-        background-color: unset
+        background-color: unset;
+        margin: 0;
     }
     a,
     a:visited {
-        color: #0900ef
+        color: #0900ef;
     }
     abbr[title],
     a,
