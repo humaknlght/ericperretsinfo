@@ -50,11 +50,8 @@ button {
         text-align: center;
         /* Color fallback */
         color: var(--content-text-color);
-        -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
-        background-size: cover;
-        background-attachment: fixed;
         margin-bottom: -1rem;
         margin-top: 1rem;
         overflow: hidden;
