@@ -15,5 +15,23 @@ ForceType image/svg+xml
 </FilesMatch>
 
 <FilesMatch "\.html">
-Header always set Content-Security-Policy "upgrade-insecure-requests; default-src 'none'; script-src 'self' 'sha256-I/2MSZRcaETmHpt/gbnZIuMGIKBisPLfPmteUx/WHdY=' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' https://fonts.googleapis.com; connect-src 'self' https://www.google-analytics.com; img-src data: 'self' https://www.googletagmanager.com https://www.google-analytics.com; font-src data: https://fonts.gstatic.com; frame-src https://www.youtube-nocookie.com; form-action 'none'; base-uri 'none'; frame-ancestors 'none'"
+Header always set Content-Security-Policy "upgrade-insecure-requests; default-src 'none'; script-src 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' https://fonts.googleapis.com; connect-src 'self' https://www.google-analytics.com; img-src data: 'self' https://www.googletagmanager.com https://www.google-analytics.com; font-src data: https://fonts.gstatic.com; frame-src https://www.youtube-nocookie.com; form-action 'none'; base-uri 'none'; frame-ancestors 'none';"
+</FilesMatch>
+
+<FilesMatch "\.pdf\.br$">
+AddEncoding br .br
+Header set Content-Encoding: br
+Header set Vary "Accept-Encoding"
+Header set Content-Disposition "attachment; filename=\"Eric Perret - Resume.pdf\""
+</FilesMatch>
+
+<FilesMatch "\.pdf\.gz$">
+AddEncoding x-gzip .gz
+Header set Vary "Accept-Encoding"
+Header set Content-Disposition "attachment; filename=\"Eric Perret - Resume.pdf\""
+</FilesMatch>
+
+<FilesMatch "\.pdf$">
+Header set Vary "Accept-Encoding"
+Header set Content-Disposition "attachment; filename=\"Eric Perret - Resume.pdf\""
 </FilesMatch>

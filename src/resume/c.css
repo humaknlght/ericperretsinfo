@@ -11,11 +11,11 @@ body {
 .experience {grid-area: experience}
 .education {grid-area: education}
 .certification {grid-area: certification}
-.leadership {grid-area: leadership}
 .skills {grid-area: skills}
 .colophon {grid-area: colophon}
 .content {
-    font-family: "Times New Roman", Times, serif;
+    font-family: sans-serif;
+    font-weight: 100;
     text-align: left;
     position: relative;
     background: #fff;
@@ -30,7 +30,7 @@ body {
         "objective objective skills"
         "experience experience skills"
         "education education skills"
-        "certification leadership colophon"
+        "certification certification colophon"
 }
 .content,
 #download,
@@ -60,12 +60,18 @@ body {
     left: auto;
     transform: skew(8deg) rotate(3deg)
 }
-h2, h3 {
-    margin: 0
+h1, h2, h4 {
+    font-family: 'Roboto', monospace;
+    font-weight: 400;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+h3 {
+    margin: 0;
 }
 h2 {
     text-transform: uppercase;
-    font-size: 16px
+    font-size: 1.5rem
 }
 p {
     margin: 0;
@@ -74,9 +80,8 @@ ul {
     margin: 0
 }
 .name > h1 {
-    font-family: 'Kanit', sans-serif;
     font-weight: 100;
-    font-size: 4rem;
+    font-size: 3.5rem;
     margin: 0;
     line-height: .75
 }
@@ -108,17 +113,12 @@ ul {
 .objective ol {
     padding: 0;
     margin: 0;
-    counter-reset: LIST-ITEMS
+    counter-reset: LIST-ITEMS;
+    padding-left: 2rem
 }
-.objective ol > li {
-    display: inline
-}
-.objective ol > li:before {
-    content: counter( LIST-ITEMS ) ".";
-    counter-increment: LIST-ITEMS;
-    padding-right: 0.25em;
-    font-style: italic;
-    font-weight: bold
+.content li,
+.content p {
+    line-height: 1.5rem;
 }
 .experience > div + div {
     padding-top: 1rem
@@ -126,8 +126,8 @@ ul {
 .experience h3 > address,
 .education h3 > address {
     font-style: normal;
-    font-family: 'Kanit', sans-serif;
-    font-size: 16px;
+    font-family: 'Roboto', monospace;
+    font-size: 1.2rem;
     line-height: 1
 }
 .experience h3 > address > span,
@@ -135,14 +135,16 @@ ul {
     font-weight: 400
 }
 .experience p,
-.education .subTitle,
-.leadership > p {
+.experience h4,
+.education .subTitle {
     padding-left: 1rem
 }
 .experience .jobTitle,
 .education .jobTitle {
     font-style: italic;
-    font-family: 'Kanit', sans-serif
+    font-family: 'Roboto', monospace;
+    font-size: 1.1rem;
+    padding: .5rem 0 .25rem;
 }
 .experience .jobTitle > .when,
 .education .jobTitle > .when {
@@ -159,7 +161,7 @@ ul {
     text-transform: uppercase
 }
 .skills {
-    font-family: 'Kanit', sans-serif;
+    font-family: sans-serif;
     font-weight:lighter;
     font-size: 16px;
     text-align: right;
@@ -175,13 +177,17 @@ ul {
 }
 .skills li {
     list-style: none;
-    line-height: 1.1
+    line-height: 1.1;
+    padding-bottom: .5rem
 }
 .skills div + div {
     margin-top: 1rem
 }
-.skills .qr {
-    margin: .5rem -.5rem -2rem -1rem
+.software-development {
+    margin-top: -.5rem;
+}
+.testing {
+    break-after: page;
 }
 #actions {
     display: inline-block;
@@ -212,8 +218,8 @@ ul {
 #download:hover, #print:hover {
     cursor: pointer;
 }
-@page {
-    margin: 1rem .75rem 0;
+#download > svg {
+    padding-top: 4px;
 }
 @media only screen and (max-width: 1125px) {
     body {
@@ -243,7 +249,6 @@ ul {
             "experience experience experience"
             "education education education"
             "certification certification certification"
-            "leadership leadership leadership"
             "skills skills skills"
             "colophon colophon colophon"
     }
@@ -285,7 +290,6 @@ ul {
             "experience"
             "education"
             "certification"
-            "leadership"
             "skills"
             "colophon";
         padding: 1rem
@@ -336,6 +340,10 @@ ul {
         background-color: unset;
         padding: 0
     }
+    .experience .jobTitle,
+    .education .jobTitle {
+        font-size: .9rem;
+    }
     .content::before,
     .content::after {
         content: unset
@@ -345,6 +353,9 @@ ul {
     }
     .skills div + div {
         margin-top: .5rem
+    }
+    .qr {
+        padding-top: 5rem;
     }
     #actions {
         display: none;
