@@ -1,8 +1,17 @@
 * {
     box-sizing: border-box
 }
+html {
+    background:#474972;
+    background-image: url(bg.svg);
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-attachment: fixed;
+    background-size: cover;
+    color: var(--text-color, #000);
+    padding: 2rem 0;
+}
 body {
-    background: #666;
     text-align: center;
 }
 .name {grid-area: name}
@@ -18,7 +27,7 @@ body {
     font-weight: 100;
     text-align: left;
     position: relative;
-    background: #fff;
+    background: var(--background-color, #fff);
     padding: 2rem 3rem;
     max-width: 1000px;
     display: inline-grid;
@@ -32,7 +41,10 @@ body {
         "education education skills"
         "certification certification colophon"
 }
-.content,
+.content {
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    border-radius: .5rem;
+}
 #download,
 #print {
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
@@ -65,6 +77,7 @@ h1, h2, h4 {
     font-weight: 400;
     margin-top: .5rem;
     margin-bottom: .5rem;
+    color: var(--header-text-color, #000);
 }
 h3 {
     margin: 0;
@@ -165,7 +178,7 @@ ul {
     font-weight:lighter;
     font-size: 16px;
     text-align: right;
-    border-left: 1px dashed #000;
+    border-left: 1px dashed var(--text-color, #000);
     padding-left: .5rem;
     margin-left: .5rem
 }
@@ -227,12 +240,15 @@ ul {
     }
 }
 @media only screen and (max-width: 1080px) {
+    html {
+        background-image: none;
+        padding: 0;
+    }
     #actions {
         display: block;
         width: 100%;
         height: auto;
         max-width: 1000px;
-        background: #000;
         padding: .5rem;
         margin-left: 0;
     }
@@ -359,5 +375,15 @@ ul {
     }
     #actions {
         display: none;
+    }
+}
+@media (prefers-color-scheme: dark) {
+    html {
+        --background-color: #222;
+        --text-color: #bfbfbf;
+        --header-text-color: #e8e8e8;
+    }
+    a {
+        color: rgba(144,202,249,.87);
     }
 }
