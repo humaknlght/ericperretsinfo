@@ -3,7 +3,7 @@
 }
 html {
     background:#474972;
-    background-image: url(bg.svg);
+    background-image: url(b.svg);
     background-repeat: no-repeat;
     background-position: top right;
     background-attachment: fixed;
@@ -234,6 +234,9 @@ ul {
 #download > svg {
     padding-top: 4px;
 }
+::selection {
+    background-color: #ffa500;
+}
 @media only screen and (max-width: 1125px) {
     body {
         text-align: unset;
@@ -331,9 +334,11 @@ ul {
     }
 }
 @media print {
+    html,
     body {
-        background-color: unset;
+        background: unset;
         margin: 0;
+        padding: 0;
     }
     a,
     a:visited {
@@ -385,5 +390,9 @@ ul {
     }
     a {
         color: rgba(144,202,249,.87);
+    }
+    ::selection {
+        background-color: #ff8c00;
+        color: #222;
     }
 }
