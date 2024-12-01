@@ -118,7 +118,7 @@ button {
     margin-left: 4rem;
     color: var(--content-text-color);
     line-height: 1.55556;
-    width: calc(600px - 1em);
+    width: calc(600px - 1rem);
     height: 80rem;
     position: absolute;
     overflow: hidden;
@@ -187,8 +187,7 @@ nav {
 }
 .insta-photo {
     border-radius: 2px;
-    -webkit-clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
-    clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
+    clip-path: polygon(0% 25%, 50% 25%, 50% 0%, 75% 25%, 100% 25%, 100% 100%, 0% 100%);
 }
 .grid {
     display: grid;
