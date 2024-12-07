@@ -1,4 +1,4 @@
-<FilesMatch "\.(png|gif|jpg)$">
+<FilesMatch "\.(png|gif|jpg|webp)$">
 Header set Cache-Control "max-age=2419200, public"
 Header always set "Cross-Origin-Resource-Policy" "same-site"
 </FilesMatch>

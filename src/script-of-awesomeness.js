@@ -19,7 +19,7 @@
     function setBackground(options) {
         const background = document.querySelector(".background");
         document.documentElement.style.setProperty("--gridRows", options.num);
-        document.documentElement.style.setProperty("--bgUrl", `url(img/bg${bgImgIndex}.jpg)`);
+        document.documentElement.style.setProperty("--bgUrl", `url(img/bg${bgImgIndex}.webp)`);
         background.innerHTML = new Array(options.num * options.num).fill("<div><div></div></div>").join("");
         background.classList.add(options.className);
         let metaThemeColor = document.querySelector("meta[name=theme-color]");
