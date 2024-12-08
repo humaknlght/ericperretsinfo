@@ -15,7 +15,8 @@ ForceType image/svg+xml
 </FilesMatch>
 
 <FilesMatch "\.html">
-Header always set Content-Security-Policy "upgrade-insecure-requests; default-src 'none'; script-src 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' https://fonts.googleapis.com; connect-src 'self' https://www.google-analytics.com; img-src data: 'self' https://www.googletagmanager.com https://www.google-analytics.com; font-src data: https://fonts.gstatic.com; frame-src https://www.youtube-nocookie.com; form-action 'none'; base-uri 'none'; frame-ancestors 'none';"
+Header always set Content-Security-Policy "upgrade-insecure-requests; default-src 'none'; script-src 'unsafe-inline' 'inline-speculation-rules' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' https://fonts.googleapis.com; connect-src 'self' https://www.google-analytics.com; img-src data: 'self' https://www.googletagmanager.com https://www.google-analytics.com; font-src data: https://fonts.gstatic.com; frame-src https://www.youtube-nocookie.com; form-action 'none'; base-uri 'none'; frame-ancestors 'none';"
+Header always unset "Speculation-Rules"
 </FilesMatch>
 
 <FilesMatch "\.pdf\.br$">

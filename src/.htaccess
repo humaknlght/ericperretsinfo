@@ -79,6 +79,7 @@ Header always set "X-UA-Compatible" "IE=edge"
 Header always append X-Frame-Options DENY
 Header set Vary "Accept-Encoding"
 Header always set "Content-Security-Policy" "upgrade-insecure-requests; default-src 'none'; script-src 'self' 'sha256-I/2MSZRcaETmHpt/gbnZIuMGIKBisPLfPmteUx/WHdY=' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' https://fonts.googleapis.com; connect-src 'self' https://www.google-analytics.com; img-src data: 'self' https://www.googletagmanager.com https://www.google-analytics.com; font-src data: https://fonts.gstatic.com; frame-src https://www.youtube-nocookie.com; form-action 'none'; base-uri 'none'; frame-ancestors 'none'"
+Header always set "Speculation-Rules" "\"/prerender.json\""
 AddDefaultCharset UTF-8
 </FilesMatch>
 
@@ -97,6 +98,13 @@ Header set Content-Encoding: br
 Header set Vary "Accept-Encoding"
 Header set Cache-Control "max-age=604800,public"
 ForceType image/x-icon
+Header always set "Cross-Origin-Resource-Policy" "same-site"
+</FilesMatch>
+
+<FilesMatch "prerender\.json$">
+Header set Vary "Accept-Encoding"
+Header set Cache-Control "max-age=604800,public"
+ForceType application/speculationrules+json
 Header always set "Cross-Origin-Resource-Policy" "same-site"
 </FilesMatch>
 

@@ -75,10 +75,10 @@ button {
     .clip-text:after {
         position: absolute;
         z-index: -1;
-        top: .125em;
-        right: .125em;
-        bottom: .125em;
-        left: .125em;
+        top: .125rem;
+        right: .125rem;
+        bottom: .125rem;
+        left: .125rem;
     }
     @supports ( -moz-appearance:none ) {
         .clip-text {
@@ -109,7 +109,7 @@ button {
     font-size: 5rem;
     display: block;
     color: var(--content-text-color);
-    line-height: calc(1em - 16px);
+    line-height: calc(1rem - 16px);
     pointer-events: auto;
     overflow-y: hidden;
     width: 600px;
@@ -117,10 +117,10 @@ button {
 .content {
     margin-top: 9.5rem;
     margin-left: 4rem;
+    padding-bottom: 3rem;
     color: var(--content-text-color);
     line-height: 1.55556;
     width: calc(600px - 1rem);
-    height: 80rem;
     position: absolute;
     overflow: hidden;
     border-radius: 2px;
@@ -151,15 +151,15 @@ button {
     pointer-events: auto;
     border-bottom: 0;
     padding: 1rem 1rem .5rem 1rem;
-    position: absolute;
+    position: relative;
 }
 .content p + p {
-    padding-top: 1em
+    padding-top: 1rem
 }
 .tagline {
     font-size: 1.5rem;
     text-transform: uppercase;
-    font-family: Helvetica, sans-serif
+    font-family: Helvetica, sans-serif;
 }
 .content > main,
 h1 > span,
@@ -178,7 +178,7 @@ nav {
     float: right;
     margin: calc(-1rem + 1px) calc(-1rem + 1px) 0 0;
     clip-path: polygon(0% 0%, 100% 100%, 100% 0%);
-    shape-outside: polygon(0% 0%, 100% 100%, 100% 0%);
+    shape-outside: margin-box polygon(0% 0%, 100% 100%, 100% 0%);
 }
 .insta-wrapper {
     text-align: center;
@@ -369,18 +369,31 @@ body {
     background: transparent;
     padding: 0;
 }
-.artContent > figure {
+.artContent {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
     width: calc(600px - 3rem);
+    scroll-snap-type: x mandatory;
+}
+.artContent > a {
     padding: 0;
     margin: 0;
     display: inline-block;
-    border-bottom: 1px solid var(--content-text-color);
-    padding-bottom: 1rem;
     margin-bottom: 1rem;
+    scroll-margin: 10px;
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
 }
-.artContent > figure img {
-    width: calc(600px - 3rem);
-    max-width: calc(100vw - 2em);
+.artContent > a + a {
+    padding-left: 1rem
+}
+.artContent img {
+    max-height: calc(100vh - 18rem);
+    width: auto
+}
+.content p + p {
+    padding-top: 1rem
 }
 @media (max-width: 799px) {
     .body {
@@ -391,7 +404,7 @@ body {
         padding: 0
     }
     .content {
-        padding: 0;
+        padding: 0 0 3rem 0;
     }
     .content > main {
         border-radius: 4px
@@ -503,7 +516,6 @@ body {
     .content {
         margin-top: 6.5rem;
         width: calc(100% - 1rem);
-        height: 93rem;
     }
     .content,
     .content > main {
@@ -511,20 +523,20 @@ body {
     }
     .title > span {
         font-size: 4rem;
-        line-height: calc(1em - 8px);
+        line-height: calc(1rem - 8px);
         width: unset;
     }
     .insta-photo {
         height: auto;
     }
-    .artContent > figure img {
+    .artContent img {
         height: auto;
     }
 }
 @media (max-width: 460px) {
     .title > span {
         font-size: 3rem;
-        line-height: calc(1em + 3px)
+        line-height: calc(1rem + 3px)
     }
     .content > main,
     .title > span {
@@ -542,14 +554,15 @@ body {
         width: calc(100% - .5rem)
     }
     #me {
-        float: none;
+        clip-path: polygon(0% 0%, 100% 100%, 100% 0%);
+        shape-outside: polygon(0% 0%, 100% 100%, 100% 0%);
     }
     .me {
         margin-left: auto;
         margin-right: auto;
-        display:block;
-        width: 150px;
-        height: 150px;
+        display: block;
+        width: 200px;
+        height: 200px;
     }
     footer {
         font-size: .75rem;
@@ -564,6 +577,17 @@ body {
     }
     .grid.background > div {
         background-image: none
+    }
+}
+@media (max-width: 380px) {
+    .me {
+        border-radius: 7rem
+    }
+    #me {
+        float: none;
+        margin: auto;
+        clip-path: none;
+        shape-outside: unset;
     }
 }
 @media (prefers-color-scheme: dark) {

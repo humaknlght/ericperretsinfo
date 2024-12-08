@@ -124,17 +124,7 @@
             }
             const text = await response.text();
             let content = document.querySelector(".content");
-            content.style.height = "1079rem";
             content.querySelector("main").innerHTML = text;
-            /*httpRequest = new XMLHttpRequest();
-
-            if (!httpRequest) {
-                alert("Giving up :( Cannot create an XMLHTTP instance");
-                return false;
-            }
-            httpRequest.onreadystatechange = swapContents;
-            httpRequest.open("GET", "art/");
-            httpRequest.send();*/
         }
         document.querySelector("a.art").addEventListener("click", (event) => {
             event.preventDefault();
