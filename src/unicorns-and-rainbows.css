@@ -45,7 +45,7 @@ button {
 /* Clip text element */
 @supports (background-clip: text) or (-webkit-background-clip: text) {
     .clip-text {
-        line-height: .8;
+        line-height: 1;
         position: relative;
         display: inline-block;
         text-align: center;
@@ -395,6 +395,62 @@ body {
 .content p + p {
     padding-top: 1rem
 }
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-40px);
+        opacity: 0
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1
+    }
+}
+  
+@keyframes slideInFromTop {
+    0% {
+        transform: translateY(-40px);
+        opacity: 0
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1
+    }
+}
+  
+@keyframes slideInFromBottom {
+    0% {
+        transform: translateY(40px);
+        opacity: 0
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1
+    }
+}
+@keyframes fadeIn {
+    0% {
+        border-width: 0;
+        width: 100%;
+        height: 100%
+    }
+}
+.navHolder {
+    animation: 1s ease-out 550ms 1 slideInFromTop backwards;
+}
+h1 {
+    animation: 1s ease-out 650ms 1 slideInFromLeft backwards;
+}
+.content {
+    animation: 1s ease-out 750ms 1 slideInFromBottom backwards;
+}
+.backgroundWrapper {
+    animation: 1s ease-out 850ms 1 fadeIn backwards;
+}
+footer {
+    animation: 1s ease-out 950ms 1 slideInFromBottom backwards;
+}
+
 @media (max-width: 799px) {
     .body {
         margin: 1rem;
