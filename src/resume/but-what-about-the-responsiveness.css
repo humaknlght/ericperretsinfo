@@ -92,6 +92,17 @@ p {
 ul {
     margin: 0
 }
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
 .name > h1 {
     font-weight: 100;
     font-size: 3.5rem;
@@ -221,6 +232,9 @@ ul {
 .colophon > div > h2 {
     font-size: .625rem
 }
+.colophon .date {
+    white-space: nowrap;
+}
 #download, #print {
     padding: 0;
     width: 3rem;
@@ -298,6 +312,7 @@ ul {
     .colophon > div > h2,
     .colophon > div > div {
         display: inline-block;
+        padding-right: .5rem;
     }
 }
 @media only screen and (max-width: 600px) {

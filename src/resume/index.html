@@ -6,9 +6,13 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@humaknlght" />
     <meta name="twitter:creator" content="@humaknlght" />
+    <meta name="twitter:label1" content="My Superpower"/>
+    <meta name="twitter:data1" content="Crafting Seamless User Experiences"/>
+    <meta name="twitter:label2" content="Testimonial"/>
+    <meta name="twitter:data2" content="⭐⭐⭐⭐⭐"/>
     <meta property="og:title" content="Eric Perret&#8217;s Info: Resume"/>
     <meta property="og:description" content="Eric Perret&#8217;s resume of his work experience, education, and technical skills."/>
-    <meta property="og:url" content="https://www.ericperrets.info/resume"/>
+    <meta property="og:url" content="https://www.ericperrets.info/resume/"/>
     <meta property="og:type" content="profile"/>
     <meta property="og:image" content="https://www.ericperrets.info/img/me2.jpg"/>
     <meta property="og:image:alt" content="Portrait of Eric Perret">
@@ -16,10 +20,10 @@
     <meta property="profile:last_name" content="Perret">
     <meta property="profile:gender" content="male">
     <meta property="profile:username" content="perret.eric">
-    <link href="but-what-about-the-responsiveness.css" rel="stylesheet" type="text/css" />
+    <link href="but-what-about-the-responsiveness.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&amp;display=swap" rel="stylesheet">
     <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico"/>
-    <link rel="canonical" href="https://www.ericperrets.info/resume"/>
+    <link rel="canonical" href="https://www.ericperrets.info/resume/"/>
     <meta name="description" content="Eric Perret&#8217;s resume highlights his over 20 years of experience in designing, developing, and leading the creation of complex web applications. He has extensive knowledge of full-stack development, system design, and agile methodologies.">
     <meta name="keywords" content="Eric Perret, resume, web development, full-stack developer, system design, agile methodologies, software engineering, archetecture">
     <meta name="application-name" content="Eric Perret&#8217;s Info Online Portfolio"/>
@@ -29,6 +33,7 @@
     <main class="content">
         <div class="name"><h1>Eric Perret</h1></div>
         <section class="contact">
+            <h2 class="sr-only">Contact</h2>
             <dl>
                 <dt><abbr title="Address">A</abbr></dt><dd><address><a href="https://goo.gl/maps/hTxk5audvYo">San Francisco, CA</a></address></dd>
                 <dt><abbr title="Email">E</abbr></dt><dd><a class="email" href="mailto:resume@ericperrets.info">resume@ericperrets.info</a></dd>
@@ -52,7 +57,7 @@
                 </div>
                 <p>Led a team of engineers in designing, developing, and maintaining Salesforce’s <a href="https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/intro_components.htm">Aura</a> and <a href="https://www.salesforce.com/campaign/lightning/">Lightning</a> Web Runtime frameworks used by millions of users daily.</p>
                 <ul>
-                    <li>Improved key app&rsquo; performance by 20% through code optimizations, architectural improvements,
+                    <li>Improved key app&rsquo;s performance by 20% through code optimizations, architectural improvements,
                         network enhancements, and strategic caching strategies.</li>
                     <li>Championed security best practices and ensured seamless integration with various software components.</li>
                     <li>Designed and implemented a new authentication mechanism for web applications.</li>
@@ -192,7 +197,7 @@
             <div>
                 <h2>Colophon</h2>
                 <div id="lastModified">Date Mod.: <span class="date"></span></div>
-                <div>Fonts: Helvetica-Light, <a href="https://fonts.google.com/specimen/Roboto">Roboto</a></div>
+                <div>Font: <a href="https://fonts.google.com/specimen/Roboto">Roboto</a></div>
             </div>
         </section>
     </main>
@@ -213,24 +218,30 @@
     }</script>
     <script type="application/ld+json">{
         "@context": "http://schema.org",
-        "@type": "Person",
-        "name": "Eric Perret",
-        "url": "https://www.ericperrets.info/",
-        "image": "https://www.ericperrets.info/img/perret2.jpg",
-        "sameAs": [
-            "https://www.linkedin.com/in/ericperret",
-            "https://twitter.com/humaknlght",
-            "https://www.instagram.com/perreteric/",
-            "https://github.com/eperret",
-            "https://github.com/humaknlght",
-            "https://stackexchange.com/users/217473/eric",
-            "https://developer.salesforce.com/blogs/author/eperret",
-            "https://www.pinterest.com/eperret0245/"
-        ],
-        "jobTitle": "Principal Software Engineer",
-        "worksFor": {
-            "@type": "Organization",
-            "name": "Salesforce"
+        "@type": "ProfilePage",
+        "mainEntity": {
+            "@type": "Person",
+            "name": "Eric Perret",
+            "alternateName": "humaknlght",
+            "url": "https://www.ericperrets.info/",
+            "image": "https://www.ericperrets.info/img/perret2.webp",
+            "description": "Eric Perret&#8217;s resume highlights his over 20 years of experience in designing, developing, and leading the creation of complex web applications. He has extensive knowledge of full-stack development, system design, and agile methodologies.",
+            "sameAs": [
+                "https://www.linkedin.com/in/ericperret",
+                "https://x.com/humaknlght",
+                "https://www.instagram.com/perreteric/",
+                "https://github.com/eperret",
+                "https://github.com/humaknlght",
+                "https://stackexchange.com/users/217473/eric",
+                "https://developer.salesforce.com/search#q=%22eric%20perret%22&f:@commonsource=[Salesforce%20Developers%20Blog]",
+                "https://www.pinterest.com/eperret0245/"
+            ],
+            "jobTitle": "Principal Software Engineer",
+            "worksFor": {
+                "@type": "Organization",
+                "name": "Salesforce",
+                "url": "https://www.salesforce.com"
+            }
         }
     }</script>
     <script type="application/ld+json">{
@@ -239,7 +250,7 @@
         "itemListElement": [{
             "@type": "ListItem",
             "position": 1,
-            "name": "Home",
+            "name": "Eric Perret",
             "item": "https://www.ericperrets.info/"
         },{
             "@type": "ListItem",
