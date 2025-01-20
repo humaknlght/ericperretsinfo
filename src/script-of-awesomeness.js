@@ -11,7 +11,8 @@
         colors = ["orange", "blue", "grey", "hide", "pattern", ""],
         backgroundOptions = [
             {num: 36, className: "option1"},
-            {num: 7 , className: "option2"}
+            {num: 7 , className: "option2"},
+            {num: 36, className: "option3"}
         ];
     let bgImgIndex = randInt(8),
         colorOption,
@@ -71,6 +72,56 @@
             rect.right <= (window.innerWidth || document.documentElement.clientWidth)
         );
     }
+    let snakeIntervalId;
+    function setupSnake() {
+        function alreadyContains(classes) {
+            return !classes || classes.contains("bottom") || classes.contains("right") || classes.contains("top") || classes.contains("left");
+        }
+        setBackground(backgroundOptions[2]);
+        const background = document.querySelector(".background");
+        const items = background.querySelectorAll("div > div > div > div");
+        let index = randInt(items.length);
+        snakeIntervalId = setInterval(() => {
+            let direction = randInt(4);
+            let clazz;
+            for (var i = 4; i >= 0; i--) {
+                if (direction === 0) {
+                    if (alreadyContains(items[index - 1]?.classList)) {
+                        direction = 3;
+                        continue;
+                    }
+                    index--;
+                    clazz = "bottom";
+                } else if (direction === 1) {
+                    if (alreadyContains(items[index + 36]?.classList)) {
+                        direction = 0;
+                        continue;
+                    }
+                    index += 36;
+                    clazz = "right";
+                } else if (direction === 2) {
+                    if (alreadyContains(items[index + 1]?.classList)) {
+                        direction = 1;
+                        continue;
+                    }
+                    index++;
+                    clazz = "top";
+                } else if (direction === 3) {
+                    if (alreadyContains(items[index - 36]?.classList)) {
+                        direction = 2;
+                        continue;
+                    }
+                    index -= 36;
+                    clazz = "left";
+                }
+                items[index].classList.add(clazz);
+                break;
+            }
+            if (i < 0) {
+                index = randInt(items.length);
+            }
+        }, 200);
+    }
     function setup() {
         const selOpt = backgroundOptions[randInt(2)];
         if (document.documentElement.clientWidth >= 675) {
@@ -88,15 +139,9 @@
         refresh.classList.toggle("rotate");
     });
     window.addEventListener("DOMContentLoaded", () => {
-        setup();
-        document.querySelector(".navOpener > button").addEventListener("click", (button) => {
-            button = button.currentTarget;
-            button.classList.toggle("open");
-            button.setAttribute("aria-expanded", (button.getAttribute("aria-expanded") === "false"));
-            document.querySelector(".navHolder").classList.toggle("open")
-        });
-        document.querySelector(".changeColor > button").addEventListener("click", (buton) => {
-            refresh.classList.toggle("rotate");
+        function changeBackground(isRefresh) {
+            clearInterval(snakeIntervalId);
+            isRefresh && refresh.classList.toggle("rotate");
             document.querySelector(".background").className = "grid background";
             document.querySelector(".clip-text").className = "clip-text";
             const background = document.querySelector(".background");
@@ -107,16 +152,28 @@
                 newBgImgIndex = randInt(8);
             } while(bgImgIndex === newBgImgIndex);
             bgImgIndex = newBgImgIndex;
-            setup();
+            isRefresh ? setup() : setupSnake();
+        }
+        setup();
+        document.querySelector(".navOpener > button").addEventListener("click", (button) => {
+            button = button.currentTarget;
+            button.classList.toggle("open");
+            button.setAttribute("aria-expanded", (button.getAttribute("aria-expanded") === "false"));
+            document.querySelector(".navHolder").classList.toggle("open")
+        });
+        document.querySelector(".changeColor > #refresh").addEventListener("click", (button) => {
+            changeBackground(true);
+        });
+        document.querySelector(".changeColor > #🐍").addEventListener("click", (button) => {
+            changeBackground();
         });
         document.querySelector("#me").addEventListener("click", (link) => {
             link = link.currentTarget;
-            let div = document.createElement("div");
+            const div = document.createElement("div");
             div.className = "me";
             div.innerHTML = '<iframe width="200" height="200" title="YouTube Video" src="https://www.youtube-nocookie.com/embed/EErY75MXYXI?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=1&amp;modestbranding=1" frameborder="0" allow="autoplay;encrypted-media"></iframe>';
             link.parentNode.replaceChild(div, link);
         });
-        //let httpRequest;
         async function getAndLoadArt() {
             const response = await fetch("art/");
             if (!response.ok) {
@@ -130,18 +187,6 @@
             event.preventDefault();
             getAndLoadArt();
         });
-
-        function swapContents() {
-            if (httpRequest.readyState === XMLHttpRequest.DONE) {
-                if (httpRequest.status === 200) {
-                    let content = document.querySelector(".content");
-                    content.style.height = "1079rem";
-                    content.querySelector("main").innerHTML = httpRequest.responseText;
-                } else {
-                    alert("There was a problem with the request. :-(");
-                }
-            }
-        }
         if (window.location.search === "?art") {
             getAndLoadArt();
         }

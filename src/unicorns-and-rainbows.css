@@ -45,14 +45,14 @@ button {
 /* Clip text element */
 @supports (background-clip: text) or (-webkit-background-clip: text) {
     .clip-text {
+        -webkit-text-stroke: 1px rgba(255, 255, 255, .3);
         line-height: 1;
         position: relative;
         display: inline-block;
         text-align: center;
-        /* Color fallback */
-        color: var(--content-text-color);
+        color: transparent;
+        -webkit-background-clip: text;
         background-clip: text;
-        -webkit-text-fill-color: transparent;
         margin-bottom: -1rem;
         margin-top: 1rem;
         overflow: hidden;
@@ -69,7 +69,6 @@ button {
         right: 0;
         bottom: 0;
         left: 0;
-        background-image: inherit
     }
     /* Text Background (black zone) */
     .clip-text:after {
@@ -123,23 +122,13 @@ button {
     width: calc(600px - 1rem);
     position: absolute;
     overflow: hidden;
-    border-radius: 2px;
+    border-top-left-radius: .5rem;
     font-weight: 800
 }
-.content:before,
-.title:before {
-    content: "";
-    position: absolute;
-    left: -25px;
-    right: 0;
-    top: -25px; 
-    bottom: 0;
-    box-shadow: inset 0 0 0 3000px rgba(0, 0, 0, 0.3);
-    background: inherit;
-    filter: blur(10px);
-    width: 120%;
-    height: 200%;
-    opacity: .96;
+.content,
+.title {
+    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, .5);
 }
 .navHolder:before {
     box-shadow: inset 0 0 0 3000px rgba(255, 255, 255, 0.7);
@@ -161,11 +150,9 @@ button {
     text-transform: uppercase;
     font-family: Helvetica, sans-serif;
 }
-.content > main,
-h1 > span,
-nav {
-    border-top-right-radius: 2px;
-    border-bottom-right-radius: 2px
+h1 {
+    border-top-right-radius: .5rem;
+    border-bottom-right-radius: .5rem;
 }
 
 .content > main a {
@@ -187,7 +174,7 @@ nav {
     padding-top: 1rem;
 }
 .insta-photo {
-    border-radius: 2px;
+    border-radius: 5px;
     clip-path: polygon(0% 25%, 50% 25%, 50% 0%, 75% 25%, 100% 25%, 100% 100%, 0% 100%);
 }
 .grid {
@@ -206,25 +193,20 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    padding: 1rem 0;
+    padding: calc(1rem - 2px) 3rem;
     background: var(--background-color);
     color: var(--secondary-text-color);
 }
-footer > div {
-    padding: 0 3rem;
-}
 .clip-text,
-.content:before,
-.title:before,
-.navHolder:before,
-body {
+.backgroundWrapper {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    background-image: var(--bgUrl);
     background-position: center;
 }
-.backgroundWrapper,
+.clip-text {
+    background-image: var(--bgUrl);
+}
 .grid.background,
 .grid.background > div {
     background-image: inherit;
@@ -278,6 +260,26 @@ body {
 .grid.background.option2 > div > div {
     border-radius: .75rem
 }
+.grid.background.option3 > div > div {
+    background-color: #000;
+    transition: transform .3s linear .1s;
+}
+.grid.background.option3 > div > div.bottom {
+    transform: scaleY(0);
+    transform-origin: top;
+}
+.grid.background.option3 > div > div.top {
+    transform: scaleY(0);
+    transform-origin: bottom;
+}
+.grid.background.option3 > div > div.left {
+    transform: scaleX(0);
+    transform-origin: left;
+}
+.grid.background.option3 > div > div.right {
+    transform: scaleX(0);
+    transform-origin: right;
+}
 .backgroundWrapper {
     top: 0;
     position: fixed;
@@ -285,9 +287,10 @@ body {
     pointer-events: auto;
     height: calc(100% - 6rem);
     width: calc(100% - 6rem);
-    border: solid var(--background-color);
-    border-width: 3rem 3rem 0;
-    overflow: hidden
+    overflow: hidden;
+    margin: 3rem;
+    background-image: var(--bgUrl);
+    border-radius: 1rem;
 }
 .background {
     height: calc(100vmax - 6rem);
@@ -395,62 +398,35 @@ body {
 .content p + p {
     padding-top: 1rem
 }
-
-@keyframes slideInFromLeft {
-    0% {
-        transform: translateX(-40px);
-        opacity: 0
+@media not prefers-reduced-motion {
+    @keyframes slideInFromLeft {
+        0% {
+            transform: translateX(-40px);
+            opacity: 0
+        }
     }
-    100% {
-        transform: translateX(0);
-        opacity: 1
+    @keyframes slideInFromTop {
+        0% {
+            transform: translateY(-40px);
+            opacity: 0
+        }
     }
-}
-  
-@keyframes slideInFromTop {
-    0% {
-        transform: translateY(-40px);
-        opacity: 0
+    @keyframes slideInFromBottom {
+        0% {
+            transform: translateY(40px);
+            opacity: 0
+        }
     }
-    100% {
-        transform: translateY(0);
-        opacity: 1
+    .navHolder {
+        animation: .5s ease-out 0s 1 slideInFromTop backwards;
     }
-}
-  
-@keyframes slideInFromBottom {
-    0% {
-        transform: translateY(40px);
-        opacity: 0
+    h1 {
+        animation: .5s ease-out .5s 1 slideInFromLeft backwards;
     }
-    100% {
-        transform: translateY(0);
-        opacity: 1
+    .content {
+        animation: .5s ease-out 1s 1 slideInFromBottom backwards;
     }
 }
-@keyframes fadeIn {
-    0% {
-        border-width: 0;
-        width: 100%;
-        height: 100%
-    }
-}
-.navHolder {
-    animation: 1s ease-out 550ms 1 slideInFromTop backwards;
-}
-h1 {
-    animation: 1s ease-out 650ms 1 slideInFromLeft backwards;
-}
-.content {
-    animation: 1s ease-out 750ms 1 slideInFromBottom backwards;
-}
-.backgroundWrapper {
-    animation: 1s ease-out 850ms 1 fadeIn backwards;
-}
-footer {
-    animation: 1s ease-out 950ms 1 slideInFromBottom backwards;
-}
-
 @media (max-width: 799px) {
     .body {
         margin: 1rem;
@@ -459,11 +435,15 @@ footer {
     .title {
         padding: 0
     }
+    .clip-text {
+        margin-top: 0;
+    }
     .content {
         padding: 0 0 3rem 0;
     }
-    .content > main {
-        border-radius: 4px
+    .content > main,
+    .title {
+        border-radius: 0
     }
     .icons.tile {
         border-radius: 4px
@@ -523,11 +503,12 @@ footer {
         height: unset;
         max-width: 0;
         max-height: 0;
+        font-size: 2rem;
         transition: max-height .5s cubic-bezier(0.23, 1, 0.32, 1), max-width .25s cubic-bezier(0.23, 1, 0.32, 1);
     }
     .open.navHolder {
         max-width: 100%;
-        max-height: 215px;
+        max-height: 100%;
     }
     .icons {
         position: unset;
@@ -545,6 +526,9 @@ footer {
     .icons .changeColor {
         margin: 0;
         padding: 0;
+    }
+    .icons > ul > li {
+        height: auto;
     }
     footer > div {
         padding: 0 1rem;
@@ -594,16 +578,15 @@ footer {
         font-size: 3rem;
         line-height: calc(1rem + 3px)
     }
-    .content > main,
-    .title > span {
-        border-radius: 0
-    }
     .title,
     .title > span,
     .content {
         width: 100%;
         margin-left: 0;
         margin-right: 0;
+    }
+    .clip-text {
+        margin-bottom: -.6rem
     }
     .content > main {
         padding: .25rem;
