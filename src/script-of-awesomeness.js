@@ -74,6 +74,21 @@
     }
     let snakeIntervalId;
     function setupSnake() {
+        function isDivHiddenOnScreen(div) {
+          
+            if (!div) {
+                return true;
+            }
+          
+            const rect = div.getBoundingClientRect();
+          
+            return !(
+                rect.top >= 0
+                && rect.left >= 0
+                && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+                && rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
         function alreadyContains(classes) {
             return !classes || classes.contains("bottom") || classes.contains("right") || classes.contains("top") || classes.contains("left");
         }
@@ -86,28 +101,28 @@
             let clazz;
             for (var i = 4; i >= 0; i--) {
                 if (direction === 0) {
-                    if (alreadyContains(items[index - 1]?.classList)) {
+                    if (isDivHiddenOnScreen(items[index - 1]) || alreadyContains(items[index - 1]?.classList)) {
                         direction = 3;
                         continue;
                     }
                     index--;
                     clazz = "bottom";
                 } else if (direction === 1) {
-                    if (alreadyContains(items[index + 36]?.classList)) {
+                    if (isDivHiddenOnScreen(items[index + 36]) || alreadyContains(items[index + 36]?.classList)) {
                         direction = 0;
                         continue;
                     }
                     index += 36;
                     clazz = "right";
                 } else if (direction === 2) {
-                    if (alreadyContains(items[index + 1]?.classList)) {
+                    if (isDivHiddenOnScreen(items[index + 1]) || alreadyContains(items[index + 1]?.classList)) {
                         direction = 1;
                         continue;
                     }
                     index++;
                     clazz = "top";
                 } else if (direction === 3) {
-                    if (alreadyContains(items[index - 36]?.classList)) {
+                    if (isDivHiddenOnScreen(items[index - 36]) || alreadyContains(items[index - 36]?.classList)) {
                         direction = 2;
                         continue;
                     }
