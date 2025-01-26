@@ -26,10 +26,13 @@ footer, header, hgroup, menu, section {
 	display: block
 }
 html {
-    --background-color: #fff;
+    --background-color: #ebebeb;
+    --background-color2: #fff;
+    --blend-mode: screen;
     --nav-text-color: #000;
     --content-text-color: #fafff6;
     --secondary-text-color: rgba(0, 0, 0, .6);
+    --title-color: #000;
 }
 body {
     pointer-events: none;
@@ -42,79 +45,35 @@ button {
 .fontsLoaded {
     font-family: 'Montserrat', sans-serif;
 }
-/* Clip text element */
-@supports (background-clip: text) or (-webkit-background-clip: text) {
-    .clip-text {
-        -webkit-text-stroke: 1px rgba(255, 255, 255, .3);
-        line-height: 1;
-        position: relative;
-        display: inline-block;
-        text-align: center;
-        color: transparent;
-        -webkit-background-clip: text;
-        background-clip: text;
-        margin-bottom: -1rem;
-        margin-top: 1rem;
-        overflow: hidden;
-    }
-    .clip-text:before,
-    .clip-text:after {
-        position: absolute;
-        content: ''
-    }
-    /* Background */
-    .clip-text:before {
-        z-index: -2;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-    }
-    /* Text Background (black zone) */
-    .clip-text:after {
-        position: absolute;
-        z-index: -1;
-        top: .125rem;
-        right: .125rem;
-        bottom: .125rem;
-        left: .125rem;
-    }
-    @supports ( -moz-appearance:none ) {
-        .clip-text {
-            background-attachment: unset;
-        }
-    }
-}
 .body {
     pointer-events: none;
-    min-width: 300px
+    min-width: 300px;
 }
 .tile {
     padding: 1rem;
 }
 .title {
-    font-variant: small-caps;
-    letter-spacing: 5px;
+    width: calc(100% - 6rem);
+    margin: 3rem 3rem 0;
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+    font-size: 17vw;
+    color: var(--title-color);
+    overflow-y: hidden;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, .3);
+    line-height: 1;
+    position: relative;
+    display: inline-block;
     text-align: center;
-    margin-top: 4rem;
-    margin-left: 3rem;
     overflow: hidden;
-    position: absolute;
+    background-color: var(--background-color2);
+    mix-blend-mode: var(--blend-mode);
 }
 .fontsLoaded .title {
     font-family: 'Cinzel', serif;
 }
-.title > span {
-    font-size: 5rem;
-    display: block;
-    color: var(--content-text-color);
-    line-height: calc(1rem - 16px);
-    pointer-events: auto;
-    overflow-y: hidden;
-    width: 600px;
-}
 .content {
-    margin-top: 9.5rem;
+    margin-top: 1rem;
     margin-left: 4rem;
     padding-bottom: 3rem;
     color: var(--content-text-color);
@@ -125,16 +84,12 @@ button {
     border-top-left-radius: .5rem;
     font-weight: 800
 }
-.content,
-.title {
+.content {
     backdrop-filter: blur(10px);
     background-color: rgba(0, 0, 0, .5);
 }
 .navHolder:before {
     box-shadow: inset 0 0 0 3000px rgba(255, 255, 255, 0.7);
-}
-.title:before {
-    box-shadow: inset 0 0 0 3000px rgba(0, 0, 0, 0.7);
 }
 .content > main {
     pointer-events: auto;
@@ -149,10 +104,6 @@ button {
     font-size: 1.5rem;
     text-transform: uppercase;
     font-family: Helvetica, sans-serif;
-}
-h1 {
-    border-top-right-radius: .5rem;
-    border-bottom-right-radius: .5rem;
 }
 
 .content > main a {
@@ -197,15 +148,11 @@ footer {
     background: var(--background-color);
     color: var(--secondary-text-color);
 }
-.clip-text,
 .backgroundWrapper {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
-}
-.clip-text {
-    background-image: var(--bgUrl);
 }
 .grid.background,
 .grid.background > div {
@@ -300,6 +247,7 @@ footer {
     width: 100%;
     min-width: max-content;
     position: fixed;
+    top: 0;
     height: 3rem;
     overflow: hidden;
     background-color: var(--background-color);
@@ -372,11 +320,14 @@ footer {
     background: transparent;
     padding: 0;
 }
+.content.art {
+    width: calc(100% - 8rem);
+}
 .artContent {
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
-    width: calc(600px - 3rem);
+    width: 100%;
     scroll-snap-type: x mandatory;
 }
 .artContent > a {
@@ -420,8 +371,8 @@ footer {
     .navHolder {
         animation: .5s ease-out 0s 1 slideInFromTop backwards;
     }
-    h1 {
-        animation: .5s ease-out .5s 1 slideInFromLeft backwards;
+    .title > div {
+        animation: .5s ease-out .5s 1 slideInFromTop backwards;
     }
     .content {
         animation: .5s ease-out 1s 1 slideInFromBottom backwards;
@@ -435,7 +386,7 @@ footer {
     .title {
         padding: 0
     }
-    .clip-text {
+    .title > div {
         margin-top: 0;
     }
     .content {
@@ -467,6 +418,7 @@ footer {
         display: unset;
         background: var(--background-color);
         position: fixed;
+        top: 0;
         z-index: 2;
         width: 100%;
     }
@@ -530,6 +482,9 @@ footer {
     .icons > ul > li {
         height: auto;
     }
+    #🐍 {
+        font-size: 1.5rem;
+    }
     footer > div {
         padding: 0 1rem;
     }
@@ -544,27 +499,29 @@ footer {
         overflow: hidden
     }
     .title,
-    .title > span,
+    .title > div,
     .content {
         margin-left: .5rem;
         margin-right: .5rem;
     }
     .title {
-        width: calc(100% - 1rem);
-        margin-top: 2.75rem;
+        margin-top: 3.5rem;
     }
-    .content {
-        margin-top: 6.5rem;
+    .title,
+    .content,
+    .content.art {
         width: calc(100% - 1rem);
     }
     .content,
     .content > main {
         border-radius: 0;
     }
-    .title > span {
+    .title > div {
         font-size: 4rem;
-        line-height: calc(1rem - 8px);
         width: unset;
+    }
+    .backgroundWrapper {
+        margin: 0;
     }
     .insta-photo {
         height: auto;
@@ -574,18 +531,17 @@ footer {
     }
 }
 @media (max-width: 460px) {
-    .title > span {
+    .title > div {
         font-size: 3rem;
-        line-height: calc(1rem + 3px)
     }
     .title,
-    .title > span,
+    .title > div,
     .content {
         width: 100%;
         margin-left: 0;
         margin-right: 0;
     }
-    .clip-text {
+    .title > div {
         margin-bottom: -.6rem
     }
     .content > main {
@@ -632,9 +588,12 @@ footer {
 @media (prefers-color-scheme: dark) {
     html {
         --background-color: #222;
+        --background-color2: #000;
+        --blend-mode: multiply;
         --nav-text-color: rgba(144, 202, 249, .87);
         --content-text-color: rgba(255, 255, 255, .87);
         --secondary-text-color: rgba(255, 255, 255, .6);
+        --title-color: #fff;
     }
     svg {
         fill: var(--nav-text-color);

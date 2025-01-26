@@ -75,13 +75,10 @@
     let snakeIntervalId;
     function setupSnake() {
         function isDivHiddenOnScreen(div) {
-          
             if (!div) {
                 return true;
             }
-          
             const rect = div.getBoundingClientRect();
-          
             return !(
                 rect.top >= 0
                 && rect.left >= 0
@@ -96,6 +93,7 @@
         const background = document.querySelector(".background");
         const items = background.querySelectorAll("div > div > div > div");
         let index = randInt(items.length);
+        document.querySelector(".content").scrollIntoView({behavior: "smooth"});
         snakeIntervalId = setInterval(() => {
             let direction = randInt(4);
             let clazz;
@@ -158,7 +156,6 @@
             clearInterval(snakeIntervalId);
             isRefresh && refresh.classList.toggle("rotate");
             document.querySelector(".background").className = "grid background";
-            document.querySelector(".clip-text").className = "clip-text";
             const background = document.querySelector(".background");
             background.removeEventListener("mouseover", changeColorFromEvent, false);
             background.removeEventListener("click", changeColorFromEvent, false);
@@ -195,7 +192,8 @@
                 throw new Error(`Response status: ${response.status}`);
             }
             const text = await response.text();
-            let content = document.querySelector(".content");
+            const content = document.querySelector(".content");
+            content.classList.add("art");
             content.querySelector("main").innerHTML = text;
         }
         document.querySelector("a.art").addEventListener("click", (event) => {
