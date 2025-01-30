@@ -28,6 +28,7 @@ footer, header, hgroup, menu, section {
 html {
     --background-color: #ebebeb;
     --background-color2: #fff;
+    --background-color3: rbga(255, 255, 255, .5);
     --blend-mode: screen;
     --nav-text-color: #000;
     --content-text-color: #fafff6;
@@ -36,7 +37,6 @@ html {
 }
 body {
     pointer-events: none;
-    background-color: var(--background-color);
     color-scheme: light dark;
 }
 button {
@@ -55,36 +55,36 @@ button {
 .title {
     width: calc(100% - 6rem);
     margin: 3rem 3rem 0;
+    padding: 3rem 0;
     border-top-right-radius: 1rem;
     border-top-left-radius: 1rem;
-    font-size: 17vw;
+    font-size: min(17vw, 30vh);
+    font-optical-sizing: auto;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-align: center;
     color: var(--title-color);
-    overflow-y: hidden;
-    -webkit-text-stroke: 1px rgba(255, 255, 255, .3);
-    line-height: 1;
+    line-height: .8;
     position: relative;
     display: inline-block;
-    text-align: center;
     overflow: hidden;
     background-color: var(--background-color2);
     mix-blend-mode: var(--blend-mode);
+    paint-order: stroke fill;
 }
 .fontsLoaded .title {
-    font-family: 'Cinzel', serif;
+    font-family: "Roboto Condensed", serif;
 }
 .content {
     margin-top: 1rem;
-    margin-left: 4rem;
-    padding-bottom: 3rem;
+    margin-left: 3rem;
+    margin-bottom: 4rem;
     color: var(--content-text-color);
     line-height: 1.55556;
     width: calc(600px - 1rem);
-    position: absolute;
     overflow: hidden;
     border-top-left-radius: .5rem;
-    font-weight: 800
-}
-.content {
+    font-weight: 800;
     backdrop-filter: blur(10px);
     background-color: rgba(0, 0, 0, .5);
 }
@@ -143,9 +143,8 @@ button {
 footer {
     position: fixed;
     bottom: 0;
-    width: 100%;
     padding: calc(1rem - 2px) 3rem;
-    background: var(--background-color);
+    margin: 5px;
     color: var(--secondary-text-color);
 }
 .backgroundWrapper {
@@ -232,12 +231,10 @@ footer {
     position: fixed;
     z-index: -2;
     pointer-events: auto;
-    height: calc(100% - 6rem);
-    width: calc(100% - 6rem);
+    height: 100%;
+    width: 100%;
     overflow: hidden;
-    margin: 3rem;
     background-image: var(--bgUrl);
-    border-radius: 1rem;
 }
 .background {
     height: calc(100vmax - 6rem);
@@ -250,21 +247,16 @@ footer {
     top: 0;
     height: 3rem;
     overflow: hidden;
-    background-color: var(--background-color);
+    /*background-color: var(--background-color);*/
     z-index: 2
 }
 .icons {
     pointer-events: auto;
-    margin: auto;
+    margin: 5px;
     padding: 4px 1rem 2px;
-    width: calc(100% - 2rem);
-    height: calc(100% - 6px);
     display: flex;
     align-items: center;
     position: absolute;
-}
-.icons.tile {
-    border-top-right-radius: unset;
 }
 .icons > ul {
     padding: 0;
@@ -289,6 +281,12 @@ footer {
 }
 .icons .navLink > a:hover {
     text-decoration: underline;
+}
+.icons,
+footer {
+    backdrop-filter: blur(10px);
+    background-color: var(--background-color3);
+    border-radius: 5px;
 }
 .changeColor {
     padding-right: 0;
@@ -356,26 +354,14 @@ footer {
             opacity: 0
         }
     }
-    @keyframes slideInFromTop {
-        0% {
-            transform: translateY(-40px);
-            opacity: 0
-        }
-    }
-    @keyframes slideInFromBottom {
-        0% {
-            transform: translateY(40px);
-            opacity: 0
-        }
-    }
     .navHolder {
-        animation: .5s ease-out 0s 1 slideInFromTop backwards;
+        animation: .5s ease-out 0s 1 slideInFromLeft backwards;
     }
     .title > div {
-        animation: .5s ease-out .5s 1 slideInFromTop backwards;
+        animation: 1s ease-out .5s 1 slideInFromLeft backwards;
     }
     .content {
-        animation: .5s ease-out 1s 1 slideInFromBottom backwards;
+        animation: .5s ease-out 1s 1 slideInFromLeft backwards;
     }
 }
 @media (max-width: 799px) {
@@ -465,6 +451,7 @@ footer {
     .icons {
         position: unset;
         padding: 2px 1.5rem 2px;
+        margin: 0;
     }
     .icons .wordpress {
         border-right: unset;
@@ -484,9 +471,6 @@ footer {
     }
     #🐍 {
         font-size: 1.5rem;
-    }
-    footer > div {
-        padding: 0 1rem;
     }
     .backgroundWrapper {
         top: 0;
@@ -589,6 +573,7 @@ footer {
     html {
         --background-color: #222;
         --background-color2: #000;
+        --background-color3: rgba(0, 0, 0, .5);
         --blend-mode: multiply;
         --nav-text-color: rgba(144, 202, 249, .87);
         --content-text-color: rgba(255, 255, 255, .87);
