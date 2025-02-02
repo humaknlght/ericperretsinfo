@@ -349,20 +349,25 @@ footer {
 }
 .photoB {
     position: fixed;
-    margin: 1rem;
+    display: inline-flex;
+    margin-left: 1rem;
 }
 .photoB > button {
-    display: inline-block;
-    padding: .5rem;
-    margin-left: 1rem;
-    border-radius: .5rem;
+    padding: 0 .5rem;
+    margin-right: .5rem;
+    border-radius: 0 0 .5rem .5rem;
     letter-spacing: 1px;
-    transition: all .5s linear;
+    transition: height .5s cubic-bezier(0.175, 0.885, 0.32, 2);
     background: rgba(255, 255, 255, .3);
     backdrop-filter: blur(10px);
     color: #000;
     border: 1px solid #666;
+    border-top: none;
     opacity: 0;
+    height: 0;
+    display: inline-flex;
+    align-items: end;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4), 0px 7px 13px -3px rgba(0, 0, 0, 0.3), 0px -3px 0px rgba(0, 0, 0, 0.2) inset;
 }
 .hide {
     overflow: hidden;
@@ -382,13 +387,24 @@ footer {
 .hide .photoB {
     pointer-events: all;
 }
+@keyframes drop {
+    0% {
+        height: 0;
+    }
+    100% {
+        height: 4rem;
+        padding: .5rem;
+    }
+}
 .hide .photoB > button {
     opacity: 100%;
+    animation: 1s cubic-bezier(0.175, 0.885, 0.32, 2) 1s 1 drop forwards;
 }
-.hide .photoB > button:hover {
-    box-shadow: 9px 9px 33px #d1d1d1, -9px -9px 33px #fff;
+.hide .photoB > button:hover,
+.hide .photoB > button:focus {
     opacity: 100%;
     background: #fff;
+    height: 4.5rem !important;
 }
 .hide .photoB > button:disabled {
     background-color: transparent;
