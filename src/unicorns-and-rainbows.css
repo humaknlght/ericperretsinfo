@@ -347,6 +347,53 @@ footer {
 .content p + p {
     padding-top: 1rem
 }
+.photoB {
+    position: fixed;
+    margin: 1rem;
+}
+.photoB > button {
+    display: inline-block;
+    padding: .5rem;
+    margin-left: 1rem;
+    border-radius: .5rem;
+    letter-spacing: 1px;
+    transition: all .5s linear;
+    background: rgba(255, 255, 255, .3);
+    backdrop-filter: blur(10px);
+    color: #000;
+    border: 1px solid #666;
+    opacity: 0;
+}
+.hide {
+    overflow: hidden;
+}
+.hide .title {
+    transform: translateX(calc(-100% - 3rem));
+}
+.hide .navHolder {
+    transform: translateY(-100%);
+}
+.hide .content {
+    transform: translateY(100vh);
+}
+.hide footer {
+    transform: translateY(100%);
+}
+.hide .photoB {
+    pointer-events: all;
+}
+.hide .photoB > button {
+    opacity: 100%;
+}
+.hide .photoB > button:hover {
+    box-shadow: 9px 9px 33px #d1d1d1, -9px -9px 33px #fff;
+    opacity: 100%;
+    background: #fff;
+}
+.hide .photoB > button:disabled {
+    background-color: transparent;
+    color: transparent;
+}
 @media not prefers-reduced-motion {
     @keyframes slideInFromLeft {
         0% {
@@ -356,12 +403,18 @@ footer {
     }
     .navHolder {
         animation: .5s ease-out 0s 1 slideInFromLeft backwards;
+        transition: transform 1s;
+    }
+    .title,
+    footer {
+        transition: transform 1s;
     }
     .title > div {
         animation: 1s ease-out .5s 1 slideInFromLeft backwards;
     }
     .content {
         animation: .5s ease-out 1s 1 slideInFromLeft backwards;
+        transition: transform 1s;
     }
 }
 @media (max-width: 799px) {

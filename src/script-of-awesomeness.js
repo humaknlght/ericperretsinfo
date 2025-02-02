@@ -17,10 +17,13 @@
     let bgImgIndex = randInt(8),
         colorOption,
         refresh = document.querySelector(".changeColor svg");
+    function setBackgroundImg(bgImgIndex) {
+        document.documentElement.style.setProperty("--bgUrl", `url(img/bg${bgImgIndex}.webp)`);
+    }
     function setBackground(options) {
         const background = document.querySelector(".background");
         document.documentElement.style.setProperty("--gridRows", options.num);
-        document.documentElement.style.setProperty("--bgUrl", `url(img/bg${bgImgIndex}.webp)`);
+        setBackgroundImg(bgImgIndex);
         background.innerHTML = new Array(options.num * options.num).fill("<div><div></div></div>").join("");
         background.classList.add(options.className);
         let metaThemeColor = document.querySelector("meta[name=theme-color]");
@@ -199,6 +202,35 @@
         document.querySelector("a.art").addEventListener("click", (event) => {
             event.preventDefault();
             getAndLoadArt();
+        });
+        document.querySelector("a.photos").addEventListener("click", (event) => {
+            event.preventDefault();
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+            document.body.classList.toggle("hide");
+            document.querySelector(".photoB>.r").disabled = (bgImgIndex === 7);
+            document.querySelector(".photoB>.l").disabled = (bgImgIndex === 0);
+        });
+        document.querySelector(".photoB>.x").addEventListener("click", (event) => {
+            event.preventDefault();
+            document.body.classList.toggle("hide");
+        });
+        document.querySelector(".photoB>.l").addEventListener("click", (event) => {
+            event.preventDefault();
+            setBackgroundImg(--bgImgIndex);
+            if (bgImgIndex === 0) {
+                event.target.disabled = true;
+            } else if (bgImgIndex === 6) {
+                document.querySelector(".photoB>.r").disabled = false;
+            }
+        });
+        document.querySelector(".photoB>.r").addEventListener("click", (event) => {
+            event.preventDefault();
+            setBackgroundImg(++bgImgIndex);
+            if (bgImgIndex === 1) {
+                document.querySelector(".photoB>.l").disabled = false;
+            } else if (bgImgIndex === 7) {
+                event.target.disabled = true;
+            }
         });
         if (window.location.search === "?art") {
             getAndLoadArt();
