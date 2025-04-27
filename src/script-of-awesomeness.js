@@ -207,12 +207,14 @@
             event.preventDefault();
             document.body.scrollTop = document.documentElement.scrollTop = 0;
             document.body.classList.toggle("hide");
+            document.querySelectorAll("a").forEach(a => a.tabIndex = -1);
             document.querySelector(".photoB>.r").disabled = (bgImgIndex === 7);
             document.querySelector(".photoB>.l").disabled = (bgImgIndex === 0);
         });
         document.querySelector(".photoB>.x").addEventListener("click", (event) => {
             event.preventDefault();
             document.body.classList.toggle("hide");
+            document.querySelectorAll("a").forEach(a => delete a.removeAttribute("tabIndex"));
         });
         document.querySelector(".photoB>.l").addEventListener("click", (event) => {
             event.preventDefault();

@@ -43,7 +43,7 @@ button {
     cursor: pointer;
 }
 .fontsLoaded {
-    font-family: 'Montserrat', sans-serif;
+    font-family: sans-serif;
 }
 .body {
     pointer-events: none;
@@ -76,6 +76,8 @@ button {
     font-family: "Roboto Condensed", serif;
 }
 .content {
+    font-family: "Roboto", serif;
+    font-size: 1.25rem;
     margin-top: 1rem;
     margin-left: 3rem;
     margin-bottom: 4rem;
@@ -86,7 +88,7 @@ button {
     border-top-left-radius: .5rem;
     font-weight: 800;
     backdrop-filter: blur(10px);
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, .6);
 }
 .navHolder:before {
     box-shadow: inset 0 0 0 3000px rgba(255, 255, 255, 0.7);
@@ -196,7 +198,7 @@ footer {
 }
 .grid.background.option2::before {
     background-color: var(--background-color);
-    content: '';
+    content: "";
     display: block;
     height: 100%;
     position: absolute;
@@ -410,6 +412,9 @@ footer {
 .hide .photoB > button:disabled {
     background-color: transparent;
     color: transparent;
+}
+.hide .photoB > button:disabled:hover {
+    height: 4rem;
 }
 @media not prefers-reduced-motion {
     @keyframes slideInFromLeft {

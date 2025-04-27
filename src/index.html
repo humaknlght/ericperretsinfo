@@ -21,7 +21,7 @@
     <meta property="profile:gender" content="male">
     <meta property="profile:username" content="perret.eric">
     <link href="unicorns-and-rainbows.css" rel="stylesheet" media="screen"/>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@900&amp;family=Roboto:wght@100&amp;display=swap" rel="stylesheet">
     <script defer fetchpriority="high" src="script-of-awesomeness.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
     <link rel="canonical" href="https://www.ericperret.org"/>
@@ -54,7 +54,7 @@
                     <li class="navLink"><a href="?photos" class="photos">Photos</a></li>
                     <li class="navLink"><a href="?art" class="art">Art</a></li>
                     <li class="changeColor"><button id="refresh"><!-- htmlmin:ignore --><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 322 322"><title id="refresh-icon">Change Background</title><path d="M322 230c-2-6-9-10-16-8l-16 6a152 152 0 1 0-137 86 13 13 0 0 0 0-25 128 128 0 1 1 114-72l-5-17a13 13 0 0 0-24 7l15 46a13 13 0 0 0 15 8l46-15c6-2 10-9 8-16z"/></svg><!-- htmlmin:ignore --></button></li>
-                    <li class="navLink changeColor"><button id="🐍">🐍</button></li>
+                    <li class="navLink changeColor"><button id="🐍" aria-label="Turn on snake">🐍</button></li>
                 </ul>
             </nav>
         </div>
@@ -69,7 +69,7 @@
                 <a href="#" id="me" contenteditable="false"><img width="300" height="300" class="me" src="img/ericperret.webp" alt="Portrait of Eric Perret (Me)" title="Portrait of Eric Perret (Me)"/></a>
                 <p class="tagline">Artist<br/>Programmer<br/>Tea Aficionado <!-- htmlmin:ignore --><svg aria-labelledby="and-icon" width="25" height="20" id="and" viewBox="0 0 6.6 8.1" xmlns="http://www.w3.org/2000/svg"><title id="and-icon">and</title><path d="M6.6 3.6v.6l-.3.4-.5.3-.5.2-.2 1.2-.6 1q-.4.4-.9.6-.5.2-1.2.2l-1-.1q-.5-.2-.8-.6L0 6.7V5.1l.4-.7q.1-.3.4-.5l.6-.4-.7-.7L.5 2l.1-.7.4-.6q.2-.3.6-.4.3-.2.8-.2l.8.1.5.4.4.4v.9L4 2l-.2.2h-.5L3.1 2l.2-.2V1q0-.2-.2-.3h-.2L2.6.5l-.3.1Q2 .7 2 1l-.1.4-.1.4v.5l.3.5.5.5.6.2-.6.3-.4.6-.3.6v1.2q0 .3.2.5l.4.3.6.1q.9 0 1.3-.5t.5-1.5h-.8q-.7 0-1 .4 0-.7.5-1Q4 4 4.8 4h1.4l.4-.4z"/></svg><!-- htmlmin:ignore --><br/>Outdoor Enthusiast</p>
                 <p>Hi, I&#8217;m Eric Perret, a tech entrepreneur who loves building awesome software. Driven by a passion for learning and exploration, I&#8217;m constantly pushing the boundaries of what&#8217;s possible in the tech industry.</p>
-                <p>For over <time datetime="2000">22 years</time>, I have been building <b>Web Applications</b> in some fashion or another from <b>UX</b>/<b>Accessibility</b> to <b>full-stack dev</b> to <b>performance engineering.</b></p>
+                <p>For over <time datetime="2000">25 years</time>, I have been building <b>Web Applications</b> in some fashion or another from <b>UX</b>/<b>Accessibility</b> to <b>full-stack dev</b> to <b>performance engineering.</b></p>
                 <p>Based in the <a contenteditable="false" href="https://goo.gl/maps/mPQSeoEmtm12">San Francisco Bay Area</a>.</p>
                 <p>My innovation philosophy is&hellip;</p>
                 <ul>
@@ -92,7 +92,6 @@
         <div class="grid background" role="presentation"></div>
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39357422-1"></script>
-    <script>window.dataLayer=window.dataLayer||[];function a(){dataLayer.push(arguments)}a("js",new Date);a("config","UA-39357422-1");</script>
     <script type="application/ld+json">{
         "@context": "http://schema.org",
         "@type": "ProfilePage",
