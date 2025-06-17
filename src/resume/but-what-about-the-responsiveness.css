@@ -33,7 +33,7 @@ body {
     display: inline-grid;
     grid-row-gap: 1em;
     row-gap: 1em;
-    grid-template-columns: auto auto min-content auto;
+    grid-template-columns: auto min-content min-content;
     grid-template-areas: 
         "name contact contact"
         "objective objective skills"
@@ -72,7 +72,7 @@ body {
     left: auto;
     transform: skew(8deg) rotate(3deg)
 }
-h1, h2, h4 {
+h1, h2, h3, h4 {
     font-family: 'Roboto', monospace;
     font-weight: 400;
     margin-top: .5rem;
@@ -91,6 +91,9 @@ p {
 }
 ul {
     margin: 0
+}
+p, li {
+    padding-bottom: .5rem;
 }
 .sr-only {
     position: absolute;
@@ -165,6 +168,7 @@ ul {
 }
 .experience .jobTitle,
 .education .jobTitle {
+    color: var(--header-text-color, #000);
     font-style: italic;
     font-family: 'Roboto', monospace;
     font-size: 1.1rem;
@@ -364,6 +368,9 @@ ul {
     a:visited {
         text-decoration: unset;
         color: #000;
+    }
+    p, li {
+        padding-bottom: .25rem;
     }
     .website,
     .website:visited {
