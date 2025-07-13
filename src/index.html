@@ -1,6 +1,18 @@
 <!DOCTYPE html><html lang="en">
 <head>
+    <style>
+        html {
+            --background-color: #ebebeb;
+            background: var(--background-color);
+        }
+        @media (prefers-color-scheme: dark) {
+            html {
+                --background-color: #222;
+            }
+        }
+        </style>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="dark light">
     <meta name="theme-color" content="#000">
     <title>Building the Future: Eric Perret&#8217;s Portfolio</title>
     <meta name="twitter:card" content="summary_large_image" />
@@ -21,8 +33,8 @@
     <meta property="profile:gender" content="male">
     <meta property="profile:username" content="perret.eric">
     <link href="unicorns-and-rainbows.css" rel="stylesheet" media="screen"/>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@900&amp;family=Roboto:wght@100&amp;display=swap" rel="stylesheet">
-    <script defer fetchpriority="high" src="script-of-awesomeness.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@900&amp;family=Roboto:wght@100&amp;display=swap" rel="stylesheet"/>
+    <script async fetchpriority="high" src="script-of-awesomeness.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
     <link rel="canonical" href="https://www.ericperret.org"/>
     <meta name="description" content="Eric Perret is a web developer with over 22 years of experience building web applications. He is currently working at Salesforce and is passionate about automation, user experience, and developer productivity.">
@@ -54,14 +66,14 @@
                     <li class="navLink"><a href="?photos" class="photos">Photos</a></li>
                     <li class="navLink"><a href="?art" class="art">Art</a></li>
                     <li class="changeColor"><button id="refresh"><!-- htmlmin:ignore --><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 322 322"><title id="refresh-icon">Change Background</title><path d="M322 230c-2-6-9-10-16-8l-16 6a152 152 0 1 0-137 86 13 13 0 0 0 0-25 128 128 0 1 1 114-72l-5-17a13 13 0 0 0-24 7l15 46a13 13 0 0 0 15 8l46-15c6-2 10-9 8-16z"/></svg><!-- htmlmin:ignore --></button></li>
-                    <li class="navLink changeColor"><button id="🐍" aria-label="Turn on snake">🐍</button></li>
+                    <li class="navLink changeColor"><button id="🐍" title="Turn on snake mode">🐍</button></li>
                 </ul>
             </nav>
         </div>
         <div class="photoB">
-            <button type="button" class="x" title="Close Photo mode">Close</button>
-            <button type="button" class="l" title="Navigate to the previous photo">←</button>
-            <button type="button" class="r" title="Navigate to the next photo">→</button>
+            <button type="button" tabindex="-1" class="x" title="Close Photo mode">Close</button>
+            <button type="button" tabindex="-1" class="l" title="Navigate to the previous photo">←</button>
+            <button type="button" tabindex="-1" class="r" title="Navigate to the next photo">→</button>
         </div>
         <header><h1 class="font title" title="⠗⠊⠉ ⠏⠑⠗⠗⠑⠞"><div contenteditable="true" spellcheck="false">Eric<br/>Perret</div></h1></header>
         <div class="font content">
@@ -83,7 +95,7 @@
                     <li>Hiking and exploring the different national, state, and local parks.</li>
                     <li>Trying out different recipes in the kitchen.</li>
                 </ul>
-                <p>Feel free to drop me a line and <a contenteditable="false" href="mailto:contact@ericperret.org?subject=Hi!&body=I%20just%20wanted%20to%20say%20hi%20and%20tell%20you%20how%20awesome%20your%20website%20is.">say hi</a>!<span class="insta-wrapper"><a contenteditable="false" href="https://www.instagram.com/p/BWvcFx-B9jW/"><img width="380" height="380" class="insta-photo" fetchpriority="low" src="img/bball.jpg" alt="Thank you @salesforce #autohash #SanFrancisco #UnitedStates #California #stadium #competition #baseball #athlete #audience #crowd #group #spectator #outfit #people #ball #uniform #enthusiasm #soccer #pitcher #game" /></a></span></p>
+                <p>Feel free to drop me a line and <a contenteditable="false" href="mailto:contact@ericperret.org?subject=Hi!&body=I%20just%20wanted%20to%20say%20hi%20and%20tell%20you%20how%20awesome%20your%20website%20is.">say hi</a>!<span class="insta-wrapper"><a contenteditable="false" href="https://www.instagram.com/p/BWvcFx-B9jW/"><img width="380" height="380" class="insta-photo" loading="lazy" fetchpriority="low" src="img/bball.jpg" alt="Thank you @salesforce #autohash #SanFrancisco #UnitedStates #California #stadium #competition #baseball #athlete #audience #crowd #group #spectator #outfit #people #ball #uniform #enthusiasm #soccer #pitcher #game" /></a></span></p>
             </main>
         </div>
         <footer>Copyright &copy; 2025 Eric Perret, All Rights Reserved.</footer>

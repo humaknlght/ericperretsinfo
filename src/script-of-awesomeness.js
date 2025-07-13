@@ -1,9 +1,16 @@
 "use strict";
 {
+    // --- Utility Functions ---
+    /**
+     * Generates a random integer between 0 (inclusive) and max (exclusive).
+     *
+     * @param {number} max The upper bound (exclusive) for the random number.
+     * @returns {number} A random integer.
+     */
     function randInt(max) {
         return Math.floor(Math.random() * max);
     }
-    const backgoundTheme = [
+    const backgroundTheme = [
             "#232323", "#969ab2",
             "#52504d", "##e3c6b0",
             "#f8a688", "#707885"
@@ -17,18 +24,44 @@
     let bgImgIndex = randInt(8),
         colorOption,
         refresh = document.querySelector(".changeColor svg");
-    function setBackgroundImg(bgImgIndex) {
-        document.documentElement.style.setProperty("--bgUrl", `url(img/bg${bgImgIndex}.webp)`);
+
+    // Preload image
+    const i = new Image();
+    i.decoding = "async";
+    i.src=`img/bg${bgImgIndex}.webp`;
+
+    /**
+     * Sets the background image for the document.
+     *
+     * @param {number} index The index of the background image.
+     */
+    function setBackgroundImg(index) {
+        document.documentElement.style.setProperty("--bgUrl", `url(img/bg${index}.webp)`);
+        document.querySelector("meta[name=theme-color]").setAttribute("content", backgroundTheme[index] || backgroundTheme[0]);
     }
+
+    /**
+     * Sets up the background grid and image.
+     *
+     * @param {object} options Options for the background, including num and className.
+     */
     function setBackground(options) {
         const background = document.querySelector(".background");
         document.documentElement.style.setProperty("--gridRows", options.num);
         setBackgroundImg(bgImgIndex);
-        background.innerHTML = new Array(options.num * options.num).fill("<div><div></div></div>").join("");
+        if (options.num * options.num !== background.children.length) {
+            background.innerHTML = new Array(options.num * options.num).fill("<div><div></div></div>").join("");
+        }
+        background.classList.remove(...backgroundOptions.map(opt => opt.className))
         background.classList.add(options.className);
-        let metaThemeColor = document.querySelector("meta[name=theme-color]");
-        metaThemeColor.setAttribute("content", backgoundTheme[bgImgIndex]);
     }
+
+    /**
+     * Changes the color class of a target element.
+     *
+     * @param {HTMLElement} targetEl The element whose class needs to be changed.
+     * @param {boolean} allowDupes Whether to allow the new color to be the same as the current.
+     */
     function changeColor(targetEl, allowDupes) {
         let newColor;
         do {
@@ -38,21 +71,41 @@
 
         targetEl.className = newColor;
     }
+
+    /**
+     * Changes the background color of a target element's child to a grayscale rgba value.
+     *
+     * @param {HTMLElement} targetEl The parent element whose child's background color needs to be changed.
+     * @param {boolean} allowDupes Whether to allow the new color to be the same as the current.
+     */
     function changeColorGreyScale(targetEl, allowDupes) {
-        let newColor,
-            el = targetEl.children[0];
+        const el = targetEl.children[0];
+        let newColor;
         do {
             newColor = ((randInt(2) === 0) ? "rgba(0,0,0," : "rgba(255,255,255,") + (randInt(8) / 10) + ")";
         } while((newColor === el.style.backgroundColor) && !allowDupes);
 
         el.style.backgroundColor = newColor;
     }
+
+    /**
+     * Toggles the "invert" class on a target element.
+     *
+     * @param {HTMLElement} targetEl The element to toggle the "invert" class on.
+     */
     function changeColorInvert(targetEl) {
         targetEl.classList.toggle("invert");
     }
+
+    /**
+     * Handles color changes based on an event target and current color option.
+     * Uses event delegation for efficiency.
+     * @param {Event} event The DOM event object.
+     */
     function changeColorFromEvent(event) {
-        const div = event.target.parentElement;
-        if (!div.classList.contains("backgroundWrapper")) {
+        // Find the closest parent div that is not .backgroundWrapper
+        const div = event.target.closest(".background > div");
+        if (div) {
             switch(colorOption) {
                 case 0:
                     changeColor(div);
@@ -66,6 +119,12 @@
             }
         }
     }
+    /**
+     * Checks if an element is within the current viewport.
+     *
+     * @param {HTMLElement} element The DOM element to check.
+     * @returns {boolean} True if the element is in the viewport, false otherwise.
+     */
     function isInViewport(element) {
         const rect = element.getBoundingClientRect();
         return (
@@ -75,6 +134,9 @@
             rect.right <= (window.innerWidth || document.documentElement.clientWidth)
         );
     }
+
+    // --- Snake Game Logic ---
+
     let snakeIntervalId;
     function setupSnake() {
         function isDivHiddenOnScreen(div) {
@@ -138,6 +200,9 @@
             }
         }, 200);
     }
+
+    // --- Setup and Event Initialization ---
+
     function setup() {
         const selOpt = backgroundOptions[randInt(2)];
         if (document.documentElement.clientWidth >= 675) {
@@ -151,24 +216,32 @@
             setBackground(selOpt);
         }
     }
-    refresh.addEventListener("animationend", function () {
+    /**
+     * Handles background changes, clearing existing intervals and re-initializing.
+     *
+     * @param {boolean} isRefresh True if the change is a refresh, false for snake mode.
+     */
+    function changeBackground(isRefresh) {
+        clearInterval(snakeIntervalId);
+        isRefresh && refresh.classList.toggle("rotate");
+        const background = document.querySelector(".background");
+        background.className = "grid background";
+        background.removeEventListener("mouseover", changeColorFromEvent);
+        background.removeEventListener("click", changeColorFromEvent);
+        let newBgImgIndex;
+        do {
+            newBgImgIndex = randInt(8);
+        } while(bgImgIndex === newBgImgIndex);
+        bgImgIndex = newBgImgIndex;
+        isRefresh ? setup() : setupSnake();
+    }
+    refresh.addEventListener("animationend", () => {
         refresh.classList.toggle("rotate");
     });
-    window.addEventListener("DOMContentLoaded", () => {
-        function changeBackground(isRefresh) {
-            clearInterval(snakeIntervalId);
-            isRefresh && refresh.classList.toggle("rotate");
-            document.querySelector(".background").className = "grid background";
-            const background = document.querySelector(".background");
-            background.removeEventListener("mouseover", changeColorFromEvent, false);
-            background.removeEventListener("click", changeColorFromEvent, false);
-            let newBgImgIndex;
-            do {
-                newBgImgIndex = randInt(8);
-            } while(bgImgIndex === newBgImgIndex);
-            bgImgIndex = newBgImgIndex;
-            isRefresh ? setup() : setupSnake();
-        }
+
+    // --- Document Ready / Initialization ---
+
+    function ready() {
         setup();
         document.querySelector(".navOpener > button").addEventListener("click", (button) => {
             button = button.currentTarget;
@@ -189,7 +262,8 @@
             div.innerHTML = '<iframe width="200" height="200" title="YouTube Video" src="https://www.youtube-nocookie.com/embed/EErY75MXYXI?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=1&amp;modestbranding=1" frameborder="0" allow="autoplay;encrypted-media"></iframe>';
             link.parentNode.replaceChild(div, link);
         });
-        async function getAndLoadArt() {
+        document.querySelector("a.art").addEventListener("click", async (event) => {
+            event.preventDefault();
             const response = await fetch("art/");
             if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);
@@ -198,23 +272,23 @@
             const content = document.querySelector(".content");
             content.classList.add("art");
             content.querySelector("main").innerHTML = text;
-        }
-        document.querySelector("a.art").addEventListener("click", (event) => {
-            event.preventDefault();
-            getAndLoadArt();
         });
         document.querySelector("a.photos").addEventListener("click", (event) => {
             event.preventDefault();
             document.body.scrollTop = document.documentElement.scrollTop = 0;
+            document.body.classList.remove("show");
             document.body.classList.toggle("hide");
             document.querySelectorAll("a").forEach(a => a.tabIndex = -1);
+            document.querySelectorAll("button").forEach(b => delete b.removeAttribute("tabIndex"));
             document.querySelector(".photoB>.r").disabled = (bgImgIndex === 7);
             document.querySelector(".photoB>.l").disabled = (bgImgIndex === 0);
         });
         document.querySelector(".photoB>.x").addEventListener("click", (event) => {
             event.preventDefault();
             document.body.classList.toggle("hide");
+            document.body.classList.toggle("show");
             document.querySelectorAll("a").forEach(a => delete a.removeAttribute("tabIndex"));
+            document.querySelectorAll("button").forEach(b => b.tabIndex = -1);
         });
         document.querySelector(".photoB>.l").addEventListener("click", (event) => {
             event.preventDefault();
@@ -237,7 +311,15 @@
         if (window.location.search === "?art") {
             getAndLoadArt();
         }
-    });
+    }
+    switch(document.readyState) {
+        case "interactive":
+        case "complete":
+            ready();
+            break;
+        default:
+            window.addEventListener("DOMContentLoaded", ready());
+    }
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());

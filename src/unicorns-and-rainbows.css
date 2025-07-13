@@ -28,7 +28,7 @@ footer, header, hgroup, menu, section {
 html {
     --background-color: #ebebeb;
     --background-color2: #fff;
-    --background-color3: rbga(255, 255, 255, .5);
+    --background-color3: rgba(255, 255, 255, .5);
     --blend-mode: screen;
     --nav-text-color: #000;
     --content-text-color: #fafff6;
@@ -54,7 +54,7 @@ button {
 }
 .title {
     width: calc(100% - 6rem);
-    margin: 3rem 3rem 0;
+    margin: 4rem 3rem 0;
     padding: 3rem 0;
     border-top-right-radius: 1rem;
     border-top-left-radius: 1rem;
@@ -395,12 +395,24 @@ footer {
         padding: 0 .5rem;
     }
 }
+@keyframes rise {
+    100% {
+        height: 0;
+        padding: 0;
+        
+    }
+}
 .hide .photoB > button {
     opacity: 100%;
-    animation: .75s cubic-bezier(0.175, 0.885, 0.32, 2) 1s 1 drop backwards;
+    animation: .75s cubic-bezier(0, -0.11, 0, 1.4) 1s 1 drop backwards;
     height: 4rem;
     padding: .5rem;
 }
+.show .photoB > button {
+    opacity: 100%;
+    animation: .75s cubic-bezier(0, -0.11, 0, 1.4) 0s  1 rise forwards;
+    height: 4rem;
+ }
 .hide .photoB > button:hover,
 .hide .photoB > button:focus {
     opacity: 100%;
