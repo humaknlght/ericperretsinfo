@@ -28,12 +28,11 @@ do
     mv "${FILE}.min" "${FILE}"
 done
 
-#npm install @babel/core @babel/cli -g
-#npm install babel-preset-minify -g
+#npm install terser -g
 for FILE in ./prod/*.js
 do
     echo "Minifying ${FILE} to ${FILE}.min"
-    babel "${FILE}" --presets minify > "${FILE}.min"
+    terser "${FILE}" --compress --mangle -o "${FILE}.min"
     mv "${FILE}.min" "${FILE}"
 done
 
