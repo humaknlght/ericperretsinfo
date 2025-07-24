@@ -20,6 +20,16 @@
             {num: 36, className: "option1"},
             {num: 7 , className: "option2"},
             {num: 36, className: "option3"}
+        ],
+        bgImgs = [
+            "avif",
+            "webp",
+            "webp",
+            "webp",
+            "webp",
+            "webp",
+            "avif",
+            "avif"
         ];
     let bgImgIndex = randInt(8),
         colorOption,
@@ -28,7 +38,7 @@
     // Preload image
     const i = new Image();
     i.decoding = "async";
-    i.src=`img/bg${bgImgIndex}.webp`;
+    i.src=`img/bg${bgImgIndex}.${bgImgs[bgImgIndex]}`;
 
     /**
      * Sets the background image for the document.
@@ -36,7 +46,7 @@
      * @param {number} index The index of the background image.
      */
     function setBackgroundImg(index) {
-        document.documentElement.style.setProperty("--bgUrl", `url(img/bg${index}.webp)`);
+        document.documentElement.style.setProperty("--bgUrl", `url(img/bg${index}.${bgImgs[index]})`);
         document.querySelector("meta[name=theme-color]").setAttribute("content", backgroundTheme[index] || backgroundTheme[0]);
     }
 
