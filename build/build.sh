@@ -33,7 +33,8 @@ for FILE in ./prod/*.js
 do
     echo "Minifying ${FILE} to ${FILE}.min"
     terser "${FILE}" --compress --mangle -o "${FILE}.min"
-    mv "${FILE}.min" "${FILE}"
+    echo '//# allFunctionsCalledOnLoad' | cat - "${FILE}.min" > "${FILE}"
+    rm "${FILE}.min" 
 done
 
 # https://github.com/google/brotli
