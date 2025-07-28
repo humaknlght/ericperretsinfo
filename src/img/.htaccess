@@ -1,6 +1,12 @@
-<FilesMatch "\.(png|gif|jpg|webp)$">
+<FilesMatch "\.(png|gif|jpg|webp|avif)$">
 Header set Cache-Control "max-age=2419200, public"
 Header always set "Cross-Origin-Resource-Policy" "same-site"
+</FilesMatch>
+<FilesMatch "\.webp$">
+ForceType image/webp
+</FilesMatch>
+<FilesMatch "\.avif$">
+ForceType image/avif
 </FilesMatch>
 <FilesMatch "perret2.jpg$">
 Header always set "Cross-Origin-Resource-Policy" "cross-origin"

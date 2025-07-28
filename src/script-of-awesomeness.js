@@ -1,15 +1,6 @@
 "use strict";
 {
     // --- Utility Functions ---
-    /**
-     * Generates a random integer between 0 (inclusive) and max (exclusive).
-     *
-     * @param {number} max The upper bound (exclusive) for the random number.
-     * @returns {number} A random integer.
-     */
-    function randInt(max) {
-        return Math.floor(Math.random() * max);
-    }
     const backgroundTheme = [
             "#232323", "#969ab2",
             "#52504d", "##e3c6b0",
@@ -20,25 +11,8 @@
             {num: 36, className: "option1"},
             {num: 7 , className: "option2"},
             {num: 36, className: "option3"}
-        ],
-        bgImgs = [
-            "avif",
-            "webp",
-            "webp",
-            "webp",
-            "webp",
-            "webp",
-            "avif",
-            "avif"
         ];
-    let bgImgIndex = randInt(8),
-        colorOption,
-        refresh = document.querySelector(".changeColor svg");
-
-    // Preload image
-    const i = new Image();
-    i.decoding = "async";
-    i.src=`img/bg${bgImgIndex}.${bgImgs[bgImgIndex]}`;
+    let colorOption;
 
     /**
      * Sets the background image for the document.
@@ -233,7 +207,7 @@
      */
     function changeBackground(isRefresh) {
         clearInterval(snakeIntervalId);
-        isRefresh && refresh.classList.toggle("rotate");
+        isRefresh && document.querySelector(".changeColor svg").classList.toggle("rotate");
         const background = document.querySelector(".background");
         background.className = "grid background";
         background.removeEventListener("mouseover", changeColorFromEvent);
@@ -245,13 +219,14 @@
         bgImgIndex = newBgImgIndex;
         isRefresh ? setup() : setupSnake();
     }
-    refresh.addEventListener("animationend", () => {
-        refresh.classList.toggle("rotate");
-    });
 
     // --- Document Ready / Initialization ---
 
     function ready() {
+        let refresh = document.querySelector(".changeColor svg");
+        refresh.addEventListener("animationend", () => {
+            refresh.classList.toggle("rotate");
+        });
         setup();
         document.querySelector(".navOpener > button").addEventListener("click", (button) => {
             button = button.currentTarget;
@@ -272,6 +247,26 @@
             div.innerHTML = '<iframe width="200" height="200" title="YouTube Video" src="https://www.youtube-nocookie.com/embed/EErY75MXYXI?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=1&amp;modestbranding=1" frameborder="0" allow="autoplay;encrypted-media"></iframe>';
             link.parentNode.replaceChild(div, link);
         });
+        function artItemclick(event) {
+            event.preventDefault();
+            // Check if fullscreen is currently active
+            if (document.fullscreenElement) {
+                // If fullscreen, exit it
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) { // Safari
+                    document.webkitExitFullscreen();
+                }
+            } else {
+                const target = event.currentTarget.querySelector("img");
+                // If not fullscreen, request it for the image
+                if (target.requestFullscreen) {
+                    target.requestFullscreen();
+                } else if (target.webkitRequestFullscreen) { // Safari
+                    target.webkitRequestFullscreen();
+                }
+            }
+        }
         document.querySelector("a.art").addEventListener("click", async (event) => {
             event.preventDefault();
             const response = await fetch("art/");
@@ -282,6 +277,7 @@
             const content = document.querySelector(".content");
             content.classList.add("art");
             content.querySelector("main").innerHTML = text;
+            document.querySelectorAll(".artContent > a").forEach(a => a.addEventListener("click", artItemclick));
         });
         document.querySelector("a.photos").addEventListener("click", (event) => {
             event.preventDefault();
@@ -328,7 +324,7 @@
             ready();
             break;
         default:
-            window.addEventListener("DOMContentLoaded", ready());
+            window.addEventListener("DOMContentLoaded", ready);
     }
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}

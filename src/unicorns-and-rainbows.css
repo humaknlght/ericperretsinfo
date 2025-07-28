@@ -31,19 +31,17 @@ html {
     --background-color3: rgba(255, 255, 255, .5);
     --blend-mode: screen;
     --nav-text-color: #000;
-    --content-text-color: #fafff6;
+    --content-text-color: #000;
     --secondary-text-color: rgba(0, 0, 0, .6);
     --title-color: #000;
 }
 body {
     pointer-events: none;
     color-scheme: light dark;
+    font-family: sans-serif;
 }
 button {
     cursor: pointer;
-}
-.fontsLoaded {
-    font-family: sans-serif;
 }
 .body {
     pointer-events: none;
@@ -72,7 +70,7 @@ button {
     mix-blend-mode: var(--blend-mode);
     paint-order: stroke fill;
 }
-.fontsLoaded .title {
+.title {
     font-family: "Roboto Condensed", serif;
 }
 .content {
@@ -88,7 +86,7 @@ button {
     border-top-left-radius: .5rem;
     font-weight: 800;
     backdrop-filter: blur(10px);
-    background-color: rgba(0, 0, 0, .6);
+    background-color: var(--background-color3);
 }
 .navHolder:before {
     box-shadow: inset 0 0 0 3000px rgba(255, 255, 255, 0.7);
@@ -97,7 +95,6 @@ button {
     pointer-events: auto;
     border-bottom: 0;
     padding: 1rem 1rem .5rem 1rem;
-    position: relative;
 }
 .content p + p {
     padding-top: 1rem
@@ -107,12 +104,8 @@ button {
     text-transform: uppercase;
     font-family: Helvetica, sans-serif;
 }
-
-.content > main a {
-    color: rgba(144, 202, 249, .87);
-}
 #and {
-    fill: #fff;
+    fill: var(--content-text-color);
 }
 #me {
     float: right;
@@ -150,10 +143,13 @@ footer {
     color: var(--secondary-text-color);
 }
 .backgroundWrapper {
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center;
+    top: 0;
+    position: fixed;
+    z-index: -2;
+    pointer-events: auto;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
 }
 .grid.background,
 .grid.background > div {
@@ -228,16 +224,6 @@ footer {
     transform: scaleX(0);
     transform-origin: right;
 }
-.backgroundWrapper {
-    top: 0;
-    position: fixed;
-    z-index: -2;
-    pointer-events: auto;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    background-image: var(--bgUrl);
-}
 .background {
     height: calc(100vmax - 6rem);
     width: 100%;
@@ -249,7 +235,6 @@ footer {
     top: 0;
     height: 3rem;
     overflow: hidden;
-    /*background-color: var(--background-color);*/
     z-index: 2
 }
 .icons {
@@ -399,7 +384,6 @@ footer {
     100% {
         height: 0;
         padding: 0;
-        
     }
 }
 .hide .photoB > button {
@@ -671,6 +655,9 @@ footer {
     }
     svg {
         fill: var(--nav-text-color);
+    }
+    .content > main a {
+        color: rgba(144, 202, 249, .87);
     }
     .content:before {
         box-shadow: inset 0 0 0 3000px rgba(0, 0, 0, 0.7);
