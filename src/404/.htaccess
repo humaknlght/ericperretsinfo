@@ -1,0 +1,49 @@
+ExpiresActive on
+Header set Cache-Control "public,max-age=2419202"
+
+<FilesMatch "\.html\.gz$">
+AddEncoding x-gzip .gz
+Header set Content-Encoding: gzip
+ForceType text/html
+</FilesMatch>
+
+<FilesMatch "\.html\.br$">
+AddEncoding br .br
+Header set Content-Encoding: br
+ForceType text/html
+</FilesMatch>
+
+<FilesMatch "\.html">
+Header always unset "Speculation-Rules"
+Header always unset "Link"
+Header always set "Content-Security-Policy" "upgrade-insecure-requests;default-src 'none';media-src 'self';script-src 'sha256-nuDl/h0M0jvBX1ZtF8tqGUY9+ytHfmGIjPwWmhIWxgE=';style-src 'self' 'sha256-/60o/BK214yZ3XvzCTD8Vu2YjJrdRyKdSMhzS5LXQ9Y=';img-src 'self';base-uri 'none';frame-ancestors 'none'"
+
+AddDefaultCharset UTF-8
+</FilesMatch>
+
+<FilesMatch "\.ico\.gz$">
+AddEncoding x-gzip .gz
+Header set Content-Encoding: gzip
+Header set Vary "Accept-Encoding"
+Header set Cache-Control "max-age=604800,public"
+ForceType image/x-icon
+Header always set "Cross-Origin-Resource-Policy" "same-site"
+</FilesMatch>
+
+<FilesMatch "\.ico\.br$">
+AddEncoding br .br
+Header set Content-Encoding: br
+Header set Vary "Accept-Encoding"
+Header set Cache-Control "max-age=604800,public"
+ForceType image/x-icon
+Header always set "Cross-Origin-Resource-Policy" "same-site"
+</FilesMatch>
+
+<FilesMatch "prerender\.json$">
+Header set Vary "Accept-Encoding"
+Header set Cache-Control "max-age=604800,public"
+ForceType application/speculationrules+json
+Header always set "Cross-Origin-Resource-Policy" "same-site"
+</FilesMatch>
+
+Header always set "X-Content-Type-Options" "nosniff"

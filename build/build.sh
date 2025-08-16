@@ -21,7 +21,7 @@ do
 done
 
 #npm install html-minifier -g
-for FILE in ./prod/*.html ./prod/resume/*.html #./prod/art/*.html
+for FILE in ./prod/*.html ./prod/resume/*.html ./prod/404/*.html #./prod/art/*.html
 do
     echo "Minifying ${FILE} to ${FILE}.min"
     html-minifier --keep-closing-slash --remove-comments --collapse-whitespace --minify-js --minify-css --decode-entities --no-html5 --process-conditional-comments --remove-redundant-attributes --remove-script-type-attributes --remove-style-link-type-attributes --use-short-doctype --trim-custom-fragments -o "${FILE}.min" "${FILE}"
@@ -39,7 +39,8 @@ done
 
 # https://github.com/google/brotli
 # https://github.com/google/zopfli
-for FILE in ./prod/*.{html,css,js} ./prod/resume/*.{html,svg,pdf,css} ./prod/art/*.html
+# https://github.com/facebook/zstd
+for FILE in ./prod/*.{html,css,js,ico} ./prod/resume/*.{html,svg,pdf,css} ./prod/art/*.html ./prod/404/*.html
 do
     echo "$FILE"
     ./zopfli "$FILE"

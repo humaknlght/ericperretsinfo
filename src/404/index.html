@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Page Not Found (oof)</title>
+    <style>
+body {
+    background-color: #2e2e2e;
+    color: #00ff00;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    border: 5px solid #00ff00;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 20px #00ff00;
+}
+
+.glitch {
+    font-size: 3em;
+    text-shadow: 2px 2px #ff00ff, -2px -2px #00ffff;
+    animation: glitch 1s infinite;
+}
+
+@keyframes glitch {
+    0% {
+        transform: translate(0);
+    }
+    20% {
+        transform: translate(-3px, 3px);
+    }
+    40% {
+        transform: translate(-3px, -3px);
+    }
+    60% {
+        transform: translate(3px, 3px);
+    }
+    80% {
+        transform: translate(3px, -3px);
+    }
+    100% {
+        transform: translate(0);
+    }
+}
+
+.meme-text {
+    font-size: 1.5em;
+    margin-top: 20px;
+}
+
+.meme-img {
+    max-width: 50%;
+    height: auto;
+    margin: 20px 0;
+    border: 3px solid #ff00ff;
+    box-shadow: 0 0 10px #ff00ff;
+}
+
+.pepe {
+    border: 3px solid #00ffff;
+    box-shadow: 0 0 10px #00ffff;
+    transform: rotate(-5deg);
+}
+
+.confused-travolta, .distracted-boyfriend {
+    margin: 40px auto;
+}
+
+.confused-travolta img, .distracted-boyfriend img {
+    max-width: 70%;
+    height: auto;
+}
+
+.oof-button {
+    background-color: #ff00ff;
+    color: #000;
+    border: 3px solid #00ffff;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 1.2em;
+    padding: 10px 20px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #ff00ff;
+    transition: transform 0.2s;
+    margin: 10px;
+}
+
+.oof-button:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.easter-egg {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.rickroll-link {
+    display: none;
+}
+    </style>
+</head>
+<body>
+<div class="container">
+        <h1 class="glitch">404: The page you are looking for has been abducted by aliens.</h1>
+        <p class="meme-text">Are you sure you didn't accidentally type "teh"?</p>
+        <img src="/404/img/among-us.avif" alt="Doge meme" class="meme-img">
+        <p class="meme-text">Much empty. So broken. Wow.</p>
+        
+        <div class="confused-travolta">
+            <img src="/404/img/what-huh.webp" alt="Confused Travolta">
+        </div>
+
+        <p class="meme-text">This is not the page you were looking for. <span id="easter-egg-1" class="easter-egg">Move along.</span></p>
+
+        <div class="distracted-boyfriend">
+            <p class="meme-text">Maybe you should have focused on the right URL?</p>
+            <img src="/404/img/distracted-boyfriend-distracted-boyfriend-meme.avif" alt="Distracted Boyfriend">
+        </div>
+
+        <p class="meme-text">It's a page not found, my dudes.</p>
+        <img src="/404/img/hankhill-kingofthehill.webp" alt="a cartoon character with glasses says baaa aa aa aa aah" class="meme-img pepe">
+
+        <button id="oof-btn" class="oof-button">Press F to pay respects</button>
+        <button id="troll-btn" class="oof-button">Do not press this button</button>
+
+        <a href="#" id="rickroll-link" class="rickroll-link"></a>
+        <p class="meme-text">
+            For real though, maybe try going <a href="/">back to the homepage?</a>
+        </p>
+
+    </div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Easter Egg 1: Hover over "Move along." to reveal a secret message
+    const easterEgg1 = document.getElementById('easter-egg-1');
+    easterEgg1.addEventListener('mouseover', () => {
+        easterEgg1.innerHTML = 'This is a test. This is only a test. Beep boop.';
+    });
+    easterEgg1.addEventListener('mouseout', () => {
+        easterEgg1.innerHTML = 'Move along.';
+    });
+
+    // Easter Egg 2: "Press F" button plays a sound
+    const oofButton = document.getElementById('oof-btn');
+    oofButton.addEventListener('click', () => {
+        const oofSound = new Audio('/404/img/roblox-death-sound-effect.mp3');
+        oofSound.play();
+        oofButton.innerHTML = "F has been paid. Oof.";
+    });
+
+    // Easter Egg 3: Click the 404 text to reveal the "rickroll" link
+    const glitchText = document.querySelector('.glitch');
+    const rickrollLink = document.getElementById('rickroll-link');
+    glitchText.addEventListener('click', () => {
+        rickrollLink.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+        rickrollLink.textContent = 'You found a secret link! Click here to proceed.';
+        rickrollLink.style.display = 'block';
+    });
+
+    // New Easter Egg: A different button plays a different sound
+    const trollButton = document.getElementById('troll-btn');
+    trollButton.addEventListener('click', () => {
+        const trollSound = new Audio('/404/img/vine-boom.mp3');
+        trollSound.play();
+        trollButton.innerHTML = "Trolled!";
+    });
+});
+    </script>
+</body>
+</html>
