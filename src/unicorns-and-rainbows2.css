@@ -141,60 +141,91 @@ footer {
     margin: 5px;
     color: var(--secondary-text-color);
 }
-/* Styles for the animated carousel background */
-.carousel-wrapper {
+.backgroundWrapper {
+    top: 0;
     position: fixed;
+    z-index: -2;
+    pointer-events: auto;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+.grid.background,
+.grid.background > div {
+    background-image: inherit;
+    background-repeat: inherit;
+    background-attachment: inherit;
+    background-size: inherit;
+    background-position: inherit;
+}
+.grid.background > div > div {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Ensures the carousel is behind all other content */
-    overflow: hidden;
+    transition: .5s
 }
-
-.carousel-container {
-    /* Use flexbox to arrange divs in a row */
-    display: flex;
-    height: 100%; /* Ensures the container has a concrete height */
-    /* We'll use JavaScript to set the transition and transform */
-    /* Initial position is set to show the first original image */
-    transform: translateX(-85vw);
+.grid.background > .orange > div {
+    background-color: rgba(255, 152, 0, .5)
 }
-
-.carousel-slide {
-    /* Each div takes up 100% of the viewport width */
-    flex-shrink: 0;
-    width: calc(90vw - 1em);
-    margin: 0 .5em;
-    border-radius:1em;
+.grid.background > .blue > div {
+    background-color: rgba(111, 205, 223, .5)
+}
+.grid.background > .grey > div {
+    background-color: rgba(153, 156, 194, .5)
+}
+.grid.background > .hide > div {
+    background-color: var(--background-color);
+}
+.grid.background > .pattern > div {
+    background-image: repeating-linear-gradient(125deg, transparent, transparent 2px, rgba(255,255,255,.3) 2px, rgba(255,255,255,.3) 3px, transparent 3px, transparent 5px, rgba(255,255,255,.3) 5px)
+}
+.grid.background > .invert {
+    filter: invert(100%)
+}
+.grid.background {
+    grid-template-rows: repeat(var(--gridRows), 1fr);
+    grid-template-columns: repeat(var(--gridRows), 1fr)
+}
+.grid.background.option2 {
+    grid-gap: 2px
+}
+.grid.background.option2::before {
+    background-color: var(--background-color);
+    content: "";
+    display: block;
     height: 100%;
-    background-size: cover; /* Ensures the image covers the entire div */
-    background-position: center;
-    background-repeat: no-repeat;
-    /*filter: brightness(0.7); /* Adds a dark overlay for better text readability */
+    position: absolute;
+    width: 100%;
 }
-
-/* Set the background image for each slide using an ID */
-#slide-0 { background-image: url('img/bg0.avif'); }
-#slide-1 { background-image: url('img/bg1.webp'); }
-#slide-2 { background-image: url('img/bg2.webp'); }
-#slide-3 { background-image: url('img/bg3.webp'); }
-#slide-4 { background-image: url('img/bg4.webp'); }
-#slide-5 { background-image: url('img/bg5.webp'); }
-#slide-6 { background-image: url('img/bg6.avif'); }
-#slide-7 { background-image: url('img/bg7.avif'); }
-
-/* Styles for the main content on top of the carousel */
-.content-container {
-    position: relative;
-    z-index: 1; /* Ensures the content is on top of the carousel */
-    text-align: center;
-    padding: 50px;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    margin: 50px auto;
-    width: 80%;
-    max-width: 800px;
+.grid.background.option2 > div,
+.grid.background.option2 > div > div {
+    border-radius: .75rem
+}
+.grid.background.option3 > div > div {
+    background-color: #000;
+    transition: transform .3s linear .1s;
+}
+.grid.background.option3 > div > div.bottom {
+    transform: scaleY(0);
+    transform-origin: top;
+}
+.grid.background.option3 > div > div.top {
+    transform: scaleY(0);
+    transform-origin: bottom;
+}
+.grid.background.option3 > div > div.left {
+    transform: scaleX(0);
+    transform-origin: left;
+}
+.grid.background.option3 > div > div.right {
+    transform: scaleX(0);
+    transform-origin: right;
+}
+.background {
+    height: calc(100vmax - 6rem);
+    width: 100%;
 }
 .navHolder {
     width: 100%;
@@ -255,6 +286,18 @@ footer {
     background: #21759b;
     padding: 1px;
     border-radius: 1rem
+}
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.changeColor svg.rotate {
+    animation: spin 600ms;
+    transform: rotate(360deg)
 }
 .changeColor > button {
     border: 0;

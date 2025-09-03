@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Full-Screen Carousel</title>
+
+    <!--
+        This CSS section handles the styling and animation for the background carousel.
+        It positions the divs to cover the entire viewport and creates a smooth
+        slide transition effect.
+    -->
+    <style>
+        /* Basic page setup */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Prevents scrollbars from appearing */
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+        }
+
+        /* Styles for the animated carousel background */
+        .carousel-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Ensures the carousel is behind all other content */
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            /* Use flexbox to arrange divs in a row */
+            display: flex;
+            height: 100%; /* Ensures the container has a concrete height */
+            /* We'll use JavaScript to set the transition and transform */
+            /* Initial position is set to show the first original image */
+            transform: translateX(-95vw);
+        }
+
+        .carousel-slide {
+            /* Each div takes up 100% of the viewport width */
+            flex-shrink: 0;
+            width: 100vw; 
+            height: 100%;
+            background-size: cover; /* Ensures the image covers the entire div */
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: brightness(0.7); /* Adds a dark overlay for better text readability */
+        }
+        
+        /* Set the background image for each slide using an ID */
+        #slide-0 { background-image: url('img/bg0.avif'); }
+        #slide-1 { background-image: url('img/bg1.avif'); }
+        #slide-2 { background-image: url('img/bg2.avif'); }
+        #slide-3 { background-image: url('img/bg3.avif'); }
+        #slide-4 { background-image: url('img/bg4.avif'); }
+        #slide-5 { background-image: url('img/bg5.avif'); }
+        #slide-6 { background-image: url('img/bg6.avif'); }
+        #slide-7 { background-image: url('img/bg7.avif'); }
+
+        /* Styles for the main content on top of the carousel */
+        .content-container {
+            position: relative;
+            z-index: 1; /* Ensures the content is on top of the carousel */
+            text-align: center;
+            padding: 50px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            margin: 50px auto;
+            width: 80%;
+            max-width: 800px;
+        }
+
+        .content-container h1, .content-container p {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="carousel-wrapper">
+        <div class="carousel-container">
+            <!-- The last slide is duplicated at the start for a seamless loop -->
+            <div class="carousel-slide" id="slide-4"></div>
+
+            <!-- The original slides -->
+            <div class="carousel-slide" id="slide-0"></div>
+            <div class="carousel-slide" id="slide-1"></div>
+            <div class="carousel-slide" id="slide-2"></div>
+            <div class="carousel-slide" id="slide-3"></div>
+            <div class="carousel-slide" id="slide-4"></div>
+            <div class="carousel-slide" id="slide-5"></div>
+            <div class="carousel-slide" id="slide-6"></div>
+            <div class="carousel-slide" id="slide-7"></div>
+
+            <!-- The first slide is duplicated at the end for a seamless loop -->
+            <div class="carousel-slide" id="slide-1"></div>
+        </div>
+    </div>
+
+    <main class="content-container">
+        <h1>Welcome to My Website</h1>
+        <p>This is some example content placed on top of the animated background carousel.</p>
+        <p>The background images will slide from right to left automatically, creating a dynamic visual effect.</p>
+    </main>
+
+    <!--
+        This JavaScript section handles the carousel logic.
+        It manages the active slide and the fade transition.
+    -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const carouselContainer = document.querySelector(".carousel-container");
+            const slides = document.querySelectorAll(".carousel-slide");
+            // The total number of slides now includes the duplicates at the beginning and end
+            const totalSlides = slides.length;
+            const originalSlides = totalSlides - 2;
+            let currentIndex = 1; // Start at index 1 to show the first original image
+
+            function animateCarousel() {
+                currentIndex++;
+                // The offset is now calculated based on the full viewport width of 100vw
+                const offset = (-currentIndex * 100) - 5;
+
+                // Add a transition for the slide effect
+                carouselContainer.style.transition = 'transform 1.5s ease-in-out';
+                carouselContainer.style.transform = `translateX(${offset}vw)`;
+            }
+
+            carouselContainer.addEventListener('transitionend', () => {
+                // If we've reached the duplicated last slide at the end,
+                // instantly reset the position to the original first slide
+                if (currentIndex >= originalSlides + 1) {
+                    carouselContainer.style.transition = 'none';
+                    carouselContainer.style.transform = `translateX(-85vw)`;
+                    currentIndex = 1; // Reset index to the first original slide
+                }
+            });
+
+            // Set an interval to trigger the next slide every 5 seconds (5000 milliseconds)
+            setInterval(animateCarousel, 5000);
+        });
+    </script>
+</body>
+</html>
