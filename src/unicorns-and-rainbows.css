@@ -28,7 +28,7 @@ footer, header, hgroup, menu, section {
 html {
     --background-color: #ebebeb;
     --background-color2: #fff;
-    --background-color3: rgba(255, 255, 255, .5);
+    --background-color3: rgba(255, 255, 255, .7);
     --blend-mode: screen;
     --nav-text-color: #000;
     --content-text-color: #000;
@@ -36,7 +36,6 @@ html {
     --title-color: #000;
 }
 body {
-    pointer-events: none;
     color-scheme: light dark;
     font-family: sans-serif;
 }
@@ -44,15 +43,14 @@ button {
     cursor: pointer;
 }
 .body {
-    pointer-events: none;
     min-width: 300px;
 }
 .tile {
     padding: 1rem;
 }
 .title {
-    width: calc(100% - 6rem);
-    margin: 4rem 3rem 0;
+    width: calc(600px - 1rem);
+    margin: 4rem 6vw 0;
     padding: 3rem 0;
     border-top-right-radius: 1rem;
     border-top-left-radius: 1rem;
@@ -64,7 +62,6 @@ button {
     color: var(--title-color);
     line-height: .8;
     position: relative;
-    display: inline-block;
     overflow: hidden;
     background-color: var(--background-color2);
     mix-blend-mode: var(--blend-mode);
@@ -77,16 +74,21 @@ button {
     font-family: "Roboto", serif;
     font-size: 1.25rem;
     margin-top: 1rem;
-    margin-left: 3rem;
-    margin-bottom: 4rem;
+    margin-left: 6vw;
     color: var(--content-text-color);
     line-height: 1.55556;
     width: calc(600px - 1rem);
     overflow: hidden;
-    border-top-left-radius: .5rem;
+    border-radius: 0 0 .5rem .5rem;
     font-weight: 800;
+    border: 1px solid rgba(0, 0, 0, .1);
+}
+.content,
+.icons,
+footer,
+.photoB > button {
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
-    background-color: var(--background-color3);
 }
 .navHolder:before {
     box-shadow: inset 0 0 0 3000px rgba(255, 255, 255, 0.7);
@@ -96,8 +98,15 @@ button {
     border-bottom: 0;
     padding: 1rem 1rem .5rem 1rem;
 }
-.content p + p {
-    padding-top: 1rem
+.content p,
+.content ul {
+    border-radius: 1rem;
+    margin: .5rem;
+    padding: .5rem .75rem;
+    background-color: var(--background-color3);
+}
+.content ul {
+    padding-left: revert;
 }
 .tagline {
     text-transform: uppercase;
@@ -108,9 +117,9 @@ button {
 }
 #me {
     float: right;
-    margin: calc(-1rem + 1px) calc(-1rem + 1px) 0 0;
-    clip-path: polygon(0% 0%, 100% 100%, 100% 0%);
-    shape-outside: margin-box polygon(0% 0%, 100% 100%, 100% 0%);
+    margin: -1rem -1rem 0 0;
+    clip-path: polygon(0% 0%, 100% 97%, 100% 0%);
+    shape-outside: margin-box polygon(0% 0%, 100% 97%, 100% 0%);
 }
 .insta-wrapper {
     text-align: center;
@@ -135,10 +144,10 @@ button {
     display: none;
 }
 footer {
-    position: fixed;
-    bottom: 0;
+    display: inline-block;
     padding: calc(1rem - 2px) 3rem;
     margin: 5px;
+    margin-left: 6vw;
     color: var(--secondary-text-color);
 }
 /* Styles for the animated carousel background */
@@ -150,6 +159,8 @@ footer {
     height: 100%;
     z-index: -1; /* Ensures the carousel is behind all other content */
     overflow: hidden;
+    opacity: .75;
+    transition: opacity .5s;
 }
 
 .carousel-container {
@@ -239,7 +250,6 @@ footer {
 }
 .icons,
 footer {
-    backdrop-filter: blur(10px);
     background-color: var(--background-color3);
     border-radius: 5px;
 }
@@ -262,7 +272,7 @@ footer {
     padding: 0;
 }
 .content.art {
-    width: calc(100% - 8rem);
+    width: 88vw;
 }
 .artContent {
     overflow-x: scroll;
@@ -287,11 +297,9 @@ footer {
     max-height: calc(100vh - 18rem);
     width: auto
 }
-.content p + p {
-    padding-top: 1rem
-}
 .photoB {
     position: fixed;
+    top: 0;
     display: inline-flex;
     margin-left: 1rem;
 }
@@ -301,7 +309,6 @@ footer {
     letter-spacing: 1px;
     transition: height .5s cubic-bezier(0.175, 0.885, 0.32, 2);
     background: rgba(255, 255, 255, .3);
-    backdrop-filter: blur(10px);
     color: #000;
     border: 1px solid #666;
     border-top: none;
@@ -315,7 +322,7 @@ footer {
     overflow: hidden;
 }
 .hide .title {
-    transform: translateX(calc(-100% - 3rem));
+    transform: translateX(calc(-100% - 6vw));
 }
 .hide .navOpener,
 .hide .navHolder {
@@ -329,6 +336,9 @@ footer {
 }
 .hide .photoB {
     pointer-events: all;
+}
+.hide .carousel-wrapper {
+    opacity: unset;
 }
 @keyframes drop {
     0% {
@@ -602,7 +612,7 @@ footer {
     html {
         --background-color: #222;
         --background-color2: #000;
-        --background-color3: rgba(0, 0, 0, .5);
+        --background-color3: rgba(0, 0, 0, .7);
         --blend-mode: multiply;
         --nav-text-color: rgba(144, 202, 249, .87);
         --content-text-color: rgba(255, 255, 255, .87);
