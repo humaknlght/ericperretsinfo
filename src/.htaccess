@@ -76,7 +76,7 @@ ForceType text/html
 <FilesMatch "\.html">
 Header always set "Referrer-Policy" "no-referrer"
 Header always set "Cross-Origin-Embedder-Policy" "require-corp"
-Header set Link "<https://fonts.googleapis.com>;rel=preconnect,<https://fonts.gstatic.com>;rel=preconnect;crossorigin"
+Header set Link "<https://fonts.googleapis.com>;rel=preconnect,<https://fonts.gstatic.com>;rel=preconnect;crossorigin,<img/bg0.avif>;as=image;rel=preload,<img/bg1.webp>;as=image;rel=preload,<img/bg7.avif>;as=image;rel=preload"
 Header always set "X-UA-Compatible" "IE=edge"
 Header always append X-Frame-Options DENY
 Header set Vary "Accept-Encoding"
