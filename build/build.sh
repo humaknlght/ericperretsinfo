@@ -1,48 +1,82 @@
 #!/bin/bash -p
 
-set -ue
+set -euo pipefail
 
+# --- 1. SETUP ---
+
+# Same as before: clean and copy the source files
+echo "Cleaning up and copying source files..."
 rm -rf ./prod
 mkdir ./prod
 cp -r ../src/ ./prod/
+
+ # Get the last modified timestamp for the resume
+echo "Setting last modified timestamp..."
 NUM=`stat -f "%Sm" -t "%s" ../src/resume/index.html`"000"
-sed -i .bk "s:/\*LAST_MODIFIED\*/:$NUM:" ./prod/resume/index.html
+sed -i.bk "s:/\*LAST_MODIFIED\*/:$NUM:" ./prod/resume/index.html
 rm -f ./prod/resume/index.html.bk
-shopt -s nullglob
 
-#npm install cssnano postcss --save-dev
+# --- 2. MINIFICATION ---
+
+echo "Minifying all CSS files..."
 #npm install --save-dev postcss-cli
-for FILE in ./prod/*.css ./prod/resume/*.css
-do
-    echo "postcss $FILE > ${FILE}.min"
-    npx postcss --verbose --no-map "$FILE" > "${FILE}.min"
-    #workaround for bug in uglifycss
-    mv "${FILE}.min" "$FILE"
+find ./prod -type f -name '*.css' -exec dirname {} + | sort | uniq | while read -r DIR; do
+    echo "Processing CSS in directory: ${DIR}"
+    npx postcss "${DIR}"/*.css --dir "${DIR}" --no-map --verbose
 done
 
-#npm install html-minifier -g
-for FILE in ./prod/*.html ./prod/resume/*.html ./prod/404/*.html #./prod/art/*.html
-do
-    echo "Minifying ${FILE} to ${FILE}.min"
-    html-minifier --keep-closing-slash --remove-comments --collapse-whitespace --minify-js --minify-css --decode-entities --no-html5 --process-conditional-comments --remove-redundant-attributes --remove-script-type-attributes --remove-style-link-type-attributes --use-short-doctype --trim-custom-fragments -o "${FILE}.min" "${FILE}"
-    mv "${FILE}.min" "${FILE}"
-done
+echo "Minifying all HTML files..."
+#npm install html-minifier-next -g
+npx html-minifier-next \
+    --input-dir ./prod \
+    --output-dir ./prod \
+    --file-ext html \
+    --keep-closing-slash \
+    --remove-comments \
+    --collapse-whitespace \
+    --minify-js \
+    --minify-css \
+    --decode-entities \
+    --no-html5 \
+    --process-conditional-comments \
+    --remove-redundant-attributes \
+    --remove-script-type-attributes \
+    --remove-style-link-type-attributes \
+    --use-short-doctype \
+    --trim-custom-fragments
 
 #npm install terser -g
-for FILE in ./prod/*.js
-do
-    echo "Minifying ${FILE} to ${FILE}.min"
-    terser "${FILE}" --compress --mangle -o "${FILE}.min"
-    echo '//# allFunctionsCalledOnLoad' | cat - "${FILE}.min" > "${FILE}"
-    rm "${FILE}.min" 
+echo "Minifying all JS files..."
+find ./prod -name '*.js' | while read FILE; do
+    echo "Minifying ${FILE}"
+    # The '--source-map' option with 'url=inline' is a common practice.
+    # The '--preamble' option is a clean way to add the header comment.
+    npx terser "${FILE}" \
+      --compress \
+      --mangle \
+      --config-file terser_options.json \
+      --preamble "//# allFunctionsCalledOnLoad" \
+      -o "${FILE}"
 done
+
+# --- 3. COMPRESSION (PARALLELIZED) ---
 
 # https://github.com/google/brotli
 # https://github.com/google/zopfli
 # https://github.com/facebook/zstd
-for FILE in ./prod/*.{html,css,js,ico} ./prod/resume/*.{html,svg,pdf,css} ./prod/art/*.html ./prod/404/*.html
-do
-    echo "$FILE"
-    ./zopfli "$FILE"
-    brotli "$FILE"
-done
+echo "Compressing files with zopfli and brotli in parallel..."
+NUM_CORES=$(getconf _NPROCESSORS_ONLN)
+find ./prod -type f \( \
+    -name "*.html" -o \
+    -name "*.css" -o \
+    -name "*.js" -o \
+    -name "*.ico" -o \
+    -name "*.svg" -o \
+    -name "*.pdf" \
+\) | xargs -P $NUM_CORES -I {} sh -c '
+    echo "Compressing {}"
+    ./zopfli "{}"
+    brotli "{}"
+'
+
+echo "Build complete!"
