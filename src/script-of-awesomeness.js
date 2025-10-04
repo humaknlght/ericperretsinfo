@@ -49,22 +49,8 @@
 
     // --- Document Ready / Initialization ---
 
-    function ready() {
-        setup();
-        document.querySelector(".navOpener > button").addEventListener("click", (button) => {
-            button = button.currentTarget;
-            button.classList.toggle("open");
-            button.setAttribute("aria-expanded", (button.getAttribute("aria-expanded") === "false"));
-            document.querySelector(".navHolder").classList.toggle("open")
-        });
-        document.querySelector("#me").addEventListener("click", (link) => {
-            link = link.currentTarget;
-            const div = document.createElement("div");
-            div.className = "me";
-            div.innerHTML = '<iframe width="200" height="200" title="YouTube Video" src="https://www.youtube-nocookie.com/embed/EErY75MXYXI?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=1&amp;modestbranding=1" frameborder="0" allow="autoplay;encrypted-media"></iframe>';
-            link.parentNode.replaceChild(div, link);
-        });
-        function artItemClick(event) {
+    function artItemClickListener (a) {
+        a.addEventListener("click", (event) => {
             event.preventDefault();
             // Check if fullscreen is currently active
             if (document.fullscreenElement) {
@@ -83,7 +69,24 @@
                     target.webkitRequestFullscreen();
                 }
             }
-        }
+        });
+    }
+
+    function ready() {
+        setup();
+        document.querySelector(".navOpener > button").addEventListener("click", (button) => {
+            button = button.currentTarget;
+            button.classList.toggle("open");
+            button.setAttribute("aria-expanded", (button.getAttribute("aria-expanded") === "false"));
+            document.querySelector(".navHolder").classList.toggle("open")
+        });
+        document.querySelector("#me").addEventListener("click", (link) => {
+            link = link.currentTarget;
+            const div = document.createElement("div");
+            div.className = "me";
+            div.innerHTML = '<iframe width="200" height="200" title="YouTube Video" src="https://www.youtube-nocookie.com/embed/EErY75MXYXI?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=1&amp;modestbranding=1" frameborder="0" allow="autoplay;encrypted-media"></iframe>';
+            link.parentNode.replaceChild(div, link);
+        });
         document.querySelector("a.art").addEventListener("click", async (event) => {
             event.preventDefault();
             const response = await fetch("art/");
@@ -94,7 +97,7 @@
             const content = document.querySelector(".content");
             content.classList.add("art");
             content.querySelector("main").innerHTML = text;
-            document.querySelectorAll(".artContent > a").forEach(a => a.addEventListener("click", artItemclick));
+            document.querySelectorAll(".artContent > a").forEach(artItemClickListener);
         });
         document.querySelector("a.photos").addEventListener("click", (event) => {
             event.preventDefault();
