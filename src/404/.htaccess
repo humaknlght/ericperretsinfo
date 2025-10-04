@@ -15,7 +15,7 @@ ForceType text/html
 
 <FilesMatch "\.html">
 Header always unset "Speculation-Rules"
-Header always unset "Link"
+Header always unset Link
 Header always set "Content-Security-Policy" "upgrade-insecure-requests;default-src 'none';media-src 'self';script-src 'sha256-nuDl/h0M0jvBX1ZtF8tqGUY9+ytHfmGIjPwWmhIWxgE=';style-src 'self' 'sha256-/60o/BK214yZ3XvzCTD8Vu2YjJrdRyKdSMhzS5LXQ9Y=';img-src 'self';base-uri 'none';frame-ancestors 'none'"
 
 AddDefaultCharset UTF-8
