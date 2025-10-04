@@ -54,7 +54,7 @@ button {
     padding: 3rem 0;
     border-top-right-radius: 1rem;
     border-top-left-radius: 1rem;
-    font-size: min(17vw, 30vh);
+    font-size: min(17rem, 21vw);
     font-optical-sizing: auto;
     font-weight: 900;
     text-transform: uppercase;
@@ -81,7 +81,8 @@ button {
     overflow: hidden;
     border-radius: 0 0 .5rem .5rem;
     font-weight: 800;
-    border: 1px solid rgba(0, 0, 0, .1);
+    border: 1px solid rgba(0, 0, 0, .4);
+    box-sizing: border-box;
 }
 .content,
 .icons,
@@ -99,18 +100,28 @@ footer,
     padding: 1rem 1rem .5rem 1rem;
 }
 .content p,
-.content ul {
-    border-radius: 1rem;
-    margin: .5rem;
+.content ul,
+.tagline {
+    margin: 0;
     padding: .5rem .75rem;
     background-color: var(--background-color3);
 }
 .content ul {
     padding-left: revert;
 }
+.content .start {
+    margin-top: 1rem;
+    border-radius: 1rem 1rem 0 0;
+}
+.content .end {
+    border-radius: 0 0 1rem 1rem;
+}
 .tagline {
     text-transform: uppercase;
     font-family: Helvetica, sans-serif;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
 }
 #and {
     fill: var(--content-text-color);
@@ -301,7 +312,7 @@ footer {
     position: fixed;
     top: 0;
     display: inline-flex;
-    margin-left: 1rem;
+    margin-left: 7vw;
 }
 .photoB > button {
     margin-right: .5rem;
