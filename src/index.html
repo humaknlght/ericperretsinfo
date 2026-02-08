@@ -52,6 +52,12 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@900&amp;family=Inter:wght@400;500&amp;family=Playfair+Display:wght@700;900&amp;display=swap"
         rel="stylesheet" />
+    <input type="checkbox" id="dark-mode-toggle" />
+    <script>
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.getElementById('dark-mode-toggle').checked = true;
+        }
+    </script>
     <div class="carousel-wrapper">
         <div class="carousel-container">
             <!-- The last slide is duplicated at the start for a seamless loop -->
@@ -130,6 +136,30 @@
                     <li class="navLink"><a href="https://github.com/humaknlght">Personal Git</a></li>
                     <li class="navLink"><a href="?photos" class="photos">Photos</a></li>
                     <li class="navLink"><a href="?art" class="art">Art</a></li>
+                    <li class="toggle">
+                        <label for="dark-mode-toggle" class="theme-toggle-label" aria-label="Toggle Dark Mode">
+                            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="theme-svg" xmlns="http://www.w3.org/2000/svg">
+                            
+                                <mask id="moon-mask">
+                                    <rect x="0" y="0" width="100%" height="100%" fill="white" />
+                                    <circle cx="24" cy="10" r="6" fill="black" class="mask-circle" />
+                                </mask>
+                            
+                                <circle cx="12" cy="12" r="5" fill="currentColor" mask="url(#moon-mask)" class="sun-body" />
+                            
+                                <g class="sun-rays">
+                                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                                </g>
+                            </svg>
+                        </label>
+                    </li>
                 </ul>
             </nav>
         </div>

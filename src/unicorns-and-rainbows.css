@@ -36,6 +36,7 @@ html {
     --content-text-color: #000;
     --secondary-text-color: rgba(0, 0, 0, .6);
     --title-color: #000;
+    --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
@@ -211,6 +212,7 @@ footer {
     overflow: hidden;
     opacity: .75;
     transition: opacity .5s;
+    background-color: var(--background-color2);
 }
 
 .carousel-container {
@@ -303,17 +305,22 @@ footer {
     position: absolute;
 }
 
-.icons>ul {
+.icons > ul {
     padding: 0;
     margin: 0
 }
 
-.icons>ul>li,
-.icons>ul>li>div {
+.icons > ul > li,
+.icons > ul > li > div {
     width: 25px;
     height: 25px;
     display: inline-block;
     margin-right: .5rem
+}
+
+.icons > ul > li.toggle {
+    margin-right: 0;
+    vertical-align: top;
 }
 
 .icons .navLink {
@@ -323,12 +330,12 @@ footer {
     padding-left: .5rem;
 }
 
-.icons .navLink>a {
+.icons .navLink > a {
     text-decoration: none;
     color: var(--nav-text-color);
 }
 
-.icons .navLink>a:hover {
+.icons .navLink > a:hover {
     text-decoration: underline;
 }
 
@@ -348,13 +355,13 @@ footer {
     padding-right: 1rem
 }
 
-.wordpress>div {
+.wordpress > div {
     background: #21759b;
     padding: 1px;
     border-radius: 1rem
 }
 
-.changeColor>button {
+.changeColor > button {
     border: 0;
     background: transparent;
     padding: 0;
@@ -372,7 +379,7 @@ footer {
     scroll-snap-type: x mandatory;
 }
 
-.artContent>a {
+.artContent > a {
     padding: 0;
     margin: 0;
     display: inline-block;
@@ -382,7 +389,7 @@ footer {
     scroll-snap-stop: normal;
 }
 
-.artContent>a+a {
+.artContent > a + a {
     padding-left: 1rem
 }
 
@@ -398,7 +405,7 @@ footer {
     margin-left: 7vw;
 }
 
-.photoB>button {
+.photoB > button {
     margin-right: .5rem;
     border-radius: 0 0 .5rem .5rem;
     letter-spacing: 1px;
@@ -457,35 +464,35 @@ footer {
     }
 }
 
-.hide .photoB>button {
+.hide .photoB > button {
     opacity: 100%;
     animation: .75s cubic-bezier(0, -0.11, 0, 1.4) 1s 1 drop backwards;
     height: 4rem;
     padding: .5rem;
 }
 
-.show .photoB>button {
+.show .photoB > button {
     opacity: 100%;
     animation: .75s cubic-bezier(0, -0.11, 0, 1.4) 0s 1 rise forwards;
     height: 4rem;
 }
 
-.hide .photoB>button:hover,
-.hide .photoB>button:focus {
+.hide .photoB > button:hover,
+.hide .photoB > button:focus {
     opacity: 100%;
     background: #fff;
 }
 
-.hide .photoB>button:hover {
+.hide .photoB > button:hover {
     height: 4.5rem;
 }
 
-.hide .photoB>button:disabled {
+.hide .photoB > button:disabled {
     background-color: transparent;
     color: transparent;
 }
 
-.hide .photoB>button:disabled:hover {
+.hide .photoB > button:disabled:hover {
     height: 4rem;
 }
 
@@ -507,7 +514,7 @@ footer {
         transition: transform 1s;
     }
 
-    .title>div {
+    .title > div {
         animation: 1s ease-out .5s 1 slideInFromLeft backwards;
     }
 
@@ -527,7 +534,7 @@ footer {
         padding: 0
     }
 
-    .title>div {
+    .title > div {
         margin-top: 0;
     }
 
@@ -535,14 +542,14 @@ footer {
         padding: 0 0 3rem 0;
     }
 
-    .content>main,
+    .content > main,
     .title,
     .icons.tile {
         border-radius: 0
     }
 
-    .icons>ul>li,
-    .icons>ul>li>div {
+    .icons > ul > li,
+    .icons > ul > li > div {
         margin: 0;
     }
 
@@ -570,16 +577,16 @@ footer {
         height: 2.75rem;
     }
 
-    .navOpener>button {
+    .navOpener > button {
         margin: 0 1.5rem;
         pointer-events: all;
         border: 0;
         background: transparent;
     }
 
-    .navOpener>button>.bar1,
-    .navOpener>button>.bar2,
-    .navOpener>button>.bar3 {
+    .navOpener > button > .bar1,
+    .navOpener > button > .bar2,
+    .navOpener > button > .bar3 {
         width: 35px;
         height: 5px;
         background-color: var(--nav-text-color);
@@ -588,16 +595,16 @@ footer {
         display: block;
     }
 
-    .navOpener>button.open>.bar1 {
+    .navOpener > button.open > .bar1 {
         -webkit-transform: rotate(-45deg) translate(-9px, 6px);
         transform: rotate(-45deg) translate(-9px, 6px);
     }
 
-    .navOpener>button.open>.bar2 {
+    .navOpener > button.open > .bar2 {
         opacity: 0;
     }
 
-    .navOpener>button.open>.bar3 {
+    .navOpener > button.open > .bar3 {
         -webkit-transform: rotate(45deg) translate(-8px, -8px);
         transform: rotate(45deg) translate(-8px, -8px);
     }
@@ -639,7 +646,7 @@ footer {
         padding: 0;
     }
 
-    .icons>ul>li {
+    .icons > ul > li {
         height: auto;
     }
 
@@ -659,7 +666,7 @@ footer {
     }
 
     .title,
-    .title>div,
+    .title > div,
     .content {
         margin-left: .5rem;
         margin-right: .5rem;
@@ -676,11 +683,11 @@ footer {
     }
 
     .content,
-    .content>main {
+    .content > main {
         border-radius: 0;
     }
 
-    .title>div {
+    .title > div {
         font-size: 4rem;
         width: unset;
     }
@@ -715,11 +722,11 @@ footer {
         margin-right: 0;
     }
 
-    .title>div {
+    .title > div {
         margin-bottom: -.6rem
     }
 
-    .content>main {
+    .content > main {
         padding: .25rem;
         width: calc(100% - .5rem)
     }
@@ -751,7 +758,7 @@ footer {
         display: none
     }
 
-    .grid.background>div {
+    .grid.background > div {
         background-image: none
     }
 }
@@ -769,27 +776,90 @@ footer {
     }
 }
 
-@media (prefers-color-scheme: dark) {
-    html {
-        --background-color: #222;
-        --background-color2: #000;
-        --background-color3: rgba(0, 0, 0, .8);
-        --blend-mode: multiply;
-        --nav-text-color: rgba(144, 202, 249, .87);
-        --content-text-color: rgba(255, 255, 255, .87);
-        --secondary-text-color: rgba(255, 255, 255, .6);
-        --title-color: #fff;
-    }
+#dark-mode-toggle:checked ~ * {
+    --background-color: #222;
+    --background-color2: #000;
+    --background-color3: rgba(0, 0, 0, .8);
+    --blend-mode: multiply;
+    --nav-text-color: rgba(144, 202, 249, .87);
+    --content-text-color: rgba(255, 255, 255, .87);
+    --secondary-text-color: rgba(255, 255, 255, .6);
+    --title-color: #fff;
+}
 
-    svg {
-        fill: var(--nav-text-color);
-    }
+#dark-mode-toggle:checked ~ .body svg {
+    fill: var(--nav-text-color);
+}
 
-    .content>main a {
-        color: rgba(144, 202, 249, .87);
-    }
+#dark-mode-toggle:checked ~ .body .content > main a {
+    color: rgba(144, 202, 249, .87);
+}
 
-    .content:before {
-        box-shadow: inset 0 0 0 3000px rgba(0, 0, 0, 0.7);
-    }
+#dark-mode-toggle:checked ~ .body .content:before {
+    box-shadow: inset 0 0 0 3000px rgba(0, 0, 0, 0.7);
+}
+
+/* Hide the checkbox visually but keep it functional */
+#dark-mode-toggle {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* SVG ANIMATION LOGIC */
+.theme-toggle-label {
+    cursor: pointer;
+    color: var(--toggle-color);
+    transition: color var(--transition);
+}
+
+.theme-svg {
+    transition: transform var(--transition);
+    transform-origin: center;
+}
+
+.sun-rays {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform-origin: center;
+    stroke: currentColor;
+}
+
+.mask-circle {
+    transition: cx var(--transition), cy var(--transition);
+}
+
+  /* 1. Set the default (Light Mode) Sun Color */
+.sun-body, 
+.sun-rays {
+    fill: #ffce45;     /* A solid golden yellow */
+    stroke: #ffce45;   /* Ensures the rays match the body */
+    transition: all;
+}
+
+/* 2. Optional: Add a subtle glow when in Light Mode */
+.theme-svg {
+    filter: drop-shadow(0 0 2px rgba(255, 206, 69, 0.4));
+}
+
+/* When checked: Transform Sun to Moon */
+#dark-mode-toggle:checked ~ * .theme-svg {
+    transform: rotate(40deg);
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+}
+
+#dark-mode-toggle:checked ~ * .sun-rays {
+    opacity: 0;
+    transform: scale(0);
+}
+
+#dark-mode-toggle:checked ~ * .mask-circle {
+    cx: 18; /* Moves the "bite" into the circle */
+    cy: 8;
+}
+
+#dark-mode-toggle:checked ~ * .sun-body {
+    transform: scale(1.1);
+    fill: #f0f0f0;    /* Becomes a "Silver" moon */
+    stroke: #f0f0f0;
 }
