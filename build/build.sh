@@ -3,6 +3,7 @@
 set -euo pipefail
 
 # --- 1. SETUP ---
+npm install -g typescript
 
 # Same as before: clean and copy the source files
 echo "Cleaning up and copying source files..."
@@ -44,6 +45,9 @@ npx html-minifier-next \
     --remove-style-link-type-attributes \
     --use-short-doctype \
     --trim-custom-fragments
+
+echo "Compiling typescript files..."
+tsc
 
 #npm install terser -g
 echo "Minifying all JS files..."

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2024",       // Compile to modern JavaScript (ES2024)
+    "module": "none",         // Don't use module system
+    "strict": true,           // Enable all strict type-checking options
+    "lib": ["ES2024", "DOM"], // Include type definitions for ES2024 and the Browser DOM
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,        // Generate source maps for easier debugging
+    "alwaysStrict": true      // Always emit “use strict” for each source file
+  },
+  "include": [
+    "./prod/*.ts"             // Tell the compiler to include all .ts files in the prod directory
+  ]
+}
