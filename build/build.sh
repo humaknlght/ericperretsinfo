@@ -46,6 +46,9 @@ npx html-minifier-next \
     --use-short-doctype \
     --trim-custom-fragments
 
+echo "Minifying JSON-LD in HTML files..."
+node minify-ld-json.js ./prod
+
 echo "Compiling typescript files..."
 tsc
 

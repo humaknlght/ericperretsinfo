@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <style>
         html {
@@ -52,12 +51,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@900&amp;family=Inter:wght@400;500&amp;family=Playfair+Display:wght@700;900&amp;display=swap"
         rel="stylesheet" />
-    <input type="checkbox" id="dark-mode-toggle" />
-    <script>
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.getElementById('dark-mode-toggle').checked = true;
-        }
-    </script>
     <div class="carousel-wrapper">
         <div class="carousel-container">
             <!-- The last slide is duplicated at the start for a seamless loop -->
@@ -88,47 +81,32 @@
         <div class="navHolder">
             <nav class="icons tile">
                 <ul id="menu">
-                    <li><a href="https://www.linkedin.com/in/ericperret"><!-- htmlmin:ignore --><svg
-                                aria-labelledby="simpleicons-linkedin-icon" width="25" height="25" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <title id="simpleicons-linkedin-icon">LinkedIn</title>
-                                <path
-                                    d="M20.4 20.5H17v-5.6c0-1.3 0-3-1.9-3-1.8 0-2 1.4-2 2.9v5.7H9.3V9h3.4v1.6c.5-1 1.6-1.9 3.4-1.9 3.6 0 4.2 2.4 4.2 5.5v6.3zm-15-13a2 2 0 1 1 0-4.2 2 2 0 0 1 0 4.1zm1.7 13H3.6V9H7v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 1 .8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7c0-1-.8-1.7-1.8-1.7z"
-                                    fill="#4875b4" />
-                            </svg><!-- htmlmin:ignore --></a></li>
-                    <li><a href="https://x.com/humaknlght"><!-- htmlmin:ignore --><svg
-                                aria-labelledby="simpleicons-twitter-icon" width="25" height="25" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <title id="simpleicons-twitter-icon">Twitter</title>
-                                <path
-                                    d="M24 4.6c-1 .4-1.9.6-2.9.7a5 5 0 0 0 2.2-2.7c-1 .6-2 1-3.1 1.2a5 5 0 0 0-3.6-1.6 5 5 0 0 0-4.8 6 14 14 0 0 1-10.2-5c-.4.7-.6 1.5-.6 2.4a5 5 0 0 0 2.2 4.1c-.8 0-1.6-.2-2.3-.6A5 5 0 0 0 5 14a5 5 0 0 1-2.2 0 5 5 0 0 0 4.6 3.5 9.9 9.9 0 0 1-7.3 2A14 14 0 0 0 21.7 7.8V7A10 10 0 0 0 24 4.6z"
-                                    fill="#3cf" />
-                            </svg><!-- htmlmin:ignore --></a></li>
-                    <li><a href="https://stackexchange.com/users/217473/eric"><!-- htmlmin:ignore --><svg
-                                aria-labelledby="simpleicons-stackexchange-icon" width="25" height="25"
-                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <title id="simpleicons-stackexchange-icon">Stack Exchange</title>
-                                <path
-                                    d="M21.728 15.577v1.036c0 1.754-1.395 3.177-3.1 3.177h-.904L13.645 24v-4.21H5.371c-1.704 0-3.099-1.423-3.099-3.181v-1.032h19.456zM2.275 10.463h19.323v3.979H2.275v-3.979zm0-5.141h19.323v3.979H2.275V5.322zM18.575 0c1.681 0 3.023 1.42 3.023 3.178v1.034H2.275V3.178C2.275 1.422 3.67 0 5.375 0h13.2z"
-                                    fill="#2e95e9" />
-                            </svg><!-- htmlmin:ignore --></a></li>
-                    <li><a href="https://www.instagram.com/perreteric/"><!-- htmlmin:ignore --><svg
-                                aria-labelledby="simpleicons-instagram-icon" width="25" height="25" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <title id="simpleicons-instagram-icon">Instagram</title>
-                                <path
-                                    d="M12 0C8.74 0 8.33.01 7.05.07a8.85 8.85 0 0 0-2.91.56c-.79.3-1.46.72-2.13 1.38S.94 3.35.63 4.14c-.3.77-.5 1.64-.56 2.91C.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.38 2.13a5.87 5.87 0 0 0 2.13 1.38c.77.3 1.64.5 2.91.56 1.28.06 1.69.07 4.95.07s3.67-.01 4.95-.07a8.88 8.88 0 0 0 2.91-.56 5.9 5.9 0 0 0 2.13-1.38 5.86 5.86 0 0 0 1.38-2.13c.3-.77.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95a8.87 8.87 0 0 0-.56-2.91 5.89 5.89 0 0 0-1.38-2.13A5.85 5.85 0 0 0 19.86.63c-.77-.3-1.64-.5-2.91-.56A83.63 83.63 0 0 0 12 0zm0 2.16c3.2 0 3.58.02 4.85.07 1.17.06 1.8.25 2.23.42.56.21.96.47 1.38.9.42.41.68.81.9 1.37.16.43.36 1.06.4 2.23.07 1.27.08 1.65.08 4.85s-.02 3.58-.08 4.85a6.75 6.75 0 0 1-.42 2.23c-.22.56-.48.96-.9 1.38-.41.42-.82.68-1.38.9a6.5 6.5 0 0 1-2.23.4c-1.27.07-1.65.08-4.86.08-3.21 0-3.59-.02-4.86-.08a6.8 6.8 0 0 1-2.23-.42 3.72 3.72 0 0 1-1.38-.9 3.64 3.64 0 0 1-.9-1.38 6.81 6.81 0 0 1-.42-2.23 96.23 96.23 0 0 1-.06-4.84c0-3.2.01-3.6.06-4.87A6.8 6.8 0 0 1 2.6 4.9c.2-.57.48-.96.9-1.38.42-.42.8-.69 1.38-.9A6.64 6.64 0 0 1 7.1 2.2c1.27-.04 1.65-.06 4.86-.06l.04.03zm0 3.68a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm7.85-10.4a1.44 1.44 0 1 1-2.89 0 1.44 1.44 0 0 1 2.89 0z" />
-                            </svg><!-- htmlmin:ignore --></a></li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/ericperret">
+                            <!-- htmlmin:ignore --><svg aria-labelledby="simpleicons-linkedin-icon" width="25" height="25" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-linkedin-icon">LinkedIn</title><path d="M20.4 20.5H17v-5.6c0-1.3 0-3-1.9-3-1.8 0-2 1.4-2 2.9v5.7H9.3V9h3.4v1.6c.5-1 1.6-1.9 3.4-1.9 3.6 0 4.2 2.4 4.2 5.5v6.3zm-15-13a2 2 0 1 1 0-4.2 2 2 0 0 1 0 4.1zm1.7 13H3.6V9H7v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 1 .8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7c0-1-.8-1.7-1.8-1.7z" fill="#4875b4" /></svg><!-- htmlmin:ignore -->
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://x.com/humaknlght">
+                            <!-- htmlmin:ignore --><svg aria-labelledby="simpleicons-twitter-icon" width="25" height="25" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-twitter-icon">Twitter</title><path d="M24 4.6c-1 .4-1.9.6-2.9.7a5 5 0 0 0 2.2-2.7c-1 .6-2 1-3.1 1.2a5 5 0 0 0-3.6-1.6 5 5 0 0 0-4.8 6 14 14 0 0 1-10.2-5c-.4.7-.6 1.5-.6 2.4a5 5 0 0 0 2.2 4.1c-.8 0-1.6-.2-2.3-.6A5 5 0 0 0 5 14a5 5 0 0 1-2.2 0 5 5 0 0 0 4.6 3.5 9.9 9.9 0 0 1-7.3 2A14 14 0 0 0 21.7 7.8V7A10 10 0 0 0 24 4.6z" fill="#3cf" /></svg><!-- htmlmin:ignore -->
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://stackexchange.com/users/217473/eric">
+                            <!-- htmlmin:ignore --><svg aria-labelledby="simpleicons-stackexchange-icon" width="25" height="25" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-stackexchange-icon">Stack Exchange</title><path d="M21.728 15.577v1.036c0 1.754-1.395 3.177-3.1 3.177h-.904L13.645 24v-4.21H5.371c-1.704 0-3.099-1.423-3.099-3.181v-1.032h19.456zM2.275 10.463h19.323v3.979H2.275v-3.979zm0-5.141h19.323v3.979H2.275V5.322zM18.575 0c1.681 0 3.023 1.42 3.023 3.178v1.034H2.275V3.178C2.275 1.422 3.67 0 5.375 0h13.2z" fill="#2e95e9" /></svg><!-- htmlmin:ignore -->
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/perreteric/">
+                            <!-- htmlmin:ignore --><svg aria-labelledby="simpleicons-instagram-icon" width="25" height="25" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-instagram-icon">Instagram</title><path d="M12 0C8.74 0 8.33.01 7.05.07a8.85 8.85 0 0 0-2.91.56c-.79.3-1.46.72-2.13 1.38S.94 3.35.63 4.14c-.3.77-.5 1.64-.56 2.91C.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.38 2.13a5.87 5.87 0 0 0 2.13 1.38c.77.3 1.64.5 2.91.56 1.28.06 1.69.07 4.95.07s3.67-.01 4.95-.07a8.88 8.88 0 0 0 2.91-.56 5.9 5.9 0 0 0 2.13-1.38 5.86 5.86 0 0 0 1.38-2.13c.3-.77.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95a8.87 8.87 0 0 0-.56-2.91 5.89 5.89 0 0 0-1.38-2.13A5.85 5.85 0 0 0 19.86.63c-.77-.3-1.64-.5-2.91-.56A83.63 83.63 0 0 0 12 0zm0 2.16c3.2 0 3.58.02 4.85.07 1.17.06 1.8.25 2.23.42.56.21.96.47 1.38.9.42.41.68.81.9 1.37.16.43.36 1.06.4 2.23.07 1.27.08 1.65.08 4.85s-.02 3.58-.08 4.85a6.75 6.75 0 0 1-.42 2.23c-.22.56-.48.96-.9 1.38-.41.42-.82.68-1.38.9a6.5 6.5 0 0 1-2.23.4c-1.27.07-1.65.08-4.86.08-3.21 0-3.59-.02-4.86-.08a6.8 6.8 0 0 1-2.23-.42 3.72 3.72 0 0 1-1.38-.9 3.64 3.64 0 0 1-.9-1.38 6.81 6.81 0 0 1-.42-2.23 96.23 96.23 0 0 1-.06-4.84c0-3.2.01-3.6.06-4.87A6.8 6.8 0 0 1 2.6 4.9c.2-.57.48-.96.9-1.38.42-.42.8-.69 1.38-.9A6.64 6.64 0 0 1 7.1 2.2c1.27-.04 1.65-.06 4.86-.06l.04.03zm0 3.68a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm7.85-10.4a1.44 1.44 0 1 1-2.89 0 1.44 1.44 0 0 1 2.89 0z" /></svg><!-- htmlmin:ignore -->
+                        </a>
+                    </li>
                     <li class="wordpress">
-                        <div><a
-                                href="https://developer.salesforce.com/search#q=%22eric%20perret%22&f:@commonsource=[Salesforce%20Developers%20Blog]"><!-- htmlmin:ignore --><svg
-                                    aria-labelledby="simpleicons-wordpress-icon" width="25" height="25"
-                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <title id="simpleicons-wordpress-icon">WordPress</title>
-                                    <path
-                                        d="M21 7a11 11 0 0 1-4 14l4-9a10 10 0 0 0 0-5m-8 0h2V6H9v1h1l2 4-3 8L5 7h2V6H3a11 11 0 0 1 16-2l-2 2 1 2 1 3-1 4-1 4-4-12zm-1 16l-3-1 3-9 4 9-4 1M1 12l1-4 5 14c-3-2-6-6-6-10M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24"
-                                        fill="#fff" />
-                                </svg><!-- htmlmin:ignore --></a></div>
+                        <div>
+                            <a href="https://developer.salesforce.com/search#q=%22eric%20perret%22&f:@commonsource=[Salesforce%20Developers%20Blog]">
+                                <!-- htmlmin:ignore --><svg aria-labelledby="simpleicons-wordpress-icon" width="25" height="25" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-wordpress-icon">WordPress</title><path d="M21 7a11 11 0 0 1-4 14l4-9a10 10 0 0 0 0-5m-8 0h2V6H9v1h1l2 4-3 8L5 7h2V6H3a11 11 0 0 1 16-2l-2 2 1 2 1 3-1 4-1 4-4-12zm-1 16l-3-1 3-9 4 9-4 1M1 12l1-4 5 14c-3-2-6-6-6-10M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24" fill="#fff" /></svg><!-- htmlmin:ignore -->
+                            </a>
+                        </div>
                     </li>
                     <li class="navLink"><a href="mailto:contact@ericperret.org">Contact&nbsp;Me</a></li>
                     <li class="navLink"><a href="resume/">Resume</a></li>
@@ -137,28 +115,15 @@
                     <li class="navLink"><a href="?photos" class="photos">Photos</a></li>
                     <li class="navLink"><a href="?art" class="art">Art</a></li>
                     <li class="toggle">
-                        <label for="dark-mode-toggle" class="theme-toggle-label" aria-label="Toggle Dark Mode">
-                            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="theme-svg" xmlns="http://www.w3.org/2000/svg">
-                            
-                                <mask id="moon-mask">
-                                    <rect x="0" y="0" width="100%" height="100%" fill="white" />
-                                    <circle cx="24" cy="10" r="6" fill="black" class="mask-circle" />
-                                </mask>
-                            
-                                <circle cx="12" cy="12" r="5" fill="currentColor" mask="url(#moon-mask)" class="sun-body" />
-                            
-                                <g class="sun-rays">
-                                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                                </g>
-                            </svg>
+                        <input type="checkbox" id="dark-mode-toggle" aria-label="Toggle Dark Mode" />
+                        <label for="dark-mode-toggle" class="theme-toggle-label" aria-label="Toggle Dark Mode" tabindex="-1">
+                            <!-- htmlmin:ignore --><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="theme-svg" viewBox="0 0 24 24"><mask id="a"><rect width="100%" height="100%" fill="#fff"/><circle cx="24" cy="10" r="6" fill="#000" class="mask-circle"/></mask><circle cx="12" cy="12" r="5" fill="currentColor" class="sun-body" mask="url(#a)"/><g class="sun-rays"><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></g></svg><!-- htmlmin:ignore -->
                         </label>
+                        <script>
+                            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                                document.getElementById('dark-mode-toggle').checked = true;
+                            }
+                        </script>
                     </li>
                 </ul>
             </nav>
@@ -181,12 +146,8 @@
                         title="Portrait of Eric Perret (Me)" />
                 </a>
                 <p class="tagline">Software&nbsp;Architect, Technical&nbsp;Leader, Tea&nbsp;Aficionado,
-                    <!-- htmlmin:ignore --><svg aria-labelledby="and-icon" width="25" height="20" id="and"
-                        viewBox="0 0 6.6 8.1" xmlns="http://www.w3.org/2000/svg">
-                        <title id="and-icon">and</title>
-                        <path
-                            d="M6.6 3.6v.6l-.3.4-.5.3-.5.2-.2 1.2-.6 1q-.4.4-.9.6-.5.2-1.2.2l-1-.1q-.5-.2-.8-.6L0 6.7V5.1l.4-.7q.1-.3.4-.5l.6-.4-.7-.7L.5 2l.1-.7.4-.6q.2-.3.6-.4.3-.2.8-.2l.8.1.5.4.4.4v.9L4 2l-.2.2h-.5L3.1 2l.2-.2V1q0-.2-.2-.3h-.2L2.6.5l-.3.1Q2 .7 2 1l-.1.4-.1.4v.5l.3.5.5.5.6.2-.6.3-.4.6-.3.6v1.2q0 .3.2.5l.4.3.6.1q.9 0 1.3-.5t.5-1.5h-.8q-.7 0-1 .4 0-.7.5-1Q4 4 4.8 4h1.4l.4-.4z" />
-                    </svg><!-- htmlmin:ignore --> Outdoor&nbsp;Enthusiast
+                    <!-- htmlmin:ignore --><svg aria-labelledby="and-icon" width="25" height="20" id="and" viewBox="0 0 6.6 8.1" xmlns="http://www.w3.org/2000/svg"><title id="and-icon">and</title><path d="M6.6 3.6v.6l-.3.4-.5.3-.5.2-.2 1.2-.6 1q-.4.4-.9.6-.5.2-1.2.2l-1-.1q-.5-.2-.8-.6L0 6.7V5.1l.4-.7q.1-.3.4-.5l.6-.4-.7-.7L.5 2l.1-.7.4-.6q.2-.3.6-.4.3-.2.8-.2l.8.1.5.4.4.4v.9L4 2l-.2.2h-.5L3.1 2l.2-.2V1q0-.2-.2-.3h-.2L2.6.5l-.3.1Q2 .7 2 1l-.1.4-.1.4v.5l.3.5.5.5.6.2-.6.3-.4.6-.3.6v1.2q0 .3.2.5l.4.3.6.1q.9 0 1.3-.5t.5-1.5h-.8q-.7 0-1 .4 0-.7.5-1Q4 4 4.8 4h1.4l.4-.4z" /></svg><!-- htmlmin:ignore -->
+                    Outdoor&nbsp;Enthusiast
                 </p>
                 <p class="start">Hi, I&#8217;m Eric Perret, a tech entrepreneur who loves building awesome software.
                     Driven by a passion for learning and exploration, I&#8217;m constantly pushing the boundaries of
@@ -194,8 +155,7 @@
                 <p>For over <time datetime="2000">25 years</time>, I have been building <b>Web Applications</b> in some
                     fashion or another from <b>UX</b>/<b>Accessibility</b> to <b>full-stack dev</b> to <b>performance
                         engineering.</b></p>
-                <p>Based in the <a href="https://goo.gl/maps/mPQSeoEmtm12">San Francisco Bay
-                        Area</a>.</p>
+                <p>Based in the <a href="https://goo.gl/maps/mPQSeoEmtm12">San Francisco Bay Area</a>.</p>
                 <h2>My innovation philosophy is&hellip;</h2>
                 <ul>
                     <li>Building incredible solutions that empower users and streamline operations.</li>
@@ -210,12 +170,15 @@
                     <li>Hiking and exploring the different national, state, and local parks.</li>
                     <li>Trying out different recipes in the kitchen.</li>
                 </ul>
-                <p class="end">Feel free to drop me a line and <a
-                        href="mailto:contact@ericperret.org?subject=Hi!&body=I%20just%20wanted%20to%20say%20hi%20and%20tell%20you%20how%20awesome%20your%20website%20is.">say
-                        hi</a>!<span class="insta-wrapper"><a
-                            href="https://www.instagram.com/p/BWvcFx-B9jW/"><img width="380" height="380"
-                                class="insta-photo" loading="lazy" fetchpriority="low" src="img/bball.avif"
-                                alt="Image of the Salesforce event at Oracle Park" /></a></span>
+                <p class="end">Feel free to drop me a line and
+                    <a href="mailto:contact@ericperret.org?subject=Hi!&body=I%20just%20wanted%20to%20say%20hi%20and%20tell%20you%20how%20awesome%20your%20website%20is.">say
+                        hi
+                    </a>!
+                    <span class="insta-wrapper">
+                        <a href="https://www.instagram.com/p/BWvcFx-B9jW/">
+                            <img width="380" height="380" class="insta-photo" loading="lazy" fetchpriority="low" src="img/bball.avif" alt="Image of the Salesforce event at Oracle Park" />
+                        </a>
+                    </span>
                 </p>
             </main>
         </div>
@@ -231,7 +194,7 @@
             "alternateName": "humaknlght",
             "url": "https://www.ericperret.org",
             "image": "https://www.ericperret.org/img/perret2.webp",
-            "description": "Eric Perret is a web developer with over 22 years of experience building web applications. He is currently working at Salesforce and is passionate about automation, user experience, and developer productivity.",
+            "description": "Eric Perret is a web developer with over 22 years of experience building web applications. He is currently working at Salesforce and is passionate about user experience, performance, and security.",
             "sameAs": [
                 "https://www.linkedin.com/in/ericperret",
                 "https://x.com/humaknlght",
