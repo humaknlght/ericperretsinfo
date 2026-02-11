@@ -155,6 +155,12 @@ interface HTMLElementWithFullscreen extends HTMLElement {
     function ready(): void {
         setup();
 
+        const toggle = document.getElementById('dark-mode-toggle')! as HTMLInputElement;
+        toggle.addEventListener('change', () => {
+            document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]')!.content
+                = toggle.checked ? 'dark' : 'light';
+        });
+
         const navOpenerButton = document.querySelector<HTMLButtonElement>(".navOpener > button")!;
         navOpenerButton.addEventListener("click", (event) => {
             const button = event.currentTarget as HTMLButtonElement;
