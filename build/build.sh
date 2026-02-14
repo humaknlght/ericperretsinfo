@@ -66,6 +66,10 @@ find ./prod -name '*.js' | while read FILE; do
       -o "${FILE}"
 done
 
+# --- 2b. CACHE-BUST 1ST PARTY RESOURCES ---
+echo "Adding cache-bust parameters to 1st party resources..."
+node add-cache-bust.js ./prod
+
 # --- 3. COMPRESSION (PARALLELIZED) ---
 
 # https://github.com/google/brotli

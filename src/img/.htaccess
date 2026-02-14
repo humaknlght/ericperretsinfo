@@ -1,5 +1,5 @@
 <FilesMatch "\.(webp|avif|png|gif|jpg)$">
-Header set Cache-Control "max-age=2419200, public"
+Header set Cache-Control "max-age=31536000, public"
 Header always set "Cross-Origin-Resource-Policy" "same-site"
 </FilesMatch>
 <FilesMatch "\.webp$">
