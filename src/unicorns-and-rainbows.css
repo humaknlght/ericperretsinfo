@@ -230,50 +230,27 @@ footer {
 }
 
 .carousel-slide {
-    /* Each div takes up 100% of the viewport width */
+    /* Each div takes up the same width as before (90vw - 1em) */
     flex-shrink: 0;
     width: calc(90vw - 1em);
     margin: 0 .5em;
     border-radius: 1em;
     height: 100%;
-    background-size: cover;
-    /* Ensures the image covers the entire div */
-    background-position: center;
-    background-repeat: no-repeat;
-    /*filter: brightness(0.7); /* Adds a dark overlay for better text readability */
+    overflow: hidden;
 }
 
-/* Set the background image for each slide using an ID */
-#slide-0 {
-    background-image: url('img/bg0.avif');
+.carousel-slide picture {
+    display: block;
+    width: 100%;
+    height: 100%;
 }
 
-#slide-1 {
-    background-image: url('img/bg1.webp');
-}
-
-#slide-2 {
-    background-image: url('img/bg2.webp');
-}
-
-#slide-3 {
-    background-image: url('img/bg3.webp');
-}
-
-#slide-4 {
-    background-image: url('img/bg4.webp');
-}
-
-#slide-5 {
-    background-image: url('img/bg5.webp');
-}
-
-#slide-6 {
-    background-image: url('img/bg6.avif');
-}
-
-#slide-7 {
-    background-image: url('img/bg7.avif');
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
 }
 
 /* Styles for the main content on top of the carousel */

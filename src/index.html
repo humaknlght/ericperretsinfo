@@ -54,20 +54,70 @@
     <div class="carousel-wrapper">
         <div class="carousel-container">
             <!-- The last slide is duplicated at the start for a seamless loop -->
-            <div class="carousel-slide" id="slide-7"></div>
+            <div class="carousel-slide" id="slide-7">
+                <picture>
+                    <source type="image/avif" srcset="img/bg7.avif">
+                    <img src="img/bg7.avif" alt="" decoding="async" width="1927" height="1446">
+                </picture>
+            </div>
 
-            <!-- The original slides -->
-            <div class="carousel-slide" id="slide-0"></div>
-            <div class="carousel-slide" id="slide-1"></div>
-            <div class="carousel-slide" id="slide-2"></div>
-            <div class="carousel-slide" id="slide-3"></div>
-            <div class="carousel-slide" id="slide-4"></div>
-            <div class="carousel-slide" id="slide-5"></div>
-            <div class="carousel-slide" id="slide-6"></div>
-            <div class="carousel-slide" id="slide-7"></div>
+            <!-- The original slides (first slide-0 is visible on load: fetchpriority="high" for LCP) -->
+            <div class="carousel-slide" id="slide-0">
+                <picture>
+                    <source type="image/avif" srcset="img/bg0.avif"/>
+                    <img src="img/bg0.avif" alt="" width="1600" height="1064" fetchpriority="high"/>
+                </picture>
+            </div>
+            <div class="carousel-slide" id="slide-1">
+                <picture>
+                    <source type="image/webp" srcset="img/bg1.webp"/>
+                    <img src="img/bg1.webp" decoding="async" alt="" width="2985" height="1986"/>
+                </picture>
+            </div>
+            <div class="carousel-slide" id="slide-2">
+                <picture>
+                    <source type="image/webp" srcset="img/bg2.webp"/>
+                    <img src="img/bg2.webp" decoding="async" alt="" loading="lazy" width="2296" height="1292"/>
+                </picture>
+            </div>
+            <div class="carousel-slide" id="slide-3">
+                <picture>
+                    <source type="image/webp" srcset="img/bg3.webp"/>
+                    <img src="img/bg3.webp" decoding="async" alt="" loading="lazy" width="3000" height="1954"/>
+                </picture>
+            </div>
+            <div class="carousel-slide" id="slide-4">
+                <picture>
+                    <source type="image/webp" srcset="img/bg4.webp"/>
+                    <img src="img/bg4.webp" decoding="async" alt="" loading="lazy" width="3643" height="2732"/>
+                </picture>
+            </div>
+            <div class="carousel-slide" id="slide-5">
+                <picture>
+                    <source type="image/webp" srcset="img/bg5.webp"/>
+                    <img src="img/bg5.webp" decoding="async" alt="" loading="lazy" width="3729" height="2097"/>
+                </picture>
+            </div>
+            <div class="carousel-slide" id="slide-6">
+                <picture>
+                    <source type="image/avif" srcset="img/bg6.avif"/>
+                    <img src="img/bg6.avif" decoding="async" alt="" loading="lazy" width="2024" height="1518"/>
+                </picture>
+            </div>
+            <div class="carousel-slide" id="slide-7">
+                <picture>
+                    <source type="image/avif" srcset="img/bg7.avif"/>
+                    <img src="img/bg7.avif" decoding="async" alt="" loading="lazy" width="1927" height="1446"/>
+                </picture>
+            </div>
 
             <!-- The first slide is duplicated at the end for a seamless loop -->
-            <div class="carousel-slide" id="slide-0"></div>
+            <div class="carousel-slide" id="slide-0">
+                <picture>
+                    <source type="image/avif" srcset="img/bg0.avif"/>
+                    <img src="img/bg0.avif" decoding="async" alt="" loading="lazy" width="1600" height="1064"/>
+                </picture>
+            </div>
         </div>
     </div>
     <div class="body">

@@ -73,6 +73,19 @@ interface HTMLElementWithFullscreen extends HTMLElement {
             }
         });
 
+        // Recalculate carousel position on window resize to maintain correct alignment
+        let resizeTimeout: ReturnType<typeof setTimeout> | undefined;
+        window.addEventListener('resize', () => {
+            // Debounce resize events to avoid excessive recalculations
+            if (resizeTimeout) {
+                clearTimeout(resizeTimeout);
+            }
+            resizeTimeout = setTimeout(() => {
+                // Reapply the transform for the current index without transition
+                setBackgroundImg(currentIndex, carouselContainer, false);
+            }, 150);
+        });
+
         // Set an interval to trigger the next slide every 7 seconds
         // Only if the user hasn't requested reduced motion
         const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
