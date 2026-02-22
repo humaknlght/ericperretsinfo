@@ -28,23 +28,25 @@ done
 
 echo "Minifying all HTML files..."
 #npm install html-minifier-next -g
-npx html-minifier-next \
-    --input-dir ./prod \
-    --output-dir ./prod \
-    --file-ext html \
-    --keep-closing-slash \
-    --remove-comments \
-    --collapse-whitespace \
-    --minify-js \
-    --minify-css \
-    --decode-entities \
-    --no-html5 \
-    --process-conditional-comments \
-    --remove-redundant-attributes \
-    --remove-script-type-attributes \
-    --remove-style-link-type-attributes \
-    --use-short-doctype \
-    --trim-custom-fragments
+# This finds all .html files in ./prod and its subdirectories
+find ./prod -name "*.html" -type f | while read -r file; do
+    echo "Processing: $file"
+    
+    npx html-minifier-next "$file" \
+        --output "$file" \
+        --remove-comments \
+        --collapse-whitespace \
+        --collapse-boolean-attributes \
+        --remove-redundant-attributes \
+        --remove-script-type-attributes \
+        --remove-style-link-type-attributes \
+        --decode-entities \
+        --use-short-doctype \
+        --minify-js true \
+        --minify-css true \
+        --sort-class-names \
+        --trim-custom-fragments
+done
 
 echo "Minifying JSON-LD in HTML files..."
 node minify-ld-json.js ./prod
@@ -86,8 +88,8 @@ find ./prod -type f \( \
     -name "*.pdf" \
 \) | xargs -P $NUM_CORES -I {} sh -c '
     echo "Compressing {}"
-    ./zopfli "{}"
-    brotli "{}"
+    ./zopfli -i100 "{}"
+    brotli -f -q 11 --lgwin=24 "{}"
 '
 
 echo "Build complete!"
