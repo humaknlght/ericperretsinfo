@@ -200,9 +200,10 @@ footer,
 footer {
     display: inline-block;
     padding: calc(1rem - 2px) 3rem;
-    margin: 5px;
-    margin-left: 6vw;
+    margin: 1rem 0 0 6vw;
+    width: calc(600px - 7rem);
     color: var(--secondary-text-color);
+    font-size: 1rem;
 }
 
 /* Styles for the animated carousel background */
@@ -520,7 +521,7 @@ footer {
     }
 
     .content {
-        padding: 0 0 3rem 0;
+        margin-top: 15rem;
     }
 
     .content > main,
@@ -648,7 +649,8 @@ footer {
 
     .title,
     .title > div,
-    .content {
+    .content,
+    footer {
         margin-left: .5rem;
         margin-right: .5rem;
     }
@@ -663,8 +665,14 @@ footer {
         width: calc(100% - 1rem);
     }
 
+    footer {
+        padding: 1rem;
+        width: calc(100% - 3rem);
+    }
+
     .content,
-    .content > main {
+    .content > main,
+    footer {
         border-radius: 0;
     }
 
@@ -697,7 +705,8 @@ footer {
     }
 
     .title,
-    .content {
+    .content,
+    footer {
         width: 100%;
         margin-left: 0;
         margin-right: 0;
@@ -727,6 +736,7 @@ footer {
 
     footer {
         font-size: .75rem;
+        width: calc(100% - 2rem);
     }
 
     .backgroundWrapper {
