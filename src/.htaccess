@@ -18,71 +18,43 @@ ErrorDocument 404 /404/index.html
 ExpiresActive on
 Header set Cache-Control "public,max-age=2419202"
 
-<FilesMatch "\.js\.gz$">
+<FilesMatch ".gz$">
 AddEncoding x-gzip .gz
 Header set Content-Encoding: gzip
+</FilesMatch>
+
+<FilesMatch ".br$">
+AddEncoding br .br
+Header set Content-Encoding: br
+</FilesMatch>
+
+<FilesMatch "\.js">
 Header set Vary "Accept-Encoding"
 AddDefaultCharset UTF-8
 ForceType text/javascript
 Header always set "Cross-Origin-Resource-Policy" "same-site"
+Header set Cache-Control "public,max-age=31536000"
 </FilesMatch>
 
-<FilesMatch "\.js\.br$">
-AddEncoding br .br
-Header set Content-Encoding: br
-Header set Vary "Accept-Encoding"
-AddDefaultCharset UTF-8
-ForceType text/javascript
-Header always set "Cross-Origin-Resource-Policy" "same-site"
-</FilesMatch>
-
-<FilesMatch "\.css\.gz$">
-AddEncoding x-gzip .gz
-Header set Content-Encoding: gzip
+<FilesMatch "\.css">
 Header set Vary "Accept-Encoding"
 AddDefaultCharset UTF-8
 ForceType text/css
 Header always set "Cross-Origin-Resource-Policy" "same-site"
-</FilesMatch>
-
-<FilesMatch "\.css\.br$">
-AddEncoding br .br
-Header set Content-Encoding: br
-Header set Vary "Accept-Encoding"
-AddDefaultCharset UTF-8
-ForceType text/css
-Header always set "Cross-Origin-Resource-Policy" "same-site"
-</FilesMatch>
-
-<FilesMatch "\.css$">
-Header set Vary "Accept-Encoding"
-AddDefaultCharset UTF-8
-ForceType text/css
-Header always set "Cross-Origin-Resource-Policy" "same-site"
-</FilesMatch>
-
-<FilesMatch "\.html\.gz$">
-AddEncoding x-gzip .gz
-Header set Content-Encoding: gzip
-ForceType text/html
-</FilesMatch>
-
-<FilesMatch "\.html\.br$">
-AddEncoding br .br
-Header set Content-Encoding: br
-ForceType text/html
+Header set Cache-Control "public,max-age=31536000"
 </FilesMatch>
 
 <FilesMatch "\.html">
 Header always set "Referrer-Policy" "no-referrer"
 Header always set "Cross-Origin-Embedder-Policy" "require-corp"
-Header set Link "<https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@900&family=Inter:wght@400;500&family=Playfair+Display:wght@700;900&display=swap>;as=style;rel=preload;fetchpriority=high,<https://fonts.gstatic.com>;rel=preconnect;crossorigin,</img/bg0.avif>;as=image;rel=preload;fetchpriority=high,</img/bg1.webp>;as=image;rel=preload,</img/bg7.avif>;as=image;rel=preload"
+Header set Link "<https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@900&family=Inter:wght@400;700&family=Playfair+Display:wght@900&display=swap>;as=style;rel=preload;fetchpriority=high,<https://fonts.gstatic.com>;rel=preconnect;crossorigin,</img/bg0.avif>;as=image;rel=preload;fetchpriority=high,</img/bg1.webp>;as=image;rel=preload,</img/bg7.avif>;as=image;rel=preload"
 Header always set "X-UA-Compatible" "IE=edge"
 Header always append X-Frame-Options DENY
 Header set Vary "Accept-Encoding"
 Header always set "Content-Security-Policy" "upgrade-insecure-requests;default-src 'none';script-src 'self' 'sha256-I/2MSZRcaETmHpt/gbnZIuMGIKBisPLfPmteUx/WHdY=' 'sha256-gZiWBOWKghllTz52afdCzCwLyQj46lJInJAx9YY1bqg=' 'sha256-CWpOQpjtR82aholVEnJ/z/GSf5SxQVNZzZ0p5O1zdbw=' https://www.googletagmanager.com/gtag/js *.google-analytics.com;style-src 'self' 'sha256-s4luA1dUp9XWuHO6rZF8OH6C15WnY5r6vJdHuoi5HUU=' 'sha256-biC4kOKLSc9YD3TPQJV4uAlrnZyG2xuQsUaGrTRkbpA=' https://fonts.googleapis.com;connect-src 'self';img-src data: 'self' https://www.googletagmanager.com https://www.google-analytics.com; font-src data: https://fonts.gstatic.com;frame-src https://www.youtube-nocookie.com;form-action 'none';base-uri 'none';frame-ancestors 'none'"
 Header always set "Speculation-Rules" "\"/prerender.json\""
 Header always set "Strict-Transport-Security" "max-age=31536000"
+ForceType text/html
 Header always set "Cloudflare-CDN-Cache-Control" "public,max-age=2419201"
 Header set Cache-Control "public,max-age=900"
 Header set Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
