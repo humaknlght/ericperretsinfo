@@ -2,19 +2,84 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
     margin: 0;
     padding: 0;
     border: 0;
@@ -22,8 +87,16 @@ time, mark, audio, video {
 }
 
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, section {
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+section {
     display: block
 }
 
@@ -50,7 +123,12 @@ button {
     cursor: pointer;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: "Playfair Display", serif;
     font-weight: 900;
     line-height: 1.1;
@@ -124,7 +202,6 @@ footer,
 }
 
 .content>main {
-    pointer-events: auto;
     border-bottom: 0;
     padding: 1rem 1rem .5rem 1rem;
 }
@@ -213,7 +290,8 @@ footer {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Ensures the carousel is behind all other content */
+    z-index: -1;
+    /* Ensures the carousel is behind all other content */
     overflow: hidden;
     opacity: .75;
     transition: opacity .5s;
@@ -228,6 +306,7 @@ footer {
     /* We'll use JavaScript to set the transition and transform */
     /* Initial position is set to show the first original image */
     transform: translateX(-85vw);
+    touch-action: pan-y;
 }
 
 .carousel-slide {
@@ -279,7 +358,6 @@ footer {
 }
 
 .icons {
-    pointer-events: auto;
     margin: 5px;
     padding: 4px 1rem 2px;
     display: flex;
@@ -287,20 +365,20 @@ footer {
     position: absolute;
 }
 
-.icons > ul {
+.icons>ul {
     padding: 0;
     margin: 0
 }
 
-.icons > ul > li,
-.icons > ul > li > div {
+.icons>ul>li,
+.icons>ul>li>div {
     width: 25px;
     height: 25px;
     display: inline-block;
     margin-right: .5rem
 }
 
-.icons > ul > li.toggle {
+.icons>ul>li.toggle {
     margin-right: 0;
     vertical-align: top;
 }
@@ -312,12 +390,12 @@ footer {
     padding-left: .5rem;
 }
 
-.icons .navLink > a {
+.icons .navLink>a {
     text-decoration: none;
     color: var(--nav-text-color);
 }
 
-.icons .navLink > a:hover {
+.icons .navLink>a:hover {
     text-decoration: underline;
 }
 
@@ -337,13 +415,13 @@ footer {
     padding-right: 1rem
 }
 
-.wordpress > div {
+.wordpress>div {
     background: #21759b;
     padding: 1px;
     border-radius: 1rem
 }
 
-.changeColor > button {
+.changeColor>button {
     border: 0;
     background: transparent;
     padding: 0;
@@ -361,7 +439,7 @@ footer {
     scroll-snap-type: x mandatory;
 }
 
-.artContent > a {
+.artContent>a {
     padding: 0;
     margin: 0;
     display: inline-block;
@@ -371,7 +449,7 @@ footer {
     scroll-snap-stop: normal;
 }
 
-.artContent > a + a {
+.artContent>a+a {
     padding-left: 1rem
 }
 
@@ -387,7 +465,7 @@ footer {
     margin-left: 7vw;
 }
 
-.photoB > button {
+.photoB>button {
     margin-right: .5rem;
     border-radius: 0 0 .5rem .5rem;
     letter-spacing: 1px;
@@ -424,10 +502,6 @@ footer {
     transform: translateY(calc(100% + 5px));
 }
 
-.hide .photoB {
-    pointer-events: all;
-}
-
 .hide .carousel-wrapper {
     opacity: unset;
 }
@@ -446,35 +520,35 @@ footer {
     }
 }
 
-.hide .photoB > button {
+.hide .photoB>button {
     opacity: 100%;
     animation: .75s cubic-bezier(0, -0.11, 0, 1.4) 1s 1 drop backwards;
     height: 4rem;
     padding: .5rem;
 }
 
-.show .photoB > button {
+.show .photoB>button {
     opacity: 100%;
     animation: .75s cubic-bezier(0, -0.11, 0, 1.4) 0s 1 rise forwards;
     height: 4rem;
 }
 
-.hide .photoB > button:hover,
-.hide .photoB > button:focus {
+.hide .photoB>button:hover,
+.hide .photoB>button:focus {
     opacity: 100%;
     background: #fff;
 }
 
-.hide .photoB > button:hover {
+.hide .photoB>button:hover {
     height: 4.5rem;
 }
 
-.hide .photoB > button:disabled {
+.hide .photoB>button:disabled {
     background-color: transparent;
     color: transparent;
 }
 
-.hide .photoB > button:disabled:hover {
+.hide .photoB>button:disabled:hover {
     height: 4rem;
 }
 
@@ -496,7 +570,7 @@ footer {
         transition: transform 1s;
     }
 
-    .title > div {
+    .title>div {
         animation: 1s ease-out .5s 1 slideInFromLeft backwards;
     }
 
@@ -516,7 +590,7 @@ footer {
         padding: 0
     }
 
-    .title > div {
+    .title>div {
         margin-top: 0;
     }
 
@@ -524,14 +598,14 @@ footer {
         margin-top: 15rem;
     }
 
-    .content > main,
+    .content>main,
     .title,
     .icons.tile {
         border-radius: 0
     }
 
-    .icons > ul > li,
-    .icons > ul > li > div {
+    .icons>ul>li,
+    .icons>ul>li>div {
         margin: 0;
     }
 
@@ -559,16 +633,15 @@ footer {
         height: 2.75rem;
     }
 
-    .navOpener > button {
+    .navOpener>button {
         margin: 0 1.5rem;
-        pointer-events: all;
         border: 0;
         background: transparent;
     }
 
-    .navOpener > button > .bar1,
-    .navOpener > button > .bar2,
-    .navOpener > button > .bar3 {
+    .navOpener>button>.bar1,
+    .navOpener>button>.bar2,
+    .navOpener>button>.bar3 {
         width: 35px;
         height: 5px;
         background-color: var(--nav-text-color);
@@ -577,16 +650,16 @@ footer {
         display: block;
     }
 
-    .navOpener > button.open > .bar1 {
+    .navOpener>button.open>.bar1 {
         -webkit-transform: rotate(-45deg) translate(-9px, 6px);
         transform: rotate(-45deg) translate(-9px, 6px);
     }
 
-    .navOpener > button.open > .bar2 {
+    .navOpener>button.open>.bar2 {
         opacity: 0;
     }
 
-    .navOpener > button.open > .bar3 {
+    .navOpener>button.open>.bar3 {
         -webkit-transform: rotate(45deg) translate(-8px, -8px);
         transform: rotate(45deg) translate(-8px, -8px);
     }
@@ -628,7 +701,7 @@ footer {
         padding: 0;
     }
 
-    .icons > ul > li {
+    .icons>ul>li {
         height: auto;
     }
 
@@ -640,7 +713,6 @@ footer {
         top: 0;
         position: fixed;
         z-index: -2;
-        pointer-events: auto;
         height: calc(100% - 1rem);
         width: calc(100% - 1rem);
         border: .5rem solid var(--background-color);
@@ -648,7 +720,7 @@ footer {
     }
 
     .title,
-    .title > div,
+    .title>div,
     .content,
     footer {
         margin-left: .5rem;
@@ -671,12 +743,12 @@ footer {
     }
 
     .content,
-    .content > main,
+    .content>main,
     footer {
         border-radius: 0;
     }
 
-    .title > div {
+    .title>div {
         font-size: 4rem;
         width: unset;
     }
@@ -712,11 +784,11 @@ footer {
         margin-right: 0;
     }
 
-    .title > div {
+    .title>div {
         margin-bottom: -.6rem
     }
 
-    .content > main {
+    .content>main {
         padding: .25rem;
         width: calc(100% - .5rem)
     }
@@ -749,7 +821,7 @@ footer {
         display: none
     }
 
-    .grid.background > div {
+    .grid.background>div {
         background-image: none
     }
 }
@@ -778,6 +850,7 @@ html:has(#dark-mode-toggle:checked) {
     --secondary-text-color: rgba(255, 255, 255, .6);
     --title-color: #fff;
 }
+
 html:has(#dark-mode-toggle:checked) body {
     color-scheme: dark;
 }
@@ -795,7 +868,7 @@ html:has(#dark-mode-toggle:checked) body {
 }
 
 /* Focus indicator for keyboard users */
-#dark-mode-toggle:focus-visible + .theme-toggle-label,
+#dark-mode-toggle:focus-visible+.theme-toggle-label,
 .theme-toggle-label:focus-visible {
     outline: 2px solid var(--nav-text-color);
     outline-offset: 4px;
@@ -813,21 +886,27 @@ html:has(#dark-mode-toggle:checked) body {
     color: #ffc011;
 }
 
-.mask-circle { transition: var(--transition); }
-.sun-rays { transition: var(--transition); transform-origin: center; }
+.mask-circle {
+    transition: var(--transition);
+}
+
+.sun-rays {
+    transition: var(--transition);
+    transform-origin: center;
+}
 
 /* ANIMATION: Uses '+' because label is next to input */
-#dark-mode-toggle:checked + .theme-toggle-label .theme-svg {
+#dark-mode-toggle:checked+.theme-toggle-label .theme-svg {
     transform: rotate(40deg);
     color: #f0f0f0;
 }
 
-#dark-mode-toggle:checked + .theme-toggle-label .sun-rays {
+#dark-mode-toggle:checked+.theme-toggle-label .sun-rays {
     opacity: 0;
     transform: scale(0);
 }
 
-#dark-mode-toggle:checked + .theme-toggle-label .mask-circle {
+#dark-mode-toggle:checked+.theme-toggle-label .mask-circle {
     cx: 18;
     cy: 8;
 }

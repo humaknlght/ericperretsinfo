@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 "use strict";
 
-const fs = require("fs");
+const fs = require("fs").promises;
+const { existsSync } = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 
@@ -18,14 +19,11 @@ const THIRD_PARTY_PREFIXES = [
   "?",
 ];
 
+// --- HELPER FUNCTIONS (Your Original Logic) ---
+
 function isFirstParty(url) {
   const u = url.trim();
   return !THIRD_PARTY_PREFIXES.some((p) => u.startsWith(p));
-}
-
-function relativeKey(absolutePath) {
-  const rel = path.relative(prodRoot, absolutePath);
-  return rel.split(path.sep).join("/");
 }
 
 function md5Base64Url(content) {
@@ -33,40 +31,17 @@ function md5Base64Url(content) {
   return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
-function buildHashMap() {
-  const hashMap = new Map();
-  function walk(dir) {
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
-    for (const e of entries) {
-      const full = path.join(dir, e.name);
-      if (e.isDirectory()) {
-        walk(full);
-      } else if (e.isFile()) {
-        const key = relativeKey(full);
-        const content = fs.readFileSync(full);
-        const hash = md5Base64Url(content);
-        hashMap.set(key, hash);
-      }
-    }
-  }
-  walk(prodRoot);
-  return hashMap;
-}
-
 function resolveToKey(refPath, fromDir) {
   let pathPart = refPath.replace(/^\/+/, "");
   try {
     pathPart = decodeURIComponent(pathPart);
-  } catch (_) {
-    // leave pathPart as-is if not valid URI component
-  }
+  } catch (_) { }
   const isRootRelative = /^\//.test(refPath);
   const abs = isRootRelative
     ? path.join(prodRoot, pathPart)
     : path.resolve(fromDir, pathPart);
   if (!abs.startsWith(prodRoot)) return null;
-  const key = path.relative(prodRoot, abs).split(path.sep).join("/");
-  return key;
+  return path.relative(prodRoot, abs).split(path.sep).join("/");
 }
 
 function addParam(url, hash) {
@@ -74,29 +49,26 @@ function addParam(url, hash) {
   return `${url}${q}v=${hash}`;
 }
 
+// --- PROCESSING LOGIC (Your Original Regexes) ---
+
 function processHtml(content, filePath, hashMap) {
   const dir = path.dirname(filePath);
   let out = content;
 
-  // href="..."
   out = out.replace(/href="([^"]*)"/g, (_, url) => {
     if (!isFirstParty(url)) return `href="${url}"`;
     const key = resolveToKey(url.split("?")[0], dir);
     if (!key || !hashMap.has(key)) return `href="${url}"`;
-    const hash = hashMap.get(key);
-    return `href="${addParam(url, hash)}"`;
+    return `href="${addParam(url, hashMap.get(key))}"`;
   });
 
-  // src="..."
   out = out.replace(/src="([^"]*)"/g, (_, url) => {
     if (!isFirstParty(url)) return `src="${url}"`;
     const key = resolveToKey(url.split("?")[0], dir);
     if (!key || !hashMap.has(key)) return `src="${url}"`;
-    const hash = hashMap.get(key);
-    return `src="${addParam(url, hash)}"`;
+    return `src="${addParam(url, hashMap.get(key))}"`;
   });
 
-  // srcset="url1 1x, url2 2x" — only the URL part of each descriptor
   out = out.replace(/srcset="([^"]*)"/g, (_, srcset) => {
     const parts = srcset.split(",").map((p) => p.trim());
     const newParts = parts.map((part) => {
@@ -106,39 +78,28 @@ function processHtml(content, filePath, hashMap) {
       if (!isFirstParty(url)) return part;
       const key = resolveToKey(url.split("?")[0], dir);
       if (!key || !hashMap.has(key)) return part;
-      const hash = hashMap.get(key);
-      return addParam(url, hash) + rest;
+      return addParam(url, hashMap.get(key)) + rest;
     });
     return `srcset="${newParts.join(", ")}"`;
   });
 
-  // style="... url(...) ..."
   out = out.replace(/style="([^"]*)"/g, (_, styleContent) => {
-    const newStyle = styleContent.replace(
-      /url\s*\(\s*['"]?([^'")]+)['"]?\s*\)/g,
-      (match, url) => {
-        const u = url.trim();
-        if (!isFirstParty(u)) return match;
-        const key = resolveToKey(u.split("?")[0], dir);
-        if (!key || !hashMap.has(key)) return match;
-        const hash = hashMap.get(key);
-        const newUrl = addParam(u, hash);
-        return `url(${newUrl})`;
-      }
-    );
-    return `style="${newStyle}"`;
+    return `style="${styleContent.replace(/url\s*\(\s*['"]?([^'")]+)['"]?\s*\)/g, (match, url) => {
+      const u = url.trim();
+      if (!isFirstParty(u)) return match;
+      const key = resolveToKey(u.split("?")[0], dir);
+      if (!key || !hashMap.has(key)) return match;
+      return `url(${addParam(u, hashMap.get(key))})`;
+    })}"`;
   });
 
-  // onclick="..." and similar: rewrite 1st-party URLs in single-quoted strings (e.g. window.location.href='...')
   out = out.replace(/onclick="([^"]*)"/g, (_, onclickContent) => {
-    const newContent = onclickContent.replace(/'([^']*)'/g, (match, url) => {
+    return `onclick="${onclickContent.replace(/'([^']*)'/g, (match, url) => {
       if (!isFirstParty(url)) return match;
       const key = resolveToKey(url.split("?")[0], dir);
       if (!key || !hashMap.has(key)) return match;
-      const hash = hashMap.get(key);
-      return `'${addParam(url, hash)}'`;
-    });
-    return `onclick="${newContent}"`;
+      return `'${addParam(url, hashMap.get(key))}'`;
+    })}"`;
   });
 
   return out;
@@ -148,26 +109,21 @@ function processCss(content, filePath, hashMap) {
   const dir = path.dirname(filePath);
   let out = content;
 
-  // url('...') and url("...")
   out = out.replace(/url\s*\(\s*['"]([^'"]+)['"]\s*\)/g, (match, url) => {
     const u = url.trim();
     if (!isFirstParty(u)) return match;
     const key = resolveToKey(u.split("?")[0], dir);
     if (!key || !hashMap.has(key)) return match;
-    const hash = hashMap.get(key);
-    const newUrl = addParam(u, hash);
     const quote = match.includes('"') ? '"' : "'";
-    return `url(${quote}${newUrl}${quote})`;
+    return `url(${quote}${addParam(u, hashMap.get(key))}${quote})`;
   });
 
-  // url(...) unquoted (e.g. minified url(img/bg0.avif))
   out = out.replace(/url\s*\(\s*([^'")\s]+)\s*\)/g, (match, url) => {
     const u = url.trim();
     if (!isFirstParty(u)) return match;
     const key = resolveToKey(u.split("?")[0], dir);
     if (!key || !hashMap.has(key)) return match;
-    const hash = hashMap.get(key);
-    return `url(${addParam(u, hash)})`;
+    return `url(${addParam(u, hashMap.get(key))})`;
   });
 
   return out;
@@ -175,77 +131,93 @@ function processCss(content, filePath, hashMap) {
 
 function processHtaccess(content, hashMap) {
   let out = content;
-
-  // Link header: </img/bg0.avif> -> </img/bg0.avif?v=HASH>
   out = out.replace(/<(\/[^>]+\.(?:avif|webp|svg|ico|css|js|json))>/g, (match, p) => {
     const key = p.replace(/^\//, "");
     if (!hashMap.has(key)) return match;
-    const hash = hashMap.get(key);
-    return `<${addParam(p, hash)}>`;
+    return `<${addParam(p, hashMap.get(key))}>`;
   });
-
-  // Speculation-Rules: "\"/prerender.json\"" -> "\"/prerender.json?v=HASH\""
   out = out.replace(/\\"\/prerender\.json\\"/g, () => {
     const key = "prerender.json";
     if (!hashMap.has(key)) return '\\"/prerender.json\\"';
-    const hash = hashMap.get(key);
-    return `\\"/prerender.json?v=${hash}\\"`;
+    return `\\"/prerender.json?v=${hashMap.get(key)}\\"`;
   });
-
   return out;
 }
 
-function main() {
-  if (!fs.existsSync(prodRoot)) {
+// --- OPTIMIZED CORE EXECUTION ---
+
+async function buildHashMap() {
+  const hashMap = new Map();
+  async function walk(dir) {
+    const entries = await fs.readdir(dir, { withFileTypes: true });
+    await Promise.all(entries.map(async (e) => {
+      const full = path.join(dir, e.name);
+      if (e.isDirectory()) await walk(full);
+      else if (e.isFile()) {
+        const content = await fs.readFile(full);
+        const key = path.relative(prodRoot, full).split(path.sep).join("/");
+        hashMap.set(key, md5Base64Url(content));
+      }
+    }));
+  }
+  await walk(prodRoot);
+  return hashMap;
+}
+
+async function main() {
+  if (!existsSync(prodRoot)) {
     console.error("add-cache-bust: prod directory not found:", prodRoot);
     process.exit(1);
   }
 
-  const hashMap = buildHashMap();
+  const startTime = Date.now();
 
-  // HTML
-  const htmlFiles = [];
-  function findHtml(dir) {
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
+  // 1. Initial Hash
+  let hashMap = await buildHashMap();
+
+  // 2. Scan directory once for all target files
+  const allFiles = [];
+  async function findFiles(dir) {
+    const entries = await fs.readdir(dir, { withFileTypes: true });
     for (const e of entries) {
       const full = path.join(dir, e.name);
-      if (e.isDirectory()) findHtml(full);
-      else if (e.name.endsWith(".html")) htmlFiles.push(full);
+      if (e.isDirectory()) await findFiles(full);
+      else allFiles.push(full);
     }
   }
-  findHtml(prodRoot);
-  for (const f of htmlFiles) {
-    const content = fs.readFileSync(f, "utf8");
-    const newContent = processHtml(content, f, hashMap);
-    if (newContent !== content) fs.writeFileSync(f, newContent, "utf8");
-  }
+  await findFiles(prodRoot);
 
-  // CSS
-  const cssFiles = [];
-  function findCss(dir) {
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
-    for (const e of entries) {
-      const full = path.join(dir, e.name);
-      if (e.isDirectory()) findCss(full);
-      else if (e.name.endsWith(".css")) cssFiles.push(full);
-    }
-  }
-  findCss(prodRoot);
-  for (const f of cssFiles) {
-    const content = fs.readFileSync(f, "utf8");
-    const newContent = processCss(content, f, hashMap);
-    if (newContent !== content) fs.writeFileSync(f, newContent, "utf8");
-  }
-
-  // Root .htaccess only
+  const cssFiles = allFiles.filter(f => f.endsWith(".css"));
+  const htmlFiles = allFiles.filter(f => f.endsWith(".html"));
   const htaccessPath = path.join(prodRoot, ".htaccess");
-  if (fs.existsSync(htaccessPath)) {
-    const content = fs.readFileSync(htaccessPath, "utf8");
-    const newContent = processHtaccess(content, hashMap);
-    if (newContent !== content) fs.writeFileSync(htaccessPath, newContent, "utf8");
+
+  // 3. Update CSS (Pass 1)
+  await Promise.all(cssFiles.map(async (f) => {
+    const content = await fs.readFile(f, "utf8");
+    const newContent = processCss(content, f, hashMap);
+    if (newContent !== content) await fs.writeFile(f, newContent, "utf8");
+  }));
+
+  // 4. Re-Hash (because CSS content changed)
+  hashMap = await buildHashMap();
+
+  // 5. Update HTML and .htaccess (Pass 2)
+  const finalTasks = htmlFiles.map(async (f) => {
+    const content = await fs.readFile(f, "utf8");
+    const newContent = processHtml(content, f, hashMap);
+    if (newContent !== content) await fs.writeFile(f, newContent, "utf8");
+  });
+
+  if (existsSync(htaccessPath)) {
+    finalTasks.push((async () => {
+      const content = await fs.readFile(htaccessPath, "utf8");
+      const newContent = processHtaccess(content, hashMap);
+      if (newContent !== content) await fs.writeFile(htaccessPath, newContent, "utf8");
+    })());
   }
 
-  console.log("Cache-bust complete.");
+  await Promise.all(finalTasks);
+  console.log(`Cache-bust complete in ${(Date.now() - startTime) / 1000}s.`);
 }
 
 main();

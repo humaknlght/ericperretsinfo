@@ -259,6 +259,45 @@ interface HTMLElementWithFullscreen extends HTMLElement {
                 const leftButton = photoControls.querySelector<HTMLButtonElement>(".l")!;
                 leftButton.disabled = false;
             });
+
+            // --- Swipe Support for Mobile ---
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            const handleGesture = () => {
+                // Ensure we are in "photo mode" (where body has 'hide' class)
+                if (!document.body.classList.contains("hide")) {
+                    return;
+                }
+
+                const swipeThreshold = 50; // Minimum distance to be considered a swipe
+                const diff = touchStartX - touchEndX;
+
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        // Swiped Left -> Go to Next Photo
+                        const nextButton = photoControls.querySelector<HTMLButtonElement>(".r")!;
+                        if (!nextButton.disabled) {
+                            nextButton.click();
+                        }
+                    } else {
+                        // Swiped Right -> Go to Previous Photo
+                        const prevButton = photoControls.querySelector<HTMLButtonElement>(".l")!;
+                        if (!prevButton.disabled) {
+                            prevButton.click();
+                        }
+                    }
+                }
+            };
+
+            carouselContainer.addEventListener('touchstart', (e: TouchEvent) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            carouselContainer.addEventListener('touchend', (e: TouchEvent) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleGesture();
+            }, { passive: true });
         }
 
         if (window.location.search === "?art") {

@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+NUM_CORES=$(getconf _NPROCESSORS_ONLN)
+
 # --- 1. SETUP ---
 npm install -g typescript
 
@@ -14,26 +16,24 @@ cp -r ../src/ ./prod/
  # Get the last modified timestamp for the resume
 echo "Setting last modified timestamp..."
 NUM=`stat -f "%Sm" -t "%s" ../src/resume/index.html`"000"
-sed -i.bk "s:/\*LAST_MODIFIED\*/:$NUM:" ./prod/resume/index.html
-rm -f ./prod/resume/index.html.bk
+sed -i '' "s:/\*LAST_MODIFIED\*/:$NUM:" ./prod/resume/index.html
 
 # --- 2. MINIFICATION ---
 
 echo "Minifying all CSS files..."
 #npm install --save-dev postcss-cli
-find ./prod -type f -name '*.css' -exec dirname {} + | sort | uniq | while read -r DIR; do
-    echo "Processing CSS in directory: ${DIR}"
-    npx postcss "${DIR}"/*.css --dir "${DIR}" --no-map --verbose
-done
+find ./prod -type f -name '*.css' -exec dirname {} + | sort | uniq | xargs -P $NUM_CORES -I {} sh -c '
+    echo "Minifying $1"
+    npx postcss "$1"/*.css --dir "$1" --no-map --verbose
+' -- {}
 
 echo "Minifying all HTML files..."
 #npm install html-minifier-next -g
 # This finds all .html files in ./prod and its subdirectories
-find ./prod -name "*.html" -type f | while read -r file; do
-    echo "Processing: $file"
-    
-    npx html-minifier-next "$file" \
-        --output "$file" \
+find ./prod -name "*.html" -type f | xargs -P $NUM_CORES -I {} sh -c '
+    echo "Minifying $1"
+    npx html-minifier-next "$1" \
+        --output "$1" \
         --remove-comments \
         --collapse-whitespace \
         --collapse-boolean-attributes \
@@ -46,7 +46,7 @@ find ./prod -name "*.html" -type f | while read -r file; do
         --minify-css true \
         --sort-class-names \
         --trim-custom-fragments
-done
+' -- {}
 
 echo "Minifying JSON-LD in HTML files..."
 node minify-ld-json.js ./prod
@@ -56,17 +56,17 @@ tsc
 
 #npm install terser -g
 echo "Minifying all JS files..."
-find ./prod -name '*.js' | while read FILE; do
-    echo "Minifying ${FILE}"
+find ./prod -name '*.js' | xargs -P $NUM_CORES -I {} sh -c '
     # The '--source-map' option with 'url=inline' is a common practice.
     # The '--preamble' option is a clean way to add the header comment.
-    npx terser "${FILE}" \
+    echo "Minifying $1"
+    npx terser "$1" \
       --compress \
       --mangle \
       --config-file terser_options.json \
       --preamble "//# allFunctionsCalledOnLoad" \
-      -o "${FILE}"
-done
+      -o "$1"
+' -- {}
 
 # --- 2b. CACHE-BUST 1ST PARTY RESOURCES ---
 echo "Adding cache-bust parameters to 1st party resources..."
@@ -78,7 +78,6 @@ node add-cache-bust.js ./prod
 # https://github.com/google/zopfli
 # https://github.com/facebook/zstd
 echo "Compressing files with zopfli and brotli in parallel..."
-NUM_CORES=$(getconf _NPROCESSORS_ONLN)
 find ./prod -type f \( \
     -name "*.html" -o \
     -name "*.css" -o \
