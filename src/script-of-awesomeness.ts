@@ -40,11 +40,19 @@ interface HTMLElementWithFullscreen extends HTMLElement {
      * @param {boolean} enableTransition Whether to animate the slide (true) or jump instantly (false).
      */
     function setBackgroundImg(index: number, carouselContainer: Readonly<HTMLElement>, enableTransition: boolean = true): void {
-        // The offset is calculated based on the full viewport width of 100vw
+        // 1. Calculate the offset
         const offset = (-index * 90) + 5;
 
-        // Toggle transition based on the flag
-        carouselContainer.style.transition = enableTransition ? 'transform 1.5s ease-in-out' : 'none';
+        // 2. Check if the screen width is less than 799px
+        const isMobile = window.matchMedia('(max-width: 799px)').matches;
+        
+        // 3. Determine the duration (0.75s for small screens, 1.5s for large)
+        const duration = isMobile ? '0.75s' : '1.5s';
+
+        // 4. Apply the styles
+        carouselContainer.style.transition = enableTransition 
+            ? `transform ${duration} ease-in-out` 
+            : 'none';
         carouselContainer.style.transform = `translateX(${offset}vw)`;
     }
 
