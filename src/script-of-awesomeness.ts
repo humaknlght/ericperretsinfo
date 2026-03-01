@@ -200,15 +200,13 @@ interface HTMLElementWithFullscreen extends HTMLElement {
             link.parentNode?.replaceChild(div, link);
 
             // Move focus to the iframe so keyboard users can interact with the video immediately
-            const iframe = div.querySelector("iframe");
-            if (iframe) {
-                iframe.focus();
-            }
+            div.querySelector("iframe")?.focus();
         });
 
         document.querySelector<HTMLAnchorElement>("a.art")!.addEventListener("click", (event) => {
             event.preventDefault();
             getAndLoadArt();
+            navOpenerButton.click();
         });
 
         document.querySelector<HTMLAnchorElement>("a.photos")!.addEventListener("click", (event) => {
@@ -216,6 +214,7 @@ interface HTMLElementWithFullscreen extends HTMLElement {
             if (backgroundInterval) {
                 clearInterval(backgroundInterval);
             }
+            navOpenerButton.click();
             document.body.scrollTop = document.documentElement.scrollTop = 0;
             document.body.classList.remove("show");
             document.body.classList.add("hide");

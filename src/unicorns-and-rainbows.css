@@ -192,7 +192,7 @@ h6 {
 .content,
 .icons,
 footer,
-.photoB>button {
+.photoB > button {
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
@@ -404,13 +404,13 @@ footer {
     padding-right: 1rem
 }
 
-.wordpress>div {
+.wordpress > div {
     background: #21759b;
     padding: 1px;
     border-radius: 1rem
 }
 
-.changeColor>button {
+.changeColor > button {
     border: 0;
     background: transparent;
     padding: 0;
@@ -428,7 +428,7 @@ footer {
     scroll-snap-type: x mandatory;
 }
 
-.artContent>a {
+.artContent > a {
     padding: 0;
     margin: 0;
     display: inline-block;
@@ -438,7 +438,7 @@ footer {
     scroll-snap-stop: normal;
 }
 
-.artContent>a+a {
+.artContent > a + a {
     padding-left: 1rem
 }
 
@@ -476,9 +476,12 @@ footer {
 
 .hide > .body {
     display: none;
+    transition: display 1s;
+    transition-behavior: allow-discrete;
 }
 
 .hide .title {
+    animation: unset;
     transform: translateX(calc(-100% - 6vw));
 }
 
@@ -553,30 +556,62 @@ footer {
         }
     }
 
-    .navHolder {
+    /* Entrance animations - ONLY on initial load when the tag <body> is neutral */
+    body:not(.hide):not(.show) .navOpener,
+    body:not(.hide):not(.show) .navHolder {
         animation: .5s ease-out 0s 1 slideInFromLeft backwards;
+    }
+
+    .navOpener,
+    .navHolder {
         transition: transform 1s;
+    }
+
+    .show .navOpener,
+    .show .navHolder {
+        animation: none !important;
+        transform: translateY(0);
     }
 
     .title,
     footer,
-    .navOpener {
+    .content {
         transition: transform 1s;
     }
 
-    .hide > .body {
-        transition: display 1s;
-        transition-behavior: allow-discrete;
-    display: none;
+    /* Define starting positions for transitions when entering the "show" state FROM "display: none" */
+    @starting-style {
+        body.show .navOpener,
+        body.show .navHolder {
+            transform: translateY(-100%);
+        }
+        body.show .title {
+            transform: translateX(calc(-100% - 6vw));
+        }
+        body.show .content {
+            transform: translateY(100vh);
+        }
+        body.show footer {
+            transform: translateY(calc(100% + 5px));
+        }
     }
 
-    .title>div {
+    body:not(.hide):not(.show) .title {
         animation: 1s ease-out .5s 1 slideInFromLeft backwards;
     }
 
-    .content {
+    .show .title {
+        animation: none !important;
+        transform: translateX(0);
+    }
+
+    body:not(.hide):not(.show) .content {
         animation: .5s ease-out 1s 1 slideInFromLeft backwards;
-        transition: transform 1s;
+    }
+
+    .show .content {
+        animation: none !important;
+        transform: translateY(0);
     }
 }
 
