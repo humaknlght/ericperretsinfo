@@ -99,6 +99,14 @@ interface HTMLElementWithFullscreen extends HTMLElement {
         const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
         if (!mediaQuery.matches) {
             backgroundInterval = setInterval(animateCarousel, 7000);
+            const onVisibilityChanged = () => {
+                if (document.hidden) {
+                    clearTimeout(backgroundInterval)
+                } else {
+                    backgroundInterval = setInterval(animateCarousel, 7000);
+                }
+            };
+            document.addEventListener("visibilitychange", onVisibilityChanged, false);
         }
     }
 
@@ -329,5 +337,5 @@ interface HTMLElementWithFullscreen extends HTMLElement {
     window.dataLayer = window.dataLayer || [];
     function gtag(...args: any[]) { window.dataLayer.push(args); }
     gtag('js', new Date());
-    gtag('config', 'UA-39357422-1');
+    gtag('config', 'G-SCCSHETMD9');
 }
