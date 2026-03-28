@@ -53,7 +53,7 @@ interface HTMLElementWithFullscreen extends HTMLElement {
         carouselContainer.style.transition = enableTransition 
             ? `transform ${duration} ease-in-out` 
             : 'none';
-        carouselContainer.style.transform = `translateX(${offset}vw)`;
+        carouselContainer.style.transform = `translate3d(${offset}vw, 0, 0)`;
     }
 
     // --- Setup and Event Initialization ---

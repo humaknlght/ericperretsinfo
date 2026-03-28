@@ -157,8 +157,7 @@ h6 {
     width: calc(600px - 1rem);
     margin: 4rem 6vw 0;
     padding: 3rem 0;
-    border-top-right-radius: 1rem;
-    border-top-left-radius: 1rem;
+    border-radius: 2rem;
     font-size: min(18rem, 21vw);
     font-optical-sizing: auto;
     font-weight: 900;
@@ -171,10 +170,8 @@ h6 {
     background-color: var(--background-color2);
     mix-blend-mode: var(--blend-mode);
     paint-order: stroke fill;
-}
-
-.title {
     font-family: "Roboto Condensed", serif;
+    backdrop-filter: contrast(0.8) blur(3px)
 }
 
 .content {
@@ -184,9 +181,11 @@ h6 {
     line-height: 1.55556;
     width: calc(600px - 1rem);
     overflow: hidden;
-    border-radius: 0 0 .5rem .5rem;
-    border: 1px solid rgba(0, 0, 0, .4);
+    border-radius: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
 }
 
 .content,
@@ -201,9 +200,9 @@ footer,
     box-shadow: inset 0 0 0 3000px rgba(255, 255, 255, 0.7);
 }
 
-.content>main {
+.content > main {
     border-bottom: 0;
-    padding: 1rem 1rem .5rem 1rem;
+    padding: 1rem;
 }
 
 .content p,
@@ -211,7 +210,7 @@ footer,
 .content ul,
 .tagline {
     margin: 0;
-    padding: .5rem .75rem;
+    padding: .75rem;
     background-color: var(--background-color3);
 }
 
@@ -263,15 +262,6 @@ footer,
     display: none;
 }
 
-footer {
-    display: inline-block;
-    padding: calc(1rem - 2px) 3rem;
-    margin: 1rem 0 0 6vw;
-    width: calc(600px - 7rem);
-    color: var(--secondary-text-color);
-    font-size: 1rem;
-}
-
 /* Styles for the animated carousel background */
 .carousel-wrapper {
     position: fixed;
@@ -282,9 +272,10 @@ footer {
     z-index: -1;
     /* Ensures the carousel is behind all other content */
     overflow: hidden;
-    opacity: .75;
     transition: opacity .5s;
     background-color: var(--background-color2);
+    scale: 1;
+    filter: blur(0);
 }
 
 .carousel-container {
@@ -294,7 +285,7 @@ footer {
     /* Ensures the container has a concrete height */
     /* We'll use JavaScript to set the transition and transform */
     /* Initial position is set to show the first original image */
-    transform: translateX(-85vw);
+    transform: translate3d(-85vw, 0, 0);
     touch-action: pan-y;
 }
 
@@ -354,20 +345,20 @@ footer {
     position: absolute;
 }
 
-.icons>ul {
+.icons > ul {
     padding: 0;
     margin: 0
 }
 
-.icons>ul>li,
-.icons>ul>li>div {
+.icons > ul > li,
+.icons > ul > li > div {
     width: 25px;
     height: 25px;
     display: inline-block;
     margin-right: .5rem
 }
 
-.icons>ul>li.toggle {
+.icons > ul > li.toggle {
     margin-right: 0;
     vertical-align: top;
 }
@@ -379,19 +370,19 @@ footer {
     padding-left: .5rem;
 }
 
-.icons .navLink>a {
+.icons .navLink > a {
     text-decoration: none;
     color: var(--nav-text-color);
 }
 
-.icons .navLink>a:hover {
+.icons .navLink > a:hover {
     text-decoration: underline;
 }
 
 .icons,
 footer {
     background-color: var(--background-color3);
-    border-radius: 5px;
+    border-radius: 2rem;
 }
 
 .changeColor {
@@ -416,8 +407,59 @@ footer {
     padding: 0;
 }
 
+footer {
+    display: inline-block;
+    padding: calc(1rem - 2px) 3rem;
+    margin: 1rem 0 0 6vw;
+    width: calc(600px - 7rem);
+    color: var(--secondary-text-color);
+    font-size: 1rem;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
 .content.art {
     width: 88vw;
+}
+
+.artContent-wrap {
+    width: 100%;
+}
+
+.artScrollCue {
+    margin: 0 0 .75rem;
+    padding: .5rem .75rem;
+    background-color: var(--background-color3);
+    color: var(--secondary-text-color);
+    font-size: .95rem;
+    text-align: center;
+    letter-spacing: .02em;
+}
+
+.artContent-scrollClip {
+    position: relative;
+    width: 100%;
+}
+
+.artContent-scrollClip::before,
+.artContent-scrollClip::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2.25rem;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.artContent-scrollClip::before {
+    left: 0;
+    background: linear-gradient(to right, var(--background-color3), transparent);
+}
+
+.artContent-scrollClip::after {
+    right: 0;
+    background: linear-gradient(to left, var(--background-color3), transparent);
 }
 
 .artContent {
@@ -426,13 +468,32 @@ footer {
     white-space: nowrap;
     width: 100%;
     scroll-snap-type: x mandatory;
+    scrollbar-width: auto;
+    scrollbar-color: var(--nav-text-color) var(--background-color3);
+    scrollbar-gutter: stable;
+    padding-bottom: 6px;
+}
+
+.artContent::-webkit-scrollbar {
+    height: 11px;
+}
+
+.artContent::-webkit-scrollbar-track {
+    background: var(--background-color3);
+    border-radius: 6px;
+}
+
+.artContent::-webkit-scrollbar-thumb {
+    background: var(--secondary-text-color);
+    border-radius: 6px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
 }
 
 .artContent > a {
     padding: 0;
     margin: 0;
     display: inline-block;
-    margin-bottom: 1rem;
     scroll-margin: 10px;
     scroll-snap-align: start;
     scroll-snap-stop: normal;
@@ -442,9 +503,43 @@ footer {
     padding-left: 1rem
 }
 
+.artContent figure {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #000
+}
+
 .artContent img {
     max-height: calc(100vh - 18rem);
-    width: auto
+    width: auto;
+    display: block;
+}
+
+.artContent figcaption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    padding: .5rem;
+    background: var(--background-color3);
+    box-sizing: border-box;
+    max-height: min(45vh, 16rem);
+    overflow: hidden;
+    transition: max-height var(--transition), padding var(--transition);
+    transition-delay: 0s;
+}
+
+.artContent img:hover + figcaption {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .artContent figcaption {
+        transition-duration: 0.01ms;
+    }
 }
 
 .photoB {
@@ -496,10 +591,6 @@ footer {
 
 .hide footer {
     transform: translateY(calc(100% + 5px));
-}
-
-.hide .carousel-wrapper {
-    opacity: unset;
 }
 
 @keyframes drop {
@@ -559,12 +650,24 @@ footer {
     /* Entrance animations - ONLY on initial load when the tag <body> is neutral */
     body:not(.hide):not(.show) .navOpener,
     body:not(.hide):not(.show) .navHolder {
-        animation: .5s ease-out 0s 1 slideInFromLeft backwards;
+        /* `1.3` was parsed as iteration-count → animation ran more than once */
+        animation: .5s ease-out 1.3s 1 slideInFromLeft backwards;
     }
 
     .navOpener,
     .navHolder {
         transition: transform 1s;
+    }
+
+    /* Entrance uses transform @keyframes; a simultaneous transform transition replays when the animation ends (double slide). */
+    body:not(.hide):not(.show) .navOpener {
+        transition-duration: 0s;
+    }
+
+    @media (min-width: 716px) {
+        body:not(.hide):not(.show) .navHolder {
+            transition-duration: 0s;
+        }
     }
 
     .show .navOpener,
@@ -596,8 +699,26 @@ footer {
         }
     }
 
+    @keyframes carousel-wrapper-enter {
+        from {
+            scale: 0.2;
+            /*filter: blur(10px);*/
+            transform: perspective(800px) rotateY(25deg) rotateX(10deg);
+            opacity: 0.2;
+        }
+        to {
+            scale: 1;
+            filter: blur(0);
+            opacity: 1;
+        }
+    }
+
+    .carousel-wrapper {
+        animation: carousel-wrapper-enter 1s ease-out .2s both;
+    }
+
     body:not(.hide):not(.show) .title {
-        animation: 1s ease-out .5s 1 slideInFromLeft backwards;
+        animation: 1s ease-out 1.8s 1 slideInFromLeft backwards;
     }
 
     .show .title {
@@ -606,7 +727,7 @@ footer {
     }
 
     body:not(.hide):not(.show) .content {
-        animation: .5s ease-out 1s 1 slideInFromLeft backwards;
+        animation: .5s ease-out 2.8s 1 slideInFromLeft backwards;
     }
 
     .show .content {
@@ -625,7 +746,7 @@ footer {
         padding: 0
     }
 
-    .title>div {
+    .title > div {
         margin-top: 0;
     }
 
