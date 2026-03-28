@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2024",       // Compile to modern JavaScript (ES2024)
-    "module": "none",         // Don't use module system
+    "module": "ESNext",       // Plain script emit (no import/export in sources); "none" is deprecated in TS 6+
     "strict": true,           // Enable all strict type-checking options
     "lib": ["ES2024", "DOM"], // Include type definitions for ES2024 and the Browser DOM
     "esModuleInterop": true,
