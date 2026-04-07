@@ -185,14 +185,12 @@ h6 {
     border: 1px solid rgba(255, 255, 255, 0.3);
     box-sizing: border-box;
     background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(12px);
 }
 
 .content,
 .icons,
 footer,
 .photoB > button {
-    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
