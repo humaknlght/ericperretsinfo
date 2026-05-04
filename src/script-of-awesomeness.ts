@@ -29,6 +29,10 @@ interface HTMLElementWithFullscreen extends HTMLElement {
     let currentIndex: number = 1; // Start at index 1 to show the first original image
     let backgroundInterval: ReturnType<typeof setInterval> | undefined;
     let animateCarousel: () => void;
+    let updateSlideFilters: (index: number, instant?: boolean) => void;
+
+    // Cached once; the browser keeps `.matches` live so no re-querying needed.
+    const isMobileQuery = window.matchMedia('(max-width: 799px)');
 
 
     // --- Utility Functions ---
@@ -43,17 +47,13 @@ interface HTMLElementWithFullscreen extends HTMLElement {
         // 1. Calculate the offset
         const offset = (-index * 90) + 5;
 
-        // 2. Check if the screen width is less than 799px
-        const isMobile = window.matchMedia('(max-width: 799px)').matches;
-        
-        // 3. Determine the duration (0.75s for small screens, 1.5s for large)
-        const duration = isMobile ? '0.75s' : '1.5s';
+        // 2. Determine the duration (0.75s for small screens, 1.5s for large)
+        const duration = isMobileQuery.matches ? '0.75s' : '1.5s';
 
-        // 4. Apply the styles
-        carouselContainer.style.transition = enableTransition 
-            ? `transform ${duration} ease-in-out` 
-            : 'none';
-        carouselContainer.style.transform = `translate3d(${offset}vw, 0, 0)`;
+        // 3. Apply via CSS custom properties; the class drives the transition
+        carouselContainer.style.setProperty('--carousel-offset', `${offset}vw`);
+        carouselContainer.style.setProperty('--carousel-duration', duration);
+        carouselContainer.classList.toggle('carousel-animated', enableTransition);
     }
 
     // --- Setup and Event Initialization ---
@@ -63,13 +63,47 @@ interface HTMLElementWithFullscreen extends HTMLElement {
      */
     function setup(): void {
         const carouselContainer = document.querySelector<HTMLElement>(".carousel-container")!;
-        const slides = document.querySelectorAll(".carousel-slide");
+        const slides = document.querySelectorAll<HTMLElement>(".carousel-slide")!;
         const totalSlides = slides.length;
         originalSlides = totalSlides - 2;
+
+        // Cache the video element and its slide index once so updateSlideFilters
+        // never has to query the DOM on every transition.
+        let videoEl: HTMLVideoElement | null = null;
+        let videoSlideIndex = -1;
+        slides.forEach((s, i) => {
+            const v = s.querySelector<HTMLVideoElement>('video');
+            if (v) {
+                videoEl = v;
+                videoSlideIndex = i;
+            }
+        });
+
+        /**
+         * Toggles the `active` class on the center slide and removes it from all others,
+         * so the CSS filter transitions play correctly.
+         * @param {number} index The index of the slide that should be fully saturated.
+         * @param {boolean} instant When true, bypasses the CSS transition (used for the seamless loop jump).
+         */
+        updateSlideFilters = (index: number, instant: boolean = false): void => {
+            const duration = instant ? '0s' : (isMobileQuery.matches ? '0.75s' : '1.5s');
+            slides.forEach((s, i) => {
+                s.style.transition = `filter ${duration} ease-in-out`;
+                s.classList.toggle('active', i === index);
+            });
+            if (videoEl !== null) {
+                if (index === videoSlideIndex) {
+                    videoEl.play().catch(() => {});
+                } else {
+                    videoEl.pause();
+                }
+            }
+        };
 
         animateCarousel = () => {
             currentIndex++;
             setBackgroundImg(currentIndex, carouselContainer);
+            updateSlideFilters(currentIndex);
         };
 
         carouselContainer.addEventListener('transitionend', () => {
@@ -78,6 +112,7 @@ interface HTMLElementWithFullscreen extends HTMLElement {
                 currentIndex = 1;
                 // false = Jump instantly back to start (no animation)
                 setBackgroundImg(currentIndex, carouselContainer, false);
+                updateSlideFilters(currentIndex, true);
             }
         });
 
@@ -256,6 +291,7 @@ interface HTMLElementWithFullscreen extends HTMLElement {
             photoControls.querySelector<HTMLButtonElement>(".l")?.addEventListener("click", (event) => {
                 event.preventDefault();
                 setBackgroundImg(--currentIndex, carouselContainer);
+                updateSlideFilters(currentIndex);
                 const targetButton = event.currentTarget as HTMLButtonElement;
                 if (currentIndex === 1) {
                     targetButton.disabled = true;
@@ -267,6 +303,7 @@ interface HTMLElementWithFullscreen extends HTMLElement {
             photoControls.querySelector<HTMLButtonElement>(".r")!.addEventListener("click", (event) => {
                 event.preventDefault();
                 setBackgroundImg(++currentIndex, carouselContainer);
+                updateSlideFilters(currentIndex);
                 const targetButton = event.currentTarget as HTMLButtonElement;
                 if (currentIndex === originalSlides) {
                     targetButton.disabled = true;

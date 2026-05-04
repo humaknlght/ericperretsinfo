@@ -14,7 +14,8 @@
     </style>
     <link href="unicorns-and-rainbows.css" rel="stylesheet" media="screen" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@900&amp;family=Inter:wght@400;700&amp;family=Playfair+Display:wght@900&amp;display=swap" rel="stylesheet" />
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+    <link rel="apple-touch-icon" href="img/favicon.png" />
     <link rel="canonical" href="https://www.ericperret.org" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="color-scheme" content="dark light">
@@ -55,11 +56,14 @@
             </div>
 
             <!-- The original slides (first slide-0 is visible on load: fetchpriority="high" for LCP) -->
-            <div class="carousel-slide" id="slide-0">
+            <div class="carousel-slide active" id="slide-0">
                 <picture>
                     <source type="image/avif" srcset="img/bg0.avif" />
                     <img alt="" src="img/bg0.avif" width="1600" height="1064" fetchpriority="high" />
                 </picture>
+            </div>
+            <div class="carousel-slide" id="slide-0-video">
+                <video muted playsinline loop preload="metadata" src="img/bg0.mp4"></video>
             </div>
             <div class="carousel-slide" id="slide-1">
                 <picture>
@@ -173,7 +177,7 @@
         </div>
         <header>
             <h1 class="font title" title="⠗⠊⠉ ⠏⠑⠗⠗⠑⠞">
-                <div contenteditable="true" spellcheck="false">Eric<br />Per<wbr />ret</div>
+                <div>Eric<br />Per<wbr />ret</div>
             </h1>
         </header>
         <div class="font content">
