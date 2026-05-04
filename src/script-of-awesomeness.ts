@@ -178,6 +178,9 @@ interface HTMLElementWithFullscreen extends HTMLElement {
         });
     }
 
+    // Saved once so popstate can restore it.
+    let originalMainHTML: string | null = null;
+
     /**
      * Fetches and loads the art content into the page.
      */
@@ -191,6 +194,10 @@ interface HTMLElementWithFullscreen extends HTMLElement {
             const content = document.querySelector<HTMLElement>(".content")!;
             const mainContent = content.querySelector<HTMLElement>("main")!;
 
+            if (originalMainHTML === null) {
+                originalMainHTML = mainContent.innerHTML;
+            }
+
             content.classList.add("art");
             mainContent.innerHTML = text;
             document.querySelectorAll<HTMLAnchorElement>(".artContent>a").forEach(artItemClickListener);
@@ -198,7 +205,11 @@ interface HTMLElementWithFullscreen extends HTMLElement {
             // Move focus to the start of the new content so screen readers are aware of the change
             const firstFocusableArt = mainContent.querySelector<HTMLElement>("a, button, input, [tabindex]:not([tabindex='-1'])");
             if (firstFocusableArt) {
-                firstFocusableArt.focus();
+                // Defer scroll until after the browser has laid out the new content
+                requestAnimationFrame(() => {
+                    firstFocusableArt.focus();
+                    firstFocusableArt.scrollIntoView({ behavior: 'smooth' });
+                });
             } else {
                 // Fallback: focus the container if no interactive elements exist yet
                 content.tabIndex = -1;
@@ -208,6 +219,18 @@ interface HTMLElementWithFullscreen extends HTMLElement {
         } catch (error) {
             console.error("Failed to load art content:", error);
         }
+    }
+
+    /**
+     * Restores the homepage content, undoing an art load.
+     */
+    function restoreHome(): void {
+        if (originalMainHTML === null) return;
+        const content = document.querySelector<HTMLElement>(".content")!;
+        const mainContent = content.querySelector<HTMLElement>("main")!;
+        content.classList.remove("art");
+        mainContent.innerHTML = originalMainHTML;
+        originalMainHTML = null;
     }
 
 
@@ -248,8 +271,17 @@ interface HTMLElementWithFullscreen extends HTMLElement {
 
         document.querySelector<HTMLAnchorElement>("a.art")!.addEventListener("click", (event) => {
             event.preventDefault();
+            history.pushState({ view: "art" }, "", "?art");
             getAndLoadArt();
             navOpenerButton.click();
+        });
+
+        window.addEventListener("popstate", (event) => {
+            if (event.state?.view === "art") {
+                getAndLoadArt();
+            } else {
+                restoreHome();
+            }
         });
 
         document.querySelector<HTMLAnchorElement>("a.photos")!.addEventListener("click", (event) => {
@@ -353,6 +385,7 @@ interface HTMLElementWithFullscreen extends HTMLElement {
         }
 
         if (window.location.search === "?art") {
+            history.replaceState({ view: "art" }, "", "?art");
             getAndLoadArt();
         }
     }
