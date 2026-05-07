@@ -6,18 +6,13 @@ interface Window {
     gtag: (...args: any[]) => void;
 }
 
-// Create custom interfaces for the Fullscreen API to handle vendor prefixes for
-// browsers like Safari.
+// Safari still requires a vendor prefix for the Fullscreen API.
 interface DocumentWithFullscreen extends Document {
     webkitExitFullscreen?: () => Promise<void>;
-    mozCancelFullScreen?: () => Promise<void>;
-    msExitFullscreen?: () => Promise<void>;
 }
 
 interface HTMLElementWithFullscreen extends HTMLElement {
     webkitRequestFullscreen?: () => Promise<void>;
-    mozRequestFullScreen?: () => Promise<void>;
-    msRequestFullscreen?: () => Promise<void>;
 }
 
 {
@@ -156,26 +151,24 @@ interface HTMLElementWithFullscreen extends HTMLElement {
             // Use our custom interface for the document
             const docWithFullscreen = document as DocumentWithFullscreen;
 
-            // Check if fullscreen is currently active
             if (docWithFullscreen.fullscreenElement) {
-                // If fullscreen, exit it
-                if (docWithFullscreen.exitFullscreen) {
-                    docWithFullscreen.exitFullscreen();
-                } else if (docWithFullscreen.webkitExitFullscreen) { // Safari
-                    docWithFullscreen.webkitExitFullscreen();
-                }
+                (docWithFullscreen.exitFullscreen ?? docWithFullscreen.webkitExitFullscreen)?.call(docWithFullscreen);
             } else {
-                const target = (event.currentTarget as HTMLElement).querySelector("img");
-                // Check if the image target exists before trying to use it
-                const targetEl = target as HTMLElementWithFullscreen;
-                // If not fullscreen, request it for the image
-                if (targetEl.requestFullscreen) {
-                    targetEl.requestFullscreen();
-                } else if (targetEl.webkitRequestFullscreen) { // Safari
-                    targetEl.webkitRequestFullscreen();
-                }
+                const targetEl = (event.currentTarget as HTMLElement).querySelector("img") as HTMLElementWithFullscreen;
+                (targetEl.requestFullscreen ?? targetEl.webkitRequestFullscreen)?.call(targetEl);
             }
         });
+    }
+
+    /**
+     * Keeps the canonical link in sync with the current URL so search engines
+     * index the correct URL for each view (?art, ?photos, or the base page).
+     */
+    function syncCanonical(): void {
+        const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+        if (canonical) {
+            canonical.href = window.location.origin + window.location.pathname + window.location.search;
+        }
     }
 
     // Saved once so popstate can restore it.
@@ -200,7 +193,7 @@ interface HTMLElementWithFullscreen extends HTMLElement {
 
             content.classList.add("art");
             mainContent.innerHTML = text;
-            document.querySelectorAll<HTMLAnchorElement>(".artContent>a").forEach(artItemClickListener);
+            document.querySelectorAll<HTMLAnchorElement>(".artContent a").forEach(artItemClickListener);
 
             // Move focus to the start of the new content so screen readers are aware of the change
             const firstFocusableArt = mainContent.querySelector<HTMLElement>("a, button, input, [tabindex]:not([tabindex='-1'])");
@@ -231,6 +224,7 @@ interface HTMLElementWithFullscreen extends HTMLElement {
         content.classList.remove("art");
         mainContent.innerHTML = originalMainHTML;
         originalMainHTML = null;
+        syncCanonical();
     }
 
 
@@ -271,25 +265,26 @@ interface HTMLElementWithFullscreen extends HTMLElement {
 
         document.querySelector<HTMLAnchorElement>("a.art")!.addEventListener("click", (event) => {
             event.preventDefault();
+            if (window.location.search === "?art") {
+                navOpenerButton.click();
+                return;
+            }
             history.pushState({ view: "art" }, "", "?art");
+            syncCanonical();
             getAndLoadArt();
             navOpenerButton.click();
         });
 
-        window.addEventListener("popstate", (event) => {
-            if (event.state?.view === "art") {
-                getAndLoadArt();
-            } else {
-                restoreHome();
-            }
-        });
+        // True when we pushed a photos history entry ourselves; false on direct load.
+        let photosWasPushed = false;
 
-        document.querySelector<HTMLAnchorElement>("a.photos")!.addEventListener("click", (event) => {
-            event.preventDefault();
+        const enterPhotoMode = () => {
             if (backgroundInterval) {
                 clearInterval(backgroundInterval);
             }
-            navOpenerButton.click();
+            if (document.querySelector(".navHolder")!.classList.contains("open")) {
+                navOpenerButton.click();
+            }
             document.body.scrollTop = document.documentElement.scrollTop = 0;
             document.body.classList.remove("show");
             document.body.classList.add("hide");
@@ -301,22 +296,58 @@ interface HTMLElementWithFullscreen extends HTMLElement {
 
             const leftButton = document.querySelector<HTMLButtonElement>(".photoB>.l")!;
             leftButton.disabled = (currentIndex === 1);
+            syncCanonical();
+        };
+
+        const closePhotoMode = () => {
+            photosWasPushed = false;
+            backgroundInterval = setInterval(animateCarousel, 7000);
+            document.body.classList.remove("hide");
+            document.body.classList.add("show");
+            document.querySelectorAll<HTMLAnchorElement>("a").forEach(a => a.removeAttribute("tabIndex"));
+            document.querySelectorAll<HTMLButtonElement>(".photoB > button").forEach(b => b.tabIndex = -1);
+            document.querySelector<HTMLElement>("a.photos")?.focus();
+            syncCanonical();
+        };
+
+        // Closes photo mode: goes back in history if we pushed an entry,
+        // otherwise replaces the URL and closes directly (handles direct-load case).
+        const triggerClose = () => {
+            if (photosWasPushed) {
+                history.back(); // popstate fires → closePhotoMode()
+            } else {
+                history.replaceState(null, "", "/");
+                closePhotoMode();
+            }
+        };
+
+        window.addEventListener("popstate", (event) => {
+            if (document.body.classList.contains("hide")) {
+                closePhotoMode();
+            }
+            if (event.state?.view === "art") {
+                syncCanonical();
+                getAndLoadArt();
+            } else if (event.state?.view === "photos") {
+                photosWasPushed = true;
+                enterPhotoMode();
+            } else {
+                restoreHome();
+            }
+        });
+
+        document.querySelector<HTMLAnchorElement>("a.photos")!.addEventListener("click", (event) => {
+            event.preventDefault();
+            photosWasPushed = true;
+            history.pushState({ view: "photos" }, "", "?photos");
+            enterPhotoMode();
         });
 
         const photoControls = document.querySelector(".photoB");
         if (photoControls) {
             photoControls.querySelector(".x")!.addEventListener("click", (event) => {
                 event.preventDefault();
-                // Reset the interval
-                backgroundInterval = setInterval(animateCarousel, 7000);
-                document.body.classList.remove("hide");
-                document.body.classList.add("show");
-                document.querySelectorAll<HTMLAnchorElement>("a").forEach(a => a.removeAttribute("tabIndex"));
-                // Only disable the photo control buttons, don't disable all buttons (navOpener)
-                document.querySelectorAll<HTMLButtonElement>(".photoB > button").forEach(b => b.tabIndex = -1);
-
-                // Restore focus to the photos link for better keyboard flow
-                document.querySelector<HTMLElement>("a.photos")?.focus();
+                triggerClose();
             });
 
             const carouselContainer = document.querySelector<HTMLElement>(".carousel-container")!;
@@ -384,9 +415,32 @@ interface HTMLElementWithFullscreen extends HTMLElement {
             }, { passive: true });
         }
 
+        document.addEventListener("keydown", (event: KeyboardEvent) => {
+            if (!document.body.classList.contains("hide")) {
+                return;
+            }
+            if (event.key === "Escape") {
+                triggerClose();
+            } else if (event.key === "ArrowLeft") {
+                const leftButton = document.querySelector<HTMLButtonElement>(".photoB>.l")!;
+                if (!leftButton.disabled) {
+                    leftButton.click();
+                }
+            } else if (event.key === "ArrowRight") {
+                const rightButton = document.querySelector<HTMLButtonElement>(".photoB>.r")!;
+                if (!rightButton.disabled) {
+                    rightButton.click();
+                }
+            }
+        });
+
         if (window.location.search === "?art") {
             history.replaceState({ view: "art" }, "", "?art");
+            syncCanonical();
             getAndLoadArt();
+        } else if (window.location.search === "?photos") {
+            history.replaceState({ view: "photos" }, "", "?photos");
+            enterPhotoMode();
         }
     }
 

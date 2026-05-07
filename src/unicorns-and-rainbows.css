@@ -6,7 +6,6 @@ html,
 body,
 div,
 span,
-applet,
 object,
 iframe,
 h1,
@@ -20,9 +19,7 @@ blockquote,
 pre,
 a,
 abbr,
-acronym,
 address,
-big,
 cite,
 code,
 del,
@@ -35,16 +32,13 @@ q,
 s,
 samp,
 small,
-strike,
 strong,
 sub,
 sup,
-tt,
 var,
 b,
 u,
 i,
-center,
 dl,
 dt,
 dd,
@@ -319,20 +313,6 @@ footer,
     display: block;
 }
 
-/* Styles for the main content on top of the carousel */
-.content-container {
-    position: relative;
-    z-index: 1;
-    /* Ensures the content is on top of the carousel */
-    text-align: center;
-    padding: 50px;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    margin: 50px auto;
-    width: 80%;
-    max-width: 800px;
-}
-
 .navHolder {
     width: 100%;
     min-width: max-content;
@@ -391,11 +371,6 @@ footer {
     border-radius: 2rem;
 }
 
-.changeColor {
-    padding-right: 0;
-    padding-left: .5rem;
-}
-
 .wordpress {
     border-right: 2px solid var(--nav-text-color);
     padding-right: 1rem
@@ -405,12 +380,6 @@ footer {
     background: #21759b;
     padding: 1px;
     border-radius: 1rem
-}
-
-.changeColor > button {
-    border: 0;
-    background: transparent;
-    padding: 0;
 }
 
 footer {
@@ -424,32 +393,13 @@ footer {
     border-bottom-right-radius: 0;
 }
 
-.artContent-wrap {
-    width: 100%;
-}
-
 ul.artContent {
-    --card-height: 40vw;
-    --card-margin: 4vw;
     --numcards: 20;
     border-radius: 1rem;
     list-style: none;
     padding: 1rem;
     margin: 0;
     view-timeline-name: --cards-element-scrolls-in-body;
-}
-
-.artContent > a {
-    padding: 0;
-    margin: 0;
-    display: inline-block;
-    scroll-margin: 10px;
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
-}
-
-.artContent > a + a {
-    padding-left: 1rem
 }
 
 .artContent figure {
@@ -472,7 +422,7 @@ ul.artContent {
     background: var(--background-color3);
     max-height: min(45vh, 16rem);
     overflow: hidden;
-    width: 100%
+    width: calc(100% - 1rem)
 }
 
 .artContent > li {
@@ -764,7 +714,6 @@ ul.artContent {
 
 @media (max-width: 799px) {
     .body {
-        margin: 1rem;
         margin: auto
     }
 
@@ -787,14 +736,6 @@ ul.artContent {
 
     .wordpress {
         padding-right: .25rem
-    }
-
-    .grid {
-        display: none
-    }
-
-    .grid.background.option2::before {
-        content: none;
     }
 }
 
@@ -881,16 +822,6 @@ ul.artContent {
         height: auto;
     }
 
-    .backgroundWrapper {
-        top: 0;
-        position: fixed;
-        z-index: -2;
-        height: calc(100% - 1rem);
-        width: calc(100% - 1rem);
-        border: .5rem solid var(--background-color);
-        overflow: hidden
-    }
-
     .title,
     .title > div,
     .content,
@@ -925,10 +856,6 @@ ul.artContent {
     .title > div {
         font-size: 4rem;
         width: unset;
-    }
-
-    .backgroundWrapper {
-        margin: 0;
     }
 
     .insta-photo {
@@ -983,20 +910,6 @@ ul.artContent {
     footer {
         font-size: .75rem;
         width: calc(100% - 2rem);
-    }
-
-    .backgroundWrapper {
-        height: 100%;
-        width: 100%;
-        border: unset;
-    }
-
-    .background {
-        display: none
-    }
-
-    .grid.background>div {
-        background-image: none
     }
 }
 

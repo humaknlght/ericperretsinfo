@@ -31,7 +31,6 @@ body {
     padding: 2rem 3rem;
     max-width: 1000px;
     display: inline-grid;
-    grid-row-gap: 1em;
     row-gap: 1em;
     grid-template-columns: auto min-content min-content;
     grid-template-areas: 
@@ -39,9 +38,7 @@ body {
         "objective objective skills"
         "experience experience skills"
         "education education skills"
-        "certification certification colophon"
-}
-.content {
+        "certification certification colophon";
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     border-radius: .5rem;
 }
@@ -185,9 +182,6 @@ p, li {
 .experience p + p {
     text-indent: 2rem
 }
-.objective h2 {
-    text-transform: uppercase
-}
 .skills {
     font-family: sans-serif;
     font-weight:lighter;
@@ -298,10 +292,7 @@ p, li {
         grid-auto-columns: auto;
         grid-auto-flow: row;
         grid-template-columns: repeat(3, 1fr);
-        grid-gap: 1em;
         gap: 1em;
-        padding: 0;
-        margin: 0;
         border: none;
         text-align: left;
         margin: 0;
@@ -319,7 +310,7 @@ p, li {
         padding-right: .5rem;
     }
 }
-@media only screen and (max-width: 600px) {
+@media screen and (max-width: 600px) {
     .content {
         grid-template-areas: 
             "name"
