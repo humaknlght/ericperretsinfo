@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "scripts": {
+    "parse-audible": "node build/parse-audible.mjs"
+  }
+}

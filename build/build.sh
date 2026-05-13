@@ -51,6 +51,12 @@ find ./prod -name "*.html" -type f | xargs -P $NUM_CORES -I {} sh -c '
 echo "Minifying JSON-LD in HTML files..."
 node minify-ld-json.js ./prod
 
+echo "Minifying all JSON files..."
+find ./prod -name "*.json" -type f | xargs -P $NUM_CORES -I {} sh -c '
+    echo "Minifying $1"
+    node -e "const fs=require(\"fs\"),f=process.argv[1];fs.writeFileSync(f,JSON.stringify(JSON.parse(fs.readFileSync(f,\"utf8\"))))" "$1"
+' -- {}
+
 echo "Compiling typescript files..."
 tsc
 
@@ -82,6 +88,7 @@ find ./prod -type f \( \
     -name "*.html" -o \
     -name "*.css" -o \
     -name "*.js" -o \
+    -name "*.json" -o \
     -name "*.ico" -o \
     -name "*.svg" -o \
     -name "*.pdf" \

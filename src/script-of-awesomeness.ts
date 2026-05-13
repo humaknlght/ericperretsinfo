@@ -15,6 +15,17 @@ interface HTMLElementWithFullscreen extends HTMLElement {
     webkitRequestFullscreen?: () => Promise<void>;
 }
 
+interface Book {
+    title: string;
+    author: string;
+    narrator: string;
+    duration: string;
+    rating: number;
+    purchaseDate: string;
+    coverUrl: string;
+    audibleUrl?: string;
+}
+
 {
     // --- Global State Variables ---
 
@@ -83,8 +94,28 @@ interface HTMLElementWithFullscreen extends HTMLElement {
         updateSlideFilters = (index: number, instant: boolean = false): void => {
             const duration = instant ? '0s' : (isMobileQuery.matches ? '0.75s' : '1.5s');
             slides.forEach((s, i) => {
-                s.style.transition = `filter ${duration} ease-in-out`;
-                s.classList.toggle('active', i === index);
+                const isVideoSlide = videoSlideIndex !== -1 && i === videoSlideIndex;
+                if (isVideoSlide && !instant) {
+                    if (i === index) {
+                        // Snap filter off immediately when becoming active
+                        s.style.transition = 'filter 0s';
+                        s.classList.add('active');
+                        s.style.filter = '';
+                    } else {
+                        // Keep filter visually absent during the carousel position transition;
+                        // the transitionend handler clears this inline override afterward.
+                        s.style.transition = 'filter 0s';
+                        s.classList.remove('active');
+                        s.style.filter = 'none';
+                    }
+                } else {
+                    s.style.transition = `filter ${duration} ease-in-out`;
+                    s.classList.toggle('active', i === index);
+                    if (isVideoSlide) {
+                        // instant reset: let CSS take over immediately
+                        s.style.filter = '';
+                    }
+                }
             });
             if (videoEl !== null) {
                 if (index === videoSlideIndex) {
@@ -102,6 +133,15 @@ interface HTMLElementWithFullscreen extends HTMLElement {
         };
 
         carouselContainer.addEventListener('transitionend', () => {
+            // Once the carousel position transition ends, let CSS saturate the video slide
+            // if it is no longer active (clears the inline filter:none override set during the slide-away).
+            if (videoSlideIndex !== -1) {
+                const videoSlide = slides[videoSlideIndex];
+                if (!videoSlide.classList.contains('active')) {
+                    videoSlide.style.filter = '';
+                }
+            }
+
             // If we've reached the duplicated last slide, instantly reset to the first original slide
             if (currentIndex >= originalSlides + 1) {
                 currentIndex = 1;
@@ -228,6 +268,93 @@ interface HTMLElementWithFullscreen extends HTMLElement {
     }
 
 
+    /**
+     * Escapes a string for safe insertion into HTML attribute values and text nodes.
+     */
+    function escHtml(str: string): string {
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    /**
+     * Returns up to two initials from a book title, used as placeholder art.
+     */
+    function bookInitials(title: string): string {
+        return title.split(/\s+/).slice(0, 2).map(w => w[0] ?? '').join('').toUpperCase();
+    }
+
+    /**
+     * Fetches books/library.json and renders book cards into the .bookGrid element.
+     * Only the first row of cards is shown initially; a toggle button reveals the rest.
+     */
+    async function fetchBooks(): Promise<void> {
+        try {
+            const response = await fetch('books/library.json');
+            if (!response.ok) return;
+            const books: Book[] = await response.json();
+            const grid = document.querySelector<HTMLElement>('.bookGrid');
+            if (!grid || !books.length) return;
+
+            grid.setAttribute('aria-busy', 'false');
+            grid.innerHTML = books.map(book => {
+                const stars = book.rating > 0
+                    ? `<span class="bookCard-rating" aria-label="${book.rating} out of 5 stars">${'★'.repeat(book.rating)}${'☆'.repeat(5 - book.rating)}</span>`
+                    : '';
+                const cover = book.coverUrl
+                    ? `<img src="${escHtml(book.coverUrl)}" alt="Cover of ${escHtml(book.title)}" width="140" height="140" loading="lazy" crossorigin="anonymous" />`
+                    : `<div class="bookCard-placeholder" aria-hidden="true">${escHtml(bookInitials(book.title))}</div>`;
+                const durationHtml = book.duration
+                    ? `<p class="bookCard-duration">${escHtml(book.duration)}</p>`
+                    : '';
+                const cardInner = `${cover}
+                    <div class="bookCard-info">
+                        <p class="bookCard-title">${escHtml(book.title)}</p>
+                        <p class="bookCard-author">${escHtml(book.author)}</p>
+                        ${stars}
+                        ${durationHtml}
+                    </div>`;
+                return book.audibleUrl
+                    ? `<a class="bookCard" role="listitem" href="${escHtml(book.audibleUrl)}" target="_blank" rel="noopener noreferrer" aria-label="${escHtml(book.title)} on Audible">${cardInner}</a>`
+                    : `<article class="bookCard" role="listitem">${cardInner}</article>`;
+            }).join('');
+
+            // Calculate columns from the grid's rendered width:
+            // card min-width (140px) + gap (0.75rem ≈ 12px)
+            const cardMinWidth = 140 + 12;
+            const cols = Math.max(1, Math.floor((grid.offsetWidth + 12) / cardMinWidth));
+
+            if (books.length > cols) {
+                const cards = Array.from(grid.querySelectorAll<HTMLElement>('.bookCard'));
+                cards.slice(cols).forEach((card, i) => {
+                    card.classList.add('bookCard--hidden');
+                    card.style.setProperty('--book-index', String(i));
+                });
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'bookShowMore';
+                btn.textContent = `Show all ${books.length} books`;
+
+                btn.addEventListener('click', () => {
+                    const expanded = grid.classList.toggle('bookGrid--expanded');
+                    btn.textContent = expanded ? 'Show fewer books' : `Show all ${books.length} books`;
+                    if (!expanded) {
+                        // Collapsed — scroll the section heading back into view so the
+                        // user isn't left staring at content that no longer exists.
+                        document.getElementById('books')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+
+                grid.insertAdjacentElement('afterend', btn);
+            }
+        } catch {
+            // Silently fail — the section simply stays empty
+        }
+    }
+
     // --- Document Ready / Main Execution ---
 
     /**
@@ -235,6 +362,7 @@ interface HTMLElementWithFullscreen extends HTMLElement {
      */
     function ready(): void {
         setup();
+        fetchBooks();
 
         const toggle = document.getElementById('dark-mode-toggle')! as HTMLInputElement;
         toggle.addEventListener('change', () => {

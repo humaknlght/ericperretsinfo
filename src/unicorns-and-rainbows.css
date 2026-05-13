@@ -926,6 +926,116 @@ ul.artContent {
     }
 }
 
+/* ---- Books Section ---- */
+#books {
+    margin-top: 1rem;
+}
+
+#books > h2 {
+    border-radius: 1rem 1rem 0 0;
+}
+
+.bookGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: .75rem;
+    padding: .75rem;
+    background-color: var(--background-color3);
+    border-radius: 0 0 1rem 1rem;
+}
+
+.bookCard {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-color2);
+    border-radius: .75rem;
+    overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.bookCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .2);
+}
+
+.bookCard img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+}
+
+.bookCard-placeholder {
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-color);
+    font-family: "Playfair Display", serif;
+    font-size: 2rem;
+    font-weight: 900;
+}
+
+.bookCard-info {
+    padding: .5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+}
+
+.bookCard-title {
+    font-size: .8rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.bookCard-author {
+    font-size: .75rem;
+}
+
+@keyframes bookCardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+.bookCard--hidden {
+    display: none;
+}
+
+.bookGrid--expanded .bookCard--hidden {
+    display: flex;
+    animation: bookCardEnter 0.3s ease-out backwards;
+    animation-delay: calc(var(--book-index, 0) * 35ms);
+}
+
+.bookShowMore {
+    display: block;
+    margin: .5rem 0 0;
+    padding: .4rem .9rem;
+    background: var(--background-color3);
+    border: none;
+    border-radius: 2rem;
+    color: var(--nav-text-color);
+    font-family: inherit;
+    font-size: .9rem;
+    font-variant: small-caps;
+    cursor: pointer;
+    transition: background-color var(--transition);
+}
+
+.bookShowMore:hover {
+    text-decoration: underline;
+}
+
+.bookShowMore:focus-visible {
+    outline: 2px solid var(--nav-text-color);
+    outline-offset: 4px;
+}
+
 /* 1. Theme Logic: Update global variables if the toggle is checked anywhere */
 html:has(#dark-mode-toggle:checked) {
     --background-color: #222;
