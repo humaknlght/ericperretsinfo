@@ -266,7 +266,6 @@ footer,
     transition: opacity .5s;
     background-color: var(--background-color2);
     scale: 1;
-    filter: blur(0);
 }
 
 .carousel-container {
@@ -277,6 +276,7 @@ footer,
     --carousel-duration: 1.5s;
     transform: translate3d(var(--carousel-offset), 0, 0);
     touch-action: pan-y;
+    will-change: transform;
 }
 
 .carousel-container.carousel-animated {
@@ -292,6 +292,24 @@ footer,
     height: 100%;
     overflow: hidden;
     filter: saturate(50%);
+    /* Tell the compositor that nothing inside a slide affects layout or
+       paint outside its box. Strengthens layer isolation so transforms /
+       filters on one slide don't trigger work on neighbors. */
+    contain: layout paint;
+    /* will-change: filter is applied dynamically from JS to only the
+       outgoing/incoming slide for the duration of each transition (see
+       setup() in script-of-awesomeness.ts). Leaving it static here would
+       force every slide to hold a permanent compositor layer. */
+}
+
+/* Slides more than 2 positions away from the current center are tagged
+   .far by JS. content-visibility: hidden tells the browser to skip their
+   rendering (paint, decode, accessibility tree) entirely until they come
+   back into the near zone. Combined with the dynamic image decode in
+   updateFarClass(), this means the only slides eating per-frame GPU
+   budget during a carousel cycle are the ones the user can actually see. */
+.carousel-slide.far {
+    content-visibility: hidden;
 }
 
 .carousel-slide.active {
@@ -678,13 +696,11 @@ ul.artContent {
     @keyframes carousel-wrapper-enter {
         from {
             scale: 0.2;
-            /*filter: blur(10px);*/
             transform: perspective(800px) rotateY(25deg) rotateX(10deg);
             opacity: 0.2;
         }
         to {
             scale: 1;
-            filter: blur(0);
             opacity: 1;
         }
     }
