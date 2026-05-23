@@ -60,6 +60,9 @@ find ./prod -name "*.json" -type f | xargs -P $NUM_CORES -I {} sh -c '
 echo "Compiling typescript files..."
 tsc
 
+echo "Removing TypeScript source files from prod..."
+find ./prod -name "*.ts" -type f -delete
+
 #npm install terser -g
 echo "Minifying all JS files..."
 find ./prod -name '*.js' | xargs -P $NUM_CORES -I {} sh -c '

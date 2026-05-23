@@ -1,98 +1,8 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-html,
-body,
-div,
-span,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-address,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strong,
-sub,
-sup,
-var,
-b,
-u,
-i,
-dl,
-dt,
-dd,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    vertical-align: baseline
-}
-
-/* HTML5 display-role reset for older browsers */
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-section {
-    display: block
-}
+/* Targeted modern reset (replaces Meyer 2011 reset; only resets elements actually used) */
+*, *::before, *::after { box-sizing: border-box; }
+html, body, h1, h2, h3, h4, p, ul, ol, li, figure, blockquote, dl, dd, hr, fieldset { margin: 0; padding: 0; }
+ul[role="list"], ol[role="list"] { list-style: none; }
+button { font: inherit; cursor: pointer; background: none; border: 0; color: inherit; padding: 0; }
 
 html {
     --background-color: #ebebeb;
@@ -111,10 +21,6 @@ body {
     font-family: "Inter";
     font-size: 1.1rem;
     -webkit-font-smoothing: antialiased
-}
-
-button {
-    cursor: pointer;
 }
 
 h1,
@@ -280,7 +186,7 @@ footer,
 }
 
 .carousel-container.carousel-animated {
-    transition: transform var(--carousel-duration) ease-in-out;
+    transition: transform var(--carousel-duration) cubic-bezier(.5,-0.53,.14,1.23);
 }
 
 .carousel-slide {
@@ -404,136 +310,15 @@ footer {
     display: inline-block;
     padding: calc(1rem - 2px) 3rem;
     margin: 1rem 0 0 6vw;
-    width: calc(600px - 7rem);
+    width: calc(600px - 1rem);
     color: var(--secondary-text-color);
     font-size: 1rem;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
 
-ul.artContent {
-    --numcards: 20;
-    border-radius: 1rem;
-    list-style: none;
-    padding: 1rem;
-    margin: 0;
-    view-timeline-name: --cards-element-scrolls-in-body;
-}
-
-.artContent figure {
-    position: relative;
-    display: inline-block;
-    border: 1px solid #000
-}
-
-.artContent img {
-    height: auto;
-    width: 100%;
-    display: block;
-}
-
-.artContent figcaption {
-    position: absolute;
-    bottom: 0;
-    z-index: 1;
-    padding: .5rem;
-    background: var(--background-color3);
-    max-height: min(45vh, 16rem);
-    overflow: hidden;
-    width: calc(100% - 1rem)
-}
-
-.artContent > li {
-    --index0: calc(var(--index) - 1); /* 0-based index */
-    --reverse-index: calc(var(--numcards) - var(--index0)); /* reverse index */
-    --reverse-index0: calc(var(--reverse-index) - 1); /* 0-based reverse index */
-    position: sticky;
-    top: 4rem;
-    padding-bottom: 2rem;
-}
 .me {
     border-top-right-radius: 2rem;
-}
-
-.artContent > li:nth-child(1) {
-    --index: 1;
-}
-
-.artContent > li:nth-child(2) {
-    --index: 2;
-}
-
-.artContent > li:nth-child(3) {
-    --index: 3;
-}
-
-.artContent > li:nth-child(4) {
-    --index: 4;
-}
-.artContent > li:nth-child(5) {
-    --index: 5;
-}
-.artContent > li:nth-child(6) {
-    --index: 6;
-}
-.artContent > li:nth-child(7) {
-    --index: 7;
-}
-.artContent > li:nth-child(8) {
-    --index: 8;
-}
-.artContent > li:nth-child(9) {
-    --index: 9;
-}
-.artContent > li:nth-child(10) {
-    --index: 10;
-}
-.artContent > li:nth-child(11) {
-    --index: 11;
-}
-.artContent > li:nth-child(12) {
-    --index: 12;
-}
-.artContent > li:nth-child(13) {
-    --index: 13;
-}
-.artContent > li:nth-child(14) {
-    --index: 14;
-}
-.artContent > li:nth-child(15) {
-    --index: 15;
-}
-.artContent > li:nth-child(16) {
-    --index: 16;
-}
-.artContent > li:nth-child(17) {
-    --index: 17;
-}
-.artContent > li:nth-child(18) {
-    --index: 18;
-}
-.artContent > li:nth-child(19) {
-    --index: 19;
-}
-.artContent > li:nth-child(20) {
-    --index: 20;
-}
-@keyframes scale {
-    to {
-        transform:
-            scale(calc(1.1 - calc(0.1 * 4)));
-    }
-}
-.artContent a {
-    --start-range: calc(var(--index0) / var(--numcards) * 100%);
-    --end-range: calc(var(--index) / var(--numcards) * 100%);
-
-    animation: linear scale forwards;
-    animation-timeline: --cards-element-scrolls-in-body;
-    animation-range: exit-crossing var(--start-range) exit-crossing var(--end-range);
-    display: block;
-    transform-origin: 50% 0%;
-    will-change: transform;
 }
 
 .photoB {
@@ -878,12 +663,13 @@ ul.artContent {
         height: auto;
     }
 
-    .artContent img {
-        height: auto;
-    }
-
     .hide .navHolder {
         transform: translateY(calc(-100% - 2.75rem));
+    }
+}
+@media (max-width: 600px) {
+    .content, .title, footer {
+        width: calc(100% - 2rem);
     }
 }
 
@@ -907,12 +693,13 @@ ul.artContent {
 
     .content > main {
         padding: .25rem;
-        width: calc(100% - .5rem)
+        width: unset;
     }
 
     #me {
         clip-path: polygon(0% 0%, 100% 100%, 100% 0%);
         shape-outside: polygon(0% 0%, 100% 100%, 100% 0%);
+        margin: -.25rem -.25rem 0 0
     }
 
     .me {

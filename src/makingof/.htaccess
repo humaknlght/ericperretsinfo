@@ -1,4 +1,3 @@
 <FilesMatch "\.html">
 Header always unset Link
-Header always set "Cross-Origin-Resource-Policy" "same-site"
 </FilesMatch>

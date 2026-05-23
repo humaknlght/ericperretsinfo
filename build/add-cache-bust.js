@@ -129,9 +129,27 @@ function processCss(content, filePath, hashMap) {
   return out;
 }
 
+// Rewrites quoted string literals in JS that look like first-party paths
+// to .js / .css / .json / .html files. This covers dynamic import('./art.js'),
+// ensureCss('art.css'), fetch('books/library.json'), and fragment fetches
+// like fetch('/art/art.html') that the upstream CSS/HTML passes don't see.
+function processJs(content, filePath, hashMap) {
+  const dir = path.dirname(filePath);
+  let out = content;
+
+  out = out.replace(/(['"])((?:\.{1,2}\/|\/)?[\w./-]+\.(?:js|css|json|html))\1/g, (match, quote, url) => {
+    if (!isFirstParty(url)) return match;
+    const key = resolveToKey(url.split("?")[0], dir);
+    if (!key || !hashMap.has(key)) return match;
+    return `${quote}${addParam(url, hashMap.get(key))}${quote}`;
+  });
+
+  return out;
+}
+
 function processHtaccess(content, hashMap) {
   let out = content;
-  out = out.replace(/<(\/[^>]+\.(?:avif|webp|svg|ico|css|js|json))>/g, (match, p) => {
+  out = out.replace(/<(\/[^>]+\.(?:avif|webp|svg|ico|css|js|json|html))>/g, (match, p) => {
     const key = p.replace(/^\//, "");
     if (!hashMap.has(key)) return match;
     return `<${addParam(p, hashMap.get(key))}>`;
@@ -188,20 +206,51 @@ async function main() {
   await findFiles(prodRoot);
 
   const cssFiles = allFiles.filter(f => f.endsWith(".css"));
+  const jsFiles = allFiles.filter(f => f.endsWith(".js"));
+  // Split JS into lazy-loaded modules (subdirectories) and root entry points.
+  // Modules must be processed first because their content changes (e.g. fetch
+  // URLs get a ?v=hash) which in turn changes their own hash, which the entry
+  // point must reference correctly.
+  const jsModules    = jsFiles.filter(f => path.dirname(f) !== prodRoot);
+  const jsEntryPoints = jsFiles.filter(f => path.dirname(f) === prodRoot);
   const htmlFiles = allFiles.filter(f => f.endsWith(".html"));
   const htaccessPath = path.join(prodRoot, ".htaccess");
 
-  // 3. Update CSS (Pass 1)
+  // 3. Update CSS (Pass 1) — rewrites url() refs to images
   await Promise.all(cssFiles.map(async (f) => {
     const content = await fs.readFile(f, "utf8");
     const newContent = processCss(content, f, hashMap);
     if (newContent !== content) await fs.writeFile(f, newContent, "utf8");
   }));
 
-  // 4. Re-Hash (because CSS content changed)
+  // 4. Re-Hash (CSS content changed; JS will reference CSS, so we need fresh hashes)
   hashMap = await buildHashMap();
 
-  // 5. Update HTML and .htaccess (Pass 2)
+  // 5a. Update JS modules (Pass 2a) — lazy-loaded chunks like tea/tea.js and
+  //     art/art.js. These contain fetch() calls to HTML fragments whose hashes
+  //     just changed; rewriting them changes the module files themselves.
+  await Promise.all(jsModules.map(async (f) => {
+    const content = await fs.readFile(f, "utf8");
+    const newContent = processJs(content, f, hashMap);
+    if (newContent !== content) await fs.writeFile(f, newContent, "utf8");
+  }));
+
+  // 5b. Re-Hash (module content changed; entry points reference modules)
+  hashMap = await buildHashMap();
+
+  // 5c. Update JS entry points (Pass 2b) — script-of-awesomeness.js and any
+  //     other root-level JS. Now references to ./tea/tea.js etc. use the hash
+  //     that reflects the already-rewritten module content.
+  await Promise.all(jsEntryPoints.map(async (f) => {
+    const content = await fs.readFile(f, "utf8");
+    const newContent = processJs(content, f, hashMap);
+    if (newContent !== content) await fs.writeFile(f, newContent, "utf8");
+  }));
+
+  // 6. Re-Hash again (JS content changed; HTML will reference JS)
+  hashMap = await buildHashMap();
+
+  // 7. Update HTML and .htaccess (Pass 3)
   const finalTasks = htmlFiles.map(async (f) => {
     const content = await fs.readFile(f, "utf8");
     const newContent = processHtml(content, f, hashMap);

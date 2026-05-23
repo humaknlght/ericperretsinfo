@@ -1,0 +1,284 @@
+/* ---- Tea Section (loaded on demand by ?tea view) ---- */
+
+.teaContent {
+    padding: 0;
+}
+
+.teaIntro {
+    color: var(--secondary-text-color);
+    line-height: 1.6;
+}
+
+.teaContent > h2 {
+    border-radius: 1rem 1rem 0 0;
+    /* Fixed .navHolder (3rem); keep headline clear when programmatically scrolled */
+    scroll-margin-top: calc(3rem + 8px);
+}
+
+.teaSection {
+    margin-top: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.teaSection > h3 {
+    margin: 0;
+    padding: 3rem 1rem;
+    background: image-set(url('img/tea-light.avif') 1x, url('img/tea-light@2x.avif') 2x) center / cover no-repeat;
+    font-size: 1.4rem;
+    color: rgba(255, 255, 255, 0.87);
+    text-align: center;
+    letter-spacing: .03em;
+    border-radius: 1rem 1rem 0 0;
+}
+
+.teaMap {
+    background-color: var(--background-color2);
+    overflow: hidden;
+    /* Extra height compensates for the 50px My Maps title bar being shifted out */
+    aspect-ratio: 16 / 9;
+    position: relative;
+}
+
+.teaMap-frame {
+    width: 100%;
+    /* Extend height so the map fills the container after the upward shift */
+    height: calc(100% + 50px);
+    border: none;
+    display: block;
+    /* Push the iframe up to hide the My Maps title bar */
+    transform: translateY(-70px);
+}
+
+.teaGrid,
+.teaShopList {
+    border-radius: 0 0 1rem 1rem;
+}
+
+.teaBrewCard {
+    border-radius: 0 0 1rem 1rem;
+}
+
+.content .teaGrid,
+.content .teaShopList {
+    padding: .75rem;
+}
+
+.teaGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+}
+
+.teaCard {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-color2);
+    border-radius: .75rem;
+    overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.teaCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .2);
+}
+
+.teaCard-band {
+    height: 4px;
+}
+
+.teaCard[data-type="green"] .teaCard-band {
+    background-color: #4a7c59;
+}
+
+.teaCard[data-type="oolong"] .teaCard-band {
+    background-color: #8b6b45;
+}
+
+.teaCard[data-type="white"] .teaCard-band {
+    background-color: #c5a87e;
+}
+
+.teaCard[data-type="black"] .teaCard-band {
+    background-color: #5c3d2e;
+}
+
+.teaCard[data-type="honey"] .teaCard-band {
+    background-color: #c4831a;
+}
+
+.teaCard[data-type="puerh"] .teaCard-band {
+    background-color: #3d2314;
+}
+
+.teaCard[data-type="yaupon"] .teaCard-band {
+    background-color: #5a8a3c;
+}
+
+.teaCard-body {
+    padding: .75rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+.teaCard-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    margin-bottom: .25rem;
+}
+
+.teaCard-name {
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.2;
+}
+
+.teaCard-origin {
+    font-size: .875rem;
+    color: var(--secondary-text-color);
+    font-style: italic;
+}
+
+.teaCard-source {
+    font-size: .875rem;
+    color: var(--secondary-text-color);
+}
+
+.teaCard-notes {
+    font-size: .9rem;
+    line-height: 1.5;
+    flex: 1;
+    margin-top: .25rem;
+}
+
+.teaCard-brew {
+    font-size: .8rem;
+    color: var(--secondary-text-color);
+    margin-top: .5rem;
+    padding-top: .5rem;
+    border-top: 1px solid var(--background-color);
+}
+
+.teaBrewGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.teaBrewCard {
+    background-color: var(--background-color2);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+}
+
+.teaBrewCard-title {
+    font-family: "Playfair Display", serif;
+    font-weight: 900;
+    font-size: 1rem;
+}
+
+.teaBrewCard-title > span {
+    font-family: "Inter", sans-serif;
+    font-size: .8em;
+    font-weight: 400;
+    color: var(--secondary-text-color);
+    margin-left: .25rem;
+}
+
+.teaBrewCard-desc {
+    font-size: .85rem;
+    color: var(--secondary-text-color);
+    line-height: 1.5;
+}
+
+.teaBrewCard-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: brew-steps;
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+}
+
+.teaBrewCard-steps > li {
+    counter-increment: brew-steps;
+    display: flex;
+    gap: .5rem;
+    font-size: .8rem;
+    line-height: 1.4;
+    align-items: baseline;
+}
+
+.teaBrewCard-steps > li::before {
+    content: counter(brew-steps);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background-color: var(--background-color);
+    font-weight: 700;
+    font-size: .7rem;
+    flex-shrink: 0;
+}
+
+.teaShopList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+}
+
+.teaShop {
+    background-color: var(--background-color2);
+    border-radius: .75rem;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.teaShop:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, .15);
+}
+
+.teaShop-name {
+    font-family: "Playfair Display", serif;
+    font-size: 1rem;
+    font-weight: 900;
+}
+
+
+.teaShop-location {
+    font-size: .875rem;
+    color: var(--secondary-text-color);
+    font-style: italic;
+}
+
+.teaShop-desc {
+    font-size: .95rem;
+    line-height: 1.5;
+    margin-top: .2rem;
+}
+
+/* Dark mode overrides for tea */
+html:has(#dark-mode-toggle:checked) .teaMap-frame {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+html:has(#dark-mode-toggle:checked) .teaSection > h3 {
+    background: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .1)),
+                image-set(url('img/tea.avif') 1x, url('img/tea@2x.avif') 2x) center / cover no-repeat;
+}

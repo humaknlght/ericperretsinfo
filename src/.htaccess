@@ -5,6 +5,8 @@ RewriteRule ^(.*)$ https://www.ericperret.org/$1 [R=301]
 ServerSignature Off
 
 RewriteBase /
+DirectorySlash Off
+
 RewriteCond %{HTTP:Accept-encoding} br
 RewriteCond %{REQUEST_FILENAME}\.br -s
 RewriteRule (.*) $1.br [L,QSA]
@@ -12,6 +14,13 @@ RewriteRule (.*) $1.br [L,QSA]
 RewriteCond %{HTTP:Accept-encoding} gzip
 RewriteCond %{REQUEST_FILENAME}.gz -f
 RewriteRule (.*) $1.gz [L,QSA]
+
+# SPA routes: canonical URLs are /art, /tea, /photos (no trailing slash).
+# Those names also exist as on-disk directories (CSS/JS/images). Without
+# DirectorySlash Off above, mod_dir 301s /tea → /tea/ which loops with the
+# trailing-slash strip rule below. Fragments live at /art/art.html, etc.
+RewriteRule ^(art|tea|photos)/$ /$1 [R=301,L]
+RewriteRule ^(art|tea|photos)$ /index.html [L]
 
 ErrorDocument 404 /404/index.html
 
@@ -45,13 +54,17 @@ Header set Cache-Control "public,max-age=31536000"
 </FilesMatch>
 
 <FilesMatch "\.html">
+Header always set Link "<https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@900&family=Inter:wght@400;700&family=Playfair+Display:wght@900&display=swap>;as=style;rel=preload;fetchpriority=high,<https://fonts.gstatic.com>;rel=preconnect;crossorigin,</img/bg0.avif>;as=image;rel=preload;fetchpriority=high,</img/bg1.webp>;as=image;rel=preload,</img/bg7.avif>;as=image;rel=preload,</unicorns-and-rainbows.css>;rel=preload;as=style,</script-of-awesomeness.js>;rel=modulepreload,</books/library.json>;rel=preload;as=fetch;crossorigin,</img/ericperret.avif>;rel=preload;as=image,<https://www.googletagmanager.com>;rel=preconnect" "expr=%{THE_REQUEST} =~ m#^GET /(index\.html|art/?|tea/?|photos/?)? HTTP#"
+Header always append Link "</art/art.css>;rel=preload;as=style,</art/art.js>;rel=modulepreload,</art/art.html>;rel=preload;as=fetch;crossorigin" "expr=%{THE_REQUEST} =~ m#^GET /art/? HTTP#"
+Header always append Link "</art/art.css>;rel=prefetch,</art/art.js>;rel=prefetch,</art/art.html>;rel=prefetch" "expr=%{THE_REQUEST} =~ m#^GET /(index\.html|art/?|tea/?|photos/?)? HTTP# && %{THE_REQUEST} !~ m#^GET /art/? HTTP#"
+Header always append Link "</tea/tea.css>;rel=preload;as=style,</tea/tea.js>;rel=modulepreload,</tea/tea.html>;rel=preload;as=fetch;crossorigin" "expr=%{THE_REQUEST} =~ m#^GET /tea/? HTTP#"
+Header always append Link "</tea/tea.css>;rel=prefetch,</tea/tea.js>;rel=prefetch,</tea/tea.html>;rel=prefetch" "expr=%{THE_REQUEST} =~ m#^GET /(index\.html|art/?|tea/?|photos/?)? HTTP# && %{THE_REQUEST} !~ m#^GET /tea/? HTTP#"
 Header always set "Referrer-Policy" "no-referrer"
-Header always set "Cross-Origin-Embedder-Policy" "require-corp"
-Header set Link "<https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@900&family=Inter:wght@400;700&family=Playfair+Display:wght@900&display=swap>;as=style;rel=preload;fetchpriority=high,<https://fonts.gstatic.com>;rel=preconnect;crossorigin,</img/bg0.avif>;as=image;rel=preload;fetchpriority=high,</img/bg1.webp>;as=image;rel=preload,</img/bg7.avif>;as=image;rel=preload"
+Header always set "Cross-Origin-Embedder-Policy" "credentialless"
 Header always set "X-UA-Compatible" "IE=edge"
 Header always append X-Frame-Options DENY
 Header set Vary "Accept-Encoding"
-Header always set "Content-Security-Policy" "upgrade-insecure-requests;default-src 'none';script-src 'self' 'sha256-I/2MSZRcaETmHpt/gbnZIuMGIKBisPLfPmteUx/WHdY=' 'sha256-gZiWBOWKghllTz52afdCzCwLyQj46lJInJAx9YY1bqg=' 'sha256-CWpOQpjtR82aholVEnJ/z/GSf5SxQVNZzZ0p5O1zdbw=' 'sha256-SZ2Tll/Go9rVRQ3Ugk4EwKqZ/cvL00X1G1sh1RnscSk=' https://www.googletagmanager.com/gtag/js *.google-analytics.com;style-src 'self' 'sha256-s4luA1dUp9XWuHO6rZF8OH6C15WnY5r6vJdHuoi5HUU=' 'sha256-biC4kOKLSc9YD3TPQJV4uAlrnZyG2xuQsUaGrTRkbpA=' https://fonts.googleapis.com;connect-src 'self';media-src 'self';img-src data: 'self' https://www.googletagmanager.com https://www.google-analytics.com https://covers.openlibrary.org https://m.media-amazon.com; font-src data: https://fonts.gstatic.com;frame-src https://www.youtube-nocookie.com;form-action 'none';base-uri 'none';frame-ancestors 'none'"
+Header always set "Content-Security-Policy" "upgrade-insecure-requests;default-src 'none';script-src 'self' 'sha256-I/2MSZRcaETmHpt/gbnZIuMGIKBisPLfPmteUx/WHdY=' 'sha256-gZiWBOWKghllTz52afdCzCwLyQj46lJInJAx9YY1bqg=' 'sha256-CWpOQpjtR82aholVEnJ/z/GSf5SxQVNZzZ0p5O1zdbw=' 'sha256-CSGq+t0b81shPMYyocnhV9pXCSTKmiGTSCXhnhZsmws=' 'sha256-VfqGT1c6m8Sp31M1gtyidxuPo3zoKY3gOpbkaAkr8pc=' https://www.googletagmanager.com/gtag/js *.google-analytics.com;style-src 'self' 'sha256-s4luA1dUp9XWuHO6rZF8OH6C15WnY5r6vJdHuoi5HUU=' 'sha256-biC4kOKLSc9YD3TPQJV4uAlrnZyG2xuQsUaGrTRkbpA=' https://fonts.googleapis.com;connect-src 'self';media-src 'self';img-src data: 'self' https://www.googletagmanager.com https://www.google-analytics.com https://covers.openlibrary.org https://m.media-amazon.com; font-src data: https://fonts.gstatic.com;frame-src https://www.youtube-nocookie.com https://www.google.com;form-action 'none';base-uri 'self';frame-ancestors 'none'"
 Header always set "Speculation-Rules" "\"/prerender.json\""
 Header always set "Strict-Transport-Security" "max-age=31536000"
 ForceType text/html
@@ -80,7 +93,14 @@ ForceType image/x-icon
 Header always set "Cross-Origin-Resource-Policy" "same-site"
 </FilesMatch>
 
-<FilesMatch "prerender\.json$">
+<FilesMatch "\.json">
+Header set Vary "Accept-Encoding"
+ForceType "application/json; charset=utf-8"
+Header always set "Cross-Origin-Resource-Policy" "same-site"
+Header set Cache-Control "public,max-age=31536000"
+</FilesMatch>
+
+<FilesMatch "prerender\.json(\.(br|gz))?$">
 Header set Vary "Accept-Encoding"
 Header set Cache-Control "max-age=604800,public"
 ForceType application/speculationrules+json

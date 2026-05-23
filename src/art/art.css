@@ -1,0 +1,125 @@
+/* ---- Art Section (loaded on demand by ?art view) ---- */
+
+ul.artContent {
+    --numcards: 20;
+    border-radius: 1rem;
+    list-style: none;
+    padding: 1rem;
+    margin: 0;
+    view-timeline-name: --cards-element-scrolls-in-body;
+}
+
+.artContent figure {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #000
+}
+
+.artContent img {
+    height: auto;
+    width: 100%;
+    display: block;
+}
+
+.artContent figcaption {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    padding: .5rem;
+    background: var(--background-color3);
+    max-height: min(45vh, 16rem);
+    overflow: hidden;
+    width: calc(100% - 1rem)
+}
+
+.artContent > li {
+    --index0: calc(var(--index) - 1); /* 0-based index */
+    --reverse-index: calc(var(--numcards) - var(--index0)); /* reverse index */
+    --reverse-index0: calc(var(--reverse-index) - 1); /* 0-based reverse index */
+    position: sticky;
+    top: 4rem;
+    padding-bottom: 2rem;
+}
+
+.artContent > li:nth-child(1) {
+    --index: 1;
+}
+
+.artContent > li:nth-child(2) {
+    --index: 2;
+}
+
+.artContent > li:nth-child(3) {
+    --index: 3;
+}
+
+.artContent > li:nth-child(4) {
+    --index: 4;
+}
+.artContent > li:nth-child(5) {
+    --index: 5;
+}
+.artContent > li:nth-child(6) {
+    --index: 6;
+}
+.artContent > li:nth-child(7) {
+    --index: 7;
+}
+.artContent > li:nth-child(8) {
+    --index: 8;
+}
+.artContent > li:nth-child(9) {
+    --index: 9;
+}
+.artContent > li:nth-child(10) {
+    --index: 10;
+}
+.artContent > li:nth-child(11) {
+    --index: 11;
+}
+.artContent > li:nth-child(12) {
+    --index: 12;
+}
+.artContent > li:nth-child(13) {
+    --index: 13;
+}
+.artContent > li:nth-child(14) {
+    --index: 14;
+}
+.artContent > li:nth-child(15) {
+    --index: 15;
+}
+.artContent > li:nth-child(16) {
+    --index: 16;
+}
+.artContent > li:nth-child(17) {
+    --index: 17;
+}
+.artContent > li:nth-child(18) {
+    --index: 18;
+}
+.artContent > li:nth-child(19) {
+    --index: 19;
+}
+.artContent > li:nth-child(20) {
+    --index: 20;
+}
+
+@keyframes scale {
+    to {
+        transform:
+            scale(calc(1.1 - calc(0.1 * 4)));
+    }
+}
+
+.artContent a {
+    --start-range: calc(var(--index0) / var(--numcards) * 100%);
+    --end-range: calc(var(--index) / var(--numcards) * 100%);
+
+    animation: linear scale forwards;
+    animation-timeline: --cards-element-scrolls-in-body;
+    animation-range: exit-crossing var(--start-range) exit-crossing var(--end-range);
+    display: block;
+    transform-origin: 50% 0%;
+    will-change: transform;
+}

@@ -11,6 +11,6 @@
     "alwaysStrict": true      // Always emit “use strict” for each source file
   },
   "include": [
-    "./prod/*.ts"             // Tell the compiler to include all .ts files in the prod directory
+    "./prod/**/*.ts"          // Tell the compiler to include all .ts files in the prod directory tree
   ]
 }

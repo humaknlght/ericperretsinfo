@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <base href="/" />
     <style>
         html {
             --background-color: #222;
@@ -17,7 +18,7 @@
     <link rel="icon" type="image/png" href="img/favicon.png" />
     <link rel="apple-touch-icon" href="img/favicon.png" />
     <link rel="canonical" href="https://www.ericperret.org" />
-    <script>{const _qs=location.search;if(_qs==='?art'||_qs==='?photos'){document.querySelector('link[rel="canonical"]').href='https://www.ericperret.org'+_qs;}}</script>
+    <script>{const _p=location.pathname;if(_p==='/art'||_p==='/photos'||_p==='/tea'){document.querySelector('link[rel="canonical"]').href='https://www.ericperret.org'+_p;}}</script>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="color-scheme" content="dark light">
     <meta name="theme-color" content="#000">
@@ -41,13 +42,14 @@
     <meta property="profile:gender" content="male">
     <meta property="profile:username" content="perret.eric">
     <title>Building the Future: Eric Perret&#8217;s Portfolio</title>
-    <script async fetchpriority="high" src="script-of-awesomeness.js"></script>
+    <script type="module" src="script-of-awesomeness.js"></script>
 </head>
 
 <body>
     <div class="carousel-wrapper">
         <div class="carousel-container">
-            <div class="carousel-slide" id="slide-7">
+            <!-- Leading buffer: fills the 5vw left-edge peek before the active slide. -->
+            <div class="carousel-slide" id="slide-7-buffer">
                 <picture>
                     <source type="image/avif" srcset="img/bg7.avif" />
                     <img alt="" src="img/bg7.avif" width="1927" height="1446" decoding="async" />
@@ -158,8 +160,9 @@
                     <li class="navLink"><a href="resume/">Resume</a></li>
                     <li class="navLink"><a href="https://github.com/eperret">Work Git</a></li>
                     <li class="navLink"><a href="https://github.com/humaknlght">Personal Git</a></li>
-                    <li class="navLink"><a href="?photos" class="photos">Photos</a></li>
-                    <li class="navLink"><a href="?art" class="art">Art</a></li>
+                    <li class="navLink"><a href="/photos" class="photos">Photos</a></li>
+                    <li class="navLink"><a href="/art" class="art">Art</a></li>
+                    <li class="navLink"><a href="/tea" class="tea">Tea</a></li>
                     <li class="navLink"><a href="#books" class="books">Books</a></li>
                     <li class="toggle">
                         <input type="checkbox" id="dark-mode-toggle" aria-label="Toggle Dark Mode" />
@@ -187,7 +190,7 @@
                         srcset="img/ericperret@2x.avif 2x" alt="Portrait of Eric Perret (Me)"
                         title="Portrait of Eric Perret (Me)" />
                 </a>
-                <p class="tagline">Software&nbsp;Architect, Technical&nbsp;Leader, Tea&nbsp;Aficionado,
+                <p class="tagline">Software&nbsp;Architect, Technical&nbsp;Leader, <a href="/tea" class="tea">Tea</a>&nbsp;Aficionado,
                     <!-- htmlmin:ignore --><svg aria-labelledby="and-icon" width="25" height="20" id="and" viewBox="0 0 6.6 8.1" xmlns="http://www.w3.org/2000/svg"><title id="and-icon">and</title><path d="M6.6 3.6v.6l-.3.4-.5.3-.5.2-.2 1.2-.6 1q-.4.4-.9.6-.5.2-1.2.2l-1-.1q-.5-.2-.8-.6L0 6.7V5.1l.4-.7q.1-.3.4-.5l.6-.4-.7-.7L.5 2l.1-.7.4-.6q.2-.3.6-.4.3-.2.8-.2l.8.1.5.4.4.4v.9L4 2l-.2.2h-.5L3.1 2l.2-.2V1q0-.2-.2-.3h-.2L2.6.5l-.3.1Q2 .7 2 1l-.1.4-.1.4v.5l.3.5.5.5.6.2-.6.3-.4.6-.3.6v1.2q0 .3.2.5l.4.3.6.1q.9 0 1.3-.5t.5-1.5h-.8q-.7 0-1 .4 0-.7.5-1Q4 4 4.8 4h1.4l.4-.4z" /></svg><!-- htmlmin:ignore -->
                     Outdoor&nbsp;Enthusiast
                 </p>
