@@ -346,68 +346,170 @@ function bookInitials(title: string): string {
     return title.split(/\s+/).slice(0, 2).map(w => w[0] ?? '').join('').toUpperCase();
 }
 
-/**
- * Renders book cards into the .bookGrid element and wires up the "Show all" button.
- * Calling this again (e.g. after art→home restore) is safe: it removes any stale
- * button whose listeners were lost when innerHTML was replaced by restoreHome().
- */
-function renderBooks(books: Book[], grid: HTMLElement): void {
-    if (!books.length) return;
+/** Defer work until CSS entrance animations finish (last: .content @ 2.8s + 0.5s). */
+function afterEntranceAnimations(fn: () => void): void {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        fn();
+        return;
+    }
+    const { classList } = document.body;
+    if (classList.contains('hide') || classList.contains('show')) {
+        fn();
+        return;
+    }
+    const content = document.querySelector<HTMLElement>('.content');
+    if (!content || getComputedStyle(content).animationName === 'none') {
+        fn();
+        return;
+    }
+    let called = false;
+    const run = () => {
+        if (called) return;
+        called = true;
+        fn();
+    };
+    content.addEventListener('animationend', run, { once: true });
+    setTimeout(run, 3400);
+}
 
-    // Remove any orphaned show-more button left over from a previous render
-    // whose event listeners were stripped by restoreHome()'s innerHTML assignment.
-    document.querySelector('.bookShowMore')?.remove();
+const BOOKS_BATCH_SIZE = 10;
+let renderBooksGeneration = 0;
 
-    grid.setAttribute('aria-busy', 'false');
-    grid.innerHTML = books.map(book => {
-        const stars = book.rating > 0
-            ? `<span class="bookCard-rating" aria-label="${book.rating} out of 5 stars">${'★'.repeat(book.rating)}${'☆'.repeat(5 - book.rating)}</span>`
-            : '';
-        const cover = book.coverUrl
-            ? `<img src="${escHtml(book.coverUrl)}" alt="Cover of ${escHtml(book.title)}" width="140" height="140" loading="lazy" crossorigin="anonymous" />`
-            : `<div class="bookCard-placeholder" aria-hidden="true">${escHtml(bookInitials(book.title))}</div>`;
-        const durationHtml = book.duration
-            ? `<p class="bookCard-duration">${escHtml(book.duration)}</p>`
-            : '';
-        const cardInner = `${cover}
+function scheduleRenderWork(fn: () => void): void {
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(fn, { timeout: 50 });
+    } else {
+        setTimeout(fn, 0);
+    }
+}
+
+/** Column count for the book grid (card min-width 140px + gap 0.75rem ≈ 12px). */
+function bookGridColumnCount(grid: HTMLElement): number {
+    const cardMinWidth = 140 + 12;
+    return Math.max(1, Math.floor((grid.offsetWidth + 12) / cardMinWidth));
+}
+
+/** HTML for a single book card. Pass revealIndex to stagger entrance on expand. */
+function bookCardHtml(book: Book, revealIndex?: number): string {
+    const stars = book.rating > 0
+        ? `<span class="bookCard-rating" aria-label="${book.rating} out of 5 stars">${'★'.repeat(book.rating)}${'☆'.repeat(5 - book.rating)}</span>`
+        : '';
+    const cover = book.coverUrl
+        ? `<img src="${escHtml(book.coverUrl)}" alt="Cover of ${escHtml(book.title)}" width="140" height="140" loading="lazy" crossorigin="anonymous" />`
+        : `<div class="bookCard-placeholder" aria-hidden="true">${escHtml(bookInitials(book.title))}</div>`;
+    const durationHtml = book.duration
+        ? `<p class="bookCard-duration">${escHtml(book.duration)}</p>`
+        : '';
+    const cardInner = `${cover}
                 <div class="bookCard-info">
                     <p class="bookCard-title">${escHtml(book.title)}</p>
                     <p class="bookCard-author">${escHtml(book.author)}</p>
                     ${stars}
                     ${durationHtml}
                 </div>`;
-        return book.audibleUrl
-            ? `<a class="bookCard" role="listitem" href="${escHtml(book.audibleUrl)}" target="_blank" rel="noopener noreferrer" aria-label="${escHtml(book.title)} on Audible">${cardInner}</a>`
-            : `<article class="bookCard" role="listitem">${cardInner}</article>`;
-    }).join('');
+    const revealClass = revealIndex !== undefined ? ' bookCard--reveal' : '';
+    const revealStyle = revealIndex !== undefined ? ` style="--book-index:${revealIndex}"` : '';
+    return book.audibleUrl
+        ? `<a class="bookCard${revealClass}" role="listitem"${revealStyle} href="${escHtml(book.audibleUrl)}" target="_blank" rel="noopener noreferrer" aria-label="${escHtml(book.title)} on Audible">${cardInner}</a>`
+        : `<article class="bookCard${revealClass}" role="listitem"${revealStyle}>${cardInner}</article>`;
+}
 
-    // Calculate columns from the grid's rendered width:
-    // card min-width (140px) + gap (0.75rem ≈ 12px)
-    const cardMinWidth = 140 + 12;
-    const cols = Math.max(1, Math.floor((grid.offsetWidth + 12) / cardMinWidth));
+/** Appends books beyond the first visible row in idle-time batches. */
+function appendRemainingBooks(
+    books: Book[],
+    cols: number,
+    grid: HTMLElement,
+    gen: number,
+): void {
+    let index = cols;
 
-    if (books.length > cols) {
-        const cards = Array.from(grid.querySelectorAll<HTMLElement>('.bookCard'));
-        cards.slice(cols).forEach((card, i) => {
-            card.classList.add('bookCard--hidden');
-            card.style.setProperty('--book-index', String(i));
-        });
+    const appendBatch = () => {
+        if (gen !== renderBooksGeneration) return;
 
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'bookShowMore';
-        btn.textContent = `Show all ${books.length} books`;
+        const end = Math.min(index + BOOKS_BATCH_SIZE, books.length);
+        grid.insertAdjacentHTML(
+            'beforeend',
+            books.slice(index, end).map((book, i) => bookCardHtml(book, index - cols + i)).join(''),
+        );
+        index = end;
 
-        btn.addEventListener('click', () => {
-            const expanded = grid.classList.toggle('bookGrid--expanded');
-            btn.textContent = expanded ? 'Show fewer books' : `Show all ${books.length} books`;
-            if (!expanded) {
-                document.getElementById('books')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
+        if (index < books.length) {
+            scheduleRenderWork(appendBatch);
+        }
+    };
 
-        grid.insertAdjacentElement('afterend', btn);
+    scheduleRenderWork(appendBatch);
+}
+
+/** Removes cards beyond the first visible row when collapsing. */
+function collapseBookGrid(grid: HTMLElement, cols: number): void {
+    const cards = grid.querySelectorAll('.bookCard');
+    for (let i = cols; i < cards.length; i++) {
+        cards[i].remove();
     }
+}
+
+/** Wires up the "Show all" button after the initial visible row is rendered. */
+function finishBookGrid(books: Book[], grid: HTMLElement, cols: number): void {
+    grid.setAttribute('aria-busy', 'false');
+
+    if (books.length <= cols) return;
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'bookShowMore';
+    btn.textContent = `Show all ${books.length} books`;
+    const gen = renderBooksGeneration;
+
+    btn.addEventListener('click', () => {
+        const expanded = grid.classList.toggle('bookGrid--expanded');
+        if (expanded) {
+            btn.textContent = 'Show fewer books';
+            appendRemainingBooks(books, cols, grid, gen);
+        } else {
+            btn.textContent = `Show all ${books.length} books`;
+            collapseBookGrid(grid, cols);
+            document.getElementById('books')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+
+    grid.insertAdjacentElement('afterend', btn);
+}
+
+/**
+ * Renders book cards into the .bookGrid element in batches so the main thread
+ * can paint between chunks. Calling again (e.g. after art→home restore) is safe:
+ * it cancels any in-flight render and removes stale show-more buttons.
+ */
+function renderBooks(books: Book[], grid: HTMLElement): void {
+    if (!books.length) return;
+
+    const gen = ++renderBooksGeneration;
+
+    document.querySelector('.bookShowMore')?.remove();
+    grid.classList.remove('bookGrid--expanded');
+    grid.setAttribute('aria-busy', 'true');
+    grid.innerHTML = '';
+
+    const cols = bookGridColumnCount(grid);
+    const initialCount = Math.min(books.length, cols);
+    let index = 0;
+
+    const appendBatch = () => {
+        if (gen !== renderBooksGeneration) return;
+
+        const end = Math.min(index + BOOKS_BATCH_SIZE, initialCount);
+        grid.insertAdjacentHTML('beforeend', books.slice(index, end).map(bookCardHtml).join(''));
+        index = end;
+
+        if (index < initialCount) {
+            scheduleRenderWork(appendBatch);
+        } else {
+            finishBookGrid(books, grid, cols);
+        }
+    };
+
+    scheduleRenderWork(appendBatch);
 }
 
 /**
@@ -423,7 +525,7 @@ async function fetchBooks(): Promise<void> {
         }
         const grid = document.querySelector<HTMLElement>('.bookGrid');
         if (!grid) return;
-        renderBooks(cachedBooks, grid);
+        afterEntranceAnimations(() => renderBooks(cachedBooks!, grid));
     } catch {
         // Silently fail — the section simply stays empty
     }
@@ -699,10 +801,22 @@ switch (document.readyState) {
 
 // --- Google Analytics ---
 
-window.dataLayer = window.dataLayer || [];
-function gtag(...args: any[]) { window.dataLayer.push(args); }
-gtag('js', new Date());
-gtag('config', 'G-SCCSHETMD9');
+const GA_ID = 'G-SCCSHETMD9';
+
+function initGoogleAnalytics(): void {
+    window.dataLayer = window.dataLayer || [];
+    function gtag(...args: any[]) { window.dataLayer.push(args); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+    document.head.appendChild(script);
+}
+
+afterEntranceAnimations(initGoogleAnalytics);
 
 // Required to make this file a module so dynamic import() works against
 // the other module chunks (art.js / tea.js).

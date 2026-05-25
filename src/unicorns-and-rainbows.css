@@ -805,12 +805,7 @@ footer {
     }
 }
 
-.bookCard--hidden {
-    display: none;
-}
-
-.bookGrid--expanded .bookCard--hidden {
-    display: flex;
+.bookCard--reveal {
     animation: bookCardEnter 0.3s ease-out backwards;
     animation-delay: calc(var(--book-index, 0) * 35ms);
 }
