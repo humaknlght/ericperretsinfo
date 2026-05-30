@@ -27,14 +27,12 @@ let originalSlides: number;
 let currentIndex: number = 1; // Start at index 1 to show the first original image (index 0 is the leading buffer slide)
 let backgroundInterval: ReturnType<typeof setInterval> | undefined;
 let animateCarousel: () => void;
-let updateSlideFilters: (index: number, instant?: boolean) => void;
+let updateSlideFilters: (index: number) => void;
+let applySlideFiltersAfterMove: (index: number, animated: boolean) => void;
 // Assigned by setup(); called from animateCarousel(), the loop-reset
 // handler, the manual nav buttons, and once at the end of setup() to
 // prime initial state.
 let updateFarClass: (activeIndex: number) => void;
-
-// Cached once; the browser keeps `.matches` live so no re-querying needed.
-const isMobileQuery = window.matchMedia('(max-width: 799px)');
 
 // Shared mutable state passed by reference to lazy view modules
 // (art.ts / tea.ts). Each module reads/sets `originalMainHTML` so the
@@ -75,6 +73,7 @@ async function loadArtView(): Promise<void> {
         import('./art/art.js'),
     ]);
     await mod.getAndLoadArt(viewState);
+    syncViewTitle('✏️ ');
 }
 
 async function loadTeaView(): Promise<void> {
@@ -83,6 +82,7 @@ async function loadTeaView(): Promise<void> {
         import('./tea/tea.js'),
     ]);
     await mod.getAndLoadTea(viewState);
+    syncViewTitle('🍵 ');
 }
 
 // --- Utility Functions ---
@@ -94,10 +94,15 @@ async function loadTeaView(): Promise<void> {
  * @param {boolean} enableTransition Whether to animate the slide (true) or jump instantly (false).
  */
 function setBackgroundImg(index: number, carouselContainer: Readonly<HTMLElement>, enableTransition: boolean = true): void {
-    const offset = (-index * 90) + 5;
-    const duration = isMobileQuery.matches ? '0.75s' : '1.5s';
-    carouselContainer.style.setProperty('--carousel-offset', `${offset}vw`);
-    carouselContainer.style.setProperty('--carousel-duration', duration);
+    if (enableTransition) {
+        // Keep every visible slide saturated while the track moves; otherwise
+        // the incoming (not yet .active) slide reads as an instant desaturate
+        // in the viewport center as soon as the transform starts.
+        carouselContainer.classList.add('carousel-sliding');
+    } else {
+        carouselContainer.classList.remove('carousel-sliding');
+    }
+    carouselContainer.dataset.carouselIndex = String(index);
     carouselContainer.classList.toggle('carousel-animated', enableTransition);
 }
 
@@ -124,33 +129,6 @@ function setup(): void {
         }
     });
 
-    // Tracks slides currently flagged with `will-change: filter` so we can:
-    //   (a) avoid stacking duplicate transitionend listeners when a transition
-    //       is interrupted by a rapid manual nav click, and
-    //   (b) drop the compositor-layer hint as soon as each transition settles.
-    // Listening on both `transitionend` and `transitioncancel` ensures the
-    // hint is cleared even when the loop-reset path snaps `transition: 0s`
-    // mid-flight (which fires `transitioncancel`, not `transitionend`).
-    const promotedSlides = new Set<HTMLElement>();
-    const promoteForFilterTransition = (slide: HTMLElement): void => {
-        slide.style.willChange = 'filter';
-        if (promotedSlides.has(slide)) {
-            return;
-        }
-        promotedSlides.add(slide);
-        const cleanup = (e: Event): void => {
-            if ((e as TransitionEvent).propertyName !== 'filter') {
-                return;
-            }
-            slide.style.willChange = '';
-            promotedSlides.delete(slide);
-            slide.removeEventListener('transitionend', cleanup);
-            slide.removeEventListener('transitioncancel', cleanup);
-        };
-        slide.addEventListener('transitionend', cleanup);
-        slide.addEventListener('transitioncancel', cleanup);
-    };
-
     // Slides further than this many positions from the current center are
     // marked `.far`, which CSS uses to apply content-visibility: hidden.
     // 2 keeps the active slide plus one neighbor on each side rendered
@@ -162,6 +140,9 @@ function setup(): void {
         slides.forEach((s, i) => {
             const isFar = Math.abs(i - activeIndex) >= FAR_DISTANCE;
             const wasFar = s.classList.contains('far');
+            if (wasFar === isFar) {
+                return;
+            }
             s.classList.toggle('far', isFar);
             // When a slide leaves the far zone, flip its <img> to eager
             // loading and kick off async decode so the bitmap is in the
@@ -169,7 +150,7 @@ function setup(): void {
             // errors (e.g., the image hasn't started downloading yet)
             // are non-fatal -- the browser will decode on demand when
             // the slide is eventually rendered.
-            if (wasFar && !isFar) {
+            if (wasFar) {
                 const img = s.querySelector<HTMLImageElement>('img');
                 if (img) {
                     img.loading = 'eager';
@@ -178,6 +159,8 @@ function setup(): void {
             }
         });
     };
+
+    let activeSlideIndex = currentIndex;
 
     // One-time warm-up of the muted background video's decoder pipeline.
     // The video slide normally goes 14+ seconds before being reached the
@@ -194,44 +177,28 @@ function setup(): void {
     }
 
     /**
-     * Toggles the `active` class on the center slide and removes it from all others,
-     * so the CSS filter transitions play correctly.
+     * Moves `.active` to the center slide (full saturation via CSS).
+     * Only touches the outgoing and incoming slides — no inline styles.
      * @param {number} index The index of the slide that should be fully saturated.
-     * @param {boolean} instant When true, bypasses the CSS transition (used for the seamless loop jump).
      */
-    updateSlideFilters = (index: number, instant: boolean = false): void => {
-        const duration = instant ? '0s' : (isMobileQuery.matches ? '0.75s' : '1.5s');
-        slides.forEach((s, i) => {
-            const isVideoSlide = videoSlideIndex !== -1 && i === videoSlideIndex;
-            if (isVideoSlide && !instant) {
-                if (i === index) {
-                    s.style.transition = 'filter 0s';
-                    s.classList.add('active');
-                    s.style.filter = '';
-                } else {
-                    s.style.transition = 'filter 0s';
-                    s.classList.remove('active');
-                    s.style.filter = 'none';
-                }
-            } else {
-                const wasActive = s.classList.contains('active');
-                const willBeActive = i === index;
-                s.style.transition = `filter ${duration} ease-in-out`;
-                s.classList.toggle('active', willBeActive);
-                if (isVideoSlide) {
-                    s.style.filter = '';
-                }
-                if (!instant && wasActive !== willBeActive) {
-                    promoteForFilterTransition(s);
-                }
-            }
-        });
+    updateSlideFilters = (index: number): void => {
+        if (index !== activeSlideIndex) {
+            slides[activeSlideIndex]?.classList.remove('active');
+            slides[index].classList.add('active');
+            activeSlideIndex = index;
+        }
         if (videoEl !== null) {
             if (index === videoSlideIndex) {
                 videoEl.play().catch(() => {});
             } else {
                 videoEl.pause();
             }
+        }
+    };
+
+    applySlideFiltersAfterMove = (index: number, animated: boolean): void => {
+        if (!animated) {
+            updateSlideFilters(index);
         }
     };
 
@@ -243,26 +210,26 @@ function setup(): void {
         // slide-in animation.
         updateFarClass(currentIndex);
         setBackgroundImg(currentIndex, carouselContainer);
-        updateSlideFilters(currentIndex);
+        applySlideFiltersAfterMove(currentIndex, true);
     };
 
-    carouselContainer.addEventListener('transitionend', () => {
-        // Once the carousel position transition ends, let CSS saturate the video slide
-        // if it is no longer active (clears the inline filter:none override set during the slide-away).
-        if (videoSlideIndex !== -1) {
-            const videoSlide = slides[videoSlideIndex];
-            if (!videoSlide.classList.contains('active')) {
-                videoSlide.style.filter = '';
-            }
+    carouselContainer.addEventListener('transitionend', (e: TransitionEvent) => {
+        if (e.propertyName !== 'transform' || e.target !== carouselContainer) {
+            return;
         }
+
+        carouselContainer.classList.remove('carousel-sliding');
 
         // If we've reached the duplicated last slide, instantly reset to the first original slide
         if (currentIndex >= originalSlides + 1) {
             currentIndex = 1;
             setBackgroundImg(currentIndex, carouselContainer, false);
             updateFarClass(currentIndex);
-            updateSlideFilters(currentIndex, true);
+            updateSlideFilters(currentIndex);
+            return;
         }
+
+        updateSlideFilters(currentIndex);
     });
 
     // Recalculate carousel position on window resize to maintain correct alignment
@@ -307,6 +274,10 @@ function syncCanonical(): void {
     }
 }
 
+function syncViewTitle(prefix = ''): void {
+    document.title = prefix + document.title.replace(/^(✏️ |🍵 )/, '');
+}
+
 /**
  * Restores the homepage content, undoing an art/tea load.
  * Also re-renders the book grid so its event listeners (stripped by the
@@ -314,6 +285,7 @@ function syncCanonical(): void {
  */
 function restoreHome(): void {
     if (viewState.originalMainHTML === null) return;
+    syncViewTitle();
     const content = document.querySelector<HTMLElement>(".content")!;
     const mainContent = content.querySelector<HTMLElement>("main")!;
     content.classList.remove("art");
@@ -408,10 +380,10 @@ function bookCardHtml(book: Book, revealIndex?: number): string {
                     ${durationHtml}
                 </div>`;
     const revealClass = revealIndex !== undefined ? ' bookCard--reveal' : '';
-    const revealStyle = revealIndex !== undefined ? ` style="--book-index:${revealIndex}"` : '';
+    const revealAttr = revealIndex !== undefined ? ` data-book-index="${revealIndex}"` : '';
     return book.audibleUrl
-        ? `<a class="bookCard${revealClass}" role="listitem"${revealStyle} href="${escHtml(book.audibleUrl)}" target="_blank" rel="noopener noreferrer" aria-label="${escHtml(book.title)} on Audible">${cardInner}</a>`
-        : `<article class="bookCard${revealClass}" role="listitem"${revealStyle}>${cardInner}</article>`;
+        ? `<a class="bookCard${revealClass}" role="listitem"${revealAttr} href="${escHtml(book.audibleUrl)}" target="_blank" rel="noopener noreferrer" aria-label="${escHtml(book.title)} on Audible">${cardInner}</a>`
+        : `<article class="bookCard${revealClass}" role="listitem"${revealAttr}>${cardInner}</article>`;
 }
 
 /** Appends books beyond the first visible row in idle-time batches. */
@@ -611,10 +583,56 @@ function ready(): void {
         }
     });
 
-    // True when we pushed a photos history entry ourselves; false on direct load.
-    let photosWasPushed = false;
+    const PHOTO_CLASSES = [
+        "photos-expanding", "photos-expanded", "photos-controls",
+        "photos-closing", "photos-collapsing",
+    ] as const;
+    const PHOTOS_CHROME_MS = 1000;
+    const PHOTOS_EXPAND_MS = 750;
 
-    const enterPhotoMode = () => {
+    let photosWasPushed = false;
+    let photoStageTimers: ReturnType<typeof setTimeout>[] = [];
+
+    const carouselContainer = document.querySelector<HTMLElement>(".carousel-container")!;
+    const photoLeft = document.querySelector<HTMLButtonElement>(".photoB>.l")!;
+    const photoRight = document.querySelector<HTMLButtonElement>(".photoB>.r")!;
+
+    const clearPhotoStages = (): void => {
+        photoStageTimers.forEach(clearTimeout);
+        photoStageTimers = [];
+    };
+
+    const schedulePhotoStage = (run: () => void, delayMs: number): void => {
+        photoStageTimers.push(setTimeout(run, delayMs));
+    };
+
+    const photoMotionEnabled = (): boolean =>
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const isPhotoNavReady = (): boolean =>
+        document.body.classList.contains("hide")
+        && document.body.classList.contains("photos-expanded");
+
+    const preparePhotoCarousel = (): void => {
+        carouselContainer.classList.remove("carousel-animated", "carousel-sliding");
+    };
+
+    const syncPhotoNavButtons = (): void => {
+        photoLeft.disabled = currentIndex === 1;
+        photoRight.disabled = currentIndex === originalSlides;
+    };
+
+    const navigatePhoto = (delta: -1 | 1): void => {
+        currentIndex += delta;
+        setBackgroundImg(currentIndex, carouselContainer);
+        updateFarClass(currentIndex);
+        applySlideFiltersAfterMove(currentIndex, true);
+        syncPhotoNavButtons();
+    };
+
+    const enterPhotoMode = (instant = false): void => {
+        clearPhotoStages();
+        preparePhotoCarousel();
         if (backgroundInterval) {
             clearInterval(backgroundInterval);
         }
@@ -622,28 +640,68 @@ function ready(): void {
             navOpenerButton.click();
         }
         document.body.scrollTop = document.documentElement.scrollTop = 0;
-        document.body.classList.remove("show");
+        document.body.classList.remove("show", ...PHOTO_CLASSES);
         document.body.classList.add("hide");
         document.querySelectorAll<HTMLAnchorElement>("a").forEach(a => a.tabIndex = -1);
         document.querySelectorAll<HTMLButtonElement>("button").forEach(b => b.removeAttribute("tabIndex"));
-
-        const rightButton = document.querySelector<HTMLButtonElement>(".photoB>.r")!;
-        rightButton.disabled = (currentIndex === originalSlides);
-
-        const leftButton = document.querySelector<HTMLButtonElement>(".photoB>.l")!;
-        leftButton.disabled = (currentIndex === 1);
+        syncPhotoNavButtons();
         syncCanonical();
+
+        if (instant || !photoMotionEnabled()) {
+            document.body.classList.add("photos-expanded", "photos-controls");
+            return;
+        }
+
+        schedulePhotoStage(() => document.body.classList.add("photos-expanding"), PHOTOS_CHROME_MS);
+        schedulePhotoStage(() => {
+            document.body.classList.remove("photos-expanding");
+            document.body.classList.add("photos-expanded", "photos-controls");
+        }, PHOTOS_CHROME_MS + PHOTOS_EXPAND_MS);
     };
 
-    const closePhotoMode = () => {
-        photosWasPushed = false;
+    const finishClosePhotoMode = (): void => {
         backgroundInterval = setInterval(animateCarousel, 7000);
-        document.body.classList.remove("hide");
+        document.body.classList.remove("hide", ...PHOTO_CLASSES);
         document.body.classList.add("show");
         document.querySelectorAll<HTMLAnchorElement>("a").forEach(a => a.removeAttribute("tabIndex"));
         document.querySelectorAll<HTMLButtonElement>(".photoB > button").forEach(b => b.tabIndex = -1);
         document.querySelector<HTMLElement>("a.photos")?.focus();
         syncCanonical();
+    };
+
+    const closePhotoMode = (): void => {
+        clearPhotoStages();
+        photosWasPushed = false;
+        if (!document.body.classList.contains("hide")) {
+            return;
+        }
+
+        preparePhotoCarousel();
+        if (!photoMotionEnabled()) {
+            finishClosePhotoMode();
+            return;
+        }
+
+        let delay = 0;
+        if (document.body.classList.contains("photos-controls")) {
+            schedulePhotoStage(() => {
+                document.body.classList.add("photos-closing");
+                document.body.classList.remove("photos-controls");
+            }, PHOTOS_EXPAND_MS);
+            delay = PHOTOS_EXPAND_MS;
+        } else {
+            document.body.classList.remove("photos-expanding");
+        }
+
+        if (document.body.classList.contains("photos-expanded")) {
+            schedulePhotoStage(() => {
+                void carouselContainer.offsetWidth;
+                document.body.classList.add("photos-collapsing");
+            }, delay);
+            schedulePhotoStage(finishClosePhotoMode, delay + PHOTOS_EXPAND_MS);
+        } else {
+            schedulePhotoStage(finishClosePhotoMode, delay);
+        }
     };
 
     // Closes photo mode: goes back in history if we pushed an entry,
@@ -689,31 +747,14 @@ function ready(): void {
             triggerClose();
         });
 
-        const carouselContainer = document.querySelector<HTMLElement>(".carousel-container")!;
-        photoControls.querySelector<HTMLButtonElement>(".l")?.addEventListener("click", (event) => {
+        photoLeft.addEventListener("click", (event) => {
             event.preventDefault();
-            setBackgroundImg(--currentIndex, carouselContainer);
-            updateFarClass(currentIndex);
-            updateSlideFilters(currentIndex);
-            const targetButton = event.currentTarget as HTMLButtonElement;
-            if (currentIndex === 1) {
-                targetButton.disabled = true;
-            }
-            const rightButton = photoControls.querySelector<HTMLButtonElement>(".r")!;
-            rightButton.disabled = false;
+            navigatePhoto(-1);
         });
 
-        photoControls.querySelector<HTMLButtonElement>(".r")!.addEventListener("click", (event) => {
+        photoRight.addEventListener("click", (event) => {
             event.preventDefault();
-            setBackgroundImg(++currentIndex, carouselContainer);
-            updateFarClass(currentIndex);
-            updateSlideFilters(currentIndex);
-            const targetButton = event.currentTarget as HTMLButtonElement;
-            if (currentIndex === originalSlides) {
-                targetButton.disabled = true;
-            }
-            const leftButton = photoControls.querySelector<HTMLButtonElement>(".l")!;
-            leftButton.disabled = false;
+            navigatePhoto(1);
         });
 
         // --- Swipe Support for Mobile ---
@@ -721,7 +762,7 @@ function ready(): void {
         let touchEndX = 0;
 
         const handleGesture = () => {
-            if (!document.body.classList.contains("hide")) {
+            if (!isPhotoNavReady()) {
                 return;
             }
 
@@ -729,16 +770,10 @@ function ready(): void {
             const diff = touchStartX - touchEndX;
 
             if (Math.abs(diff) > swipeThreshold) {
-                if (diff > 0) {
-                    const nextButton = photoControls.querySelector<HTMLButtonElement>(".r")!;
-                    if (!nextButton.disabled) {
-                        nextButton.click();
-                    }
-                } else {
-                    const prevButton = photoControls.querySelector<HTMLButtonElement>(".l")!;
-                    if (!prevButton.disabled) {
-                        prevButton.click();
-                    }
+                if (diff > 0 && !photoRight.disabled) {
+                    photoRight.click();
+                } else if (diff < 0 && !photoLeft.disabled) {
+                    photoLeft.click();
                 }
             }
         };
@@ -759,16 +794,12 @@ function ready(): void {
         }
         if (event.key === "Escape") {
             triggerClose();
-        } else if (event.key === "ArrowLeft") {
-            const leftButton = document.querySelector<HTMLButtonElement>(".photoB>.l")!;
-            if (!leftButton.disabled) {
-                leftButton.click();
-            }
-        } else if (event.key === "ArrowRight") {
-            const rightButton = document.querySelector<HTMLButtonElement>(".photoB>.r")!;
-            if (!rightButton.disabled) {
-                rightButton.click();
-            }
+        } else if (!isPhotoNavReady()) {
+            return;
+        } else if (event.key === "ArrowLeft" && !photoLeft.disabled) {
+            photoLeft.click();
+        } else if (event.key === "ArrowRight" && !photoRight.disabled) {
+            photoRight.click();
         }
     });
 
@@ -782,7 +813,7 @@ function ready(): void {
         loadTeaView();
     } else if (window.location.pathname === "/photos") {
         history.replaceState({ view: "photos" }, "", "/photos");
-        enterPhotoMode();
+        enterPhotoMode(true);
     }
 }
 

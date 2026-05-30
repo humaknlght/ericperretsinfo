@@ -178,9 +178,11 @@ footer,
     /* Use flexbox to arrange divs in a row */
     display: flex;
     height: 100%;
-    --carousel-offset: -85vw;
     --carousel-duration: 1.5s;
+    --carousel-index: attr(data-carousel-index type(<number>), 1);
+    --carousel-offset: calc(var(--carousel-index) * -90vw + 5vw);
     transform: translate3d(var(--carousel-offset), 0, 0);
+    /* Index/offset via data-carousel-index (not JS inline styles) for CSP style-src. */
     touch-action: pan-y;
     will-change: transform;
 }
@@ -198,14 +200,18 @@ footer,
     height: 100%;
     overflow: hidden;
     filter: saturate(50%);
+    transition: none;
+    /* Saturation flips instantly when .active toggles; only the container
+       transform is animated (see .carousel-container.carousel-animated). */
     /* Tell the compositor that nothing inside a slide affects layout or
        paint outside its box. Strengthens layer isolation so transforms /
        filters on one slide don't trigger work on neighbors. */
     contain: layout paint;
-    /* will-change: filter is applied dynamically from JS to only the
-       outgoing/incoming slide for the duration of each transition (see
-       setup() in script-of-awesomeness.ts). Leaving it static here would
-       force every slide to hold a permanent compositor layer. */
+}
+
+/* Video frames look wrong desaturated; keep them at full saturation always. */
+.carousel-slide:has(> video) {
+    filter: none;
 }
 
 /* Slides more than 2 positions away from the current center are tagged
@@ -216,6 +222,12 @@ footer,
    budget during a carousel cycle are the ones the user can actually see. */
 .carousel-slide.far {
     content-visibility: hidden;
+}
+
+/* During an animated move, saturate all rendered slides so the viewport
+   never shows a desaturated incoming frame while the track is in motion. */
+.carousel-container.carousel-sliding .carousel-slide:not(.far) {
+    filter: none;
 }
 
 .carousel-slide.active {
@@ -262,7 +274,6 @@ footer,
 
 .icons > ul > li,
 .icons > ul > li > div {
-    width: 25px;
     height: 25px;
     display: inline-block;
     margin-right: .5rem
@@ -301,9 +312,16 @@ footer {
 }
 
 .wordpress > div {
-    background: #21759b;
     padding: 1px;
     border-radius: 1rem
+}
+
+.wordpress svg circle {
+    fill: var(--nav-text-color);
+}
+
+.wordpress svg path {
+    fill: #21759b;
 }
 
 footer {
@@ -346,6 +364,7 @@ footer {
 
 .hide {
     overflow: hidden;
+    --photos-dur: 0.75s;
 }
 
 .hide > .body {
@@ -386,16 +405,73 @@ footer {
     }
 }
 
-.hide .photoB > button {
+/* Photo mode */
+.hide.photos-expanding .carousel-slide.active {
+    width: 100vw;
+    margin: 0 0 0 calc(0.5em - 5vw);
+    border-radius: 0;
+    transition: width var(--photos-dur) linear, margin var(--photos-dur) linear, border-radius var(--photos-dur) linear;
+}
+
+.hide.photos-expanded .carousel-slide {
+    width: 100vw;
+    margin: 0;
+    border-radius: 0;
+    transition: none;
+}
+
+.hide.photos-expanded .carousel-container {
+    transform: translate3d(calc(var(--carousel-index) * -100vw), 0, 0);
+    transition: none;
+}
+
+.hide.photos-expanded.photos-collapsing .carousel-container {
+    transform: translate3d(var(--carousel-offset), 0, 0);
+    transition: transform var(--photos-dur) linear;
+}
+
+.hide.photos-expanded.photos-collapsing .carousel-slide {
+    width: calc(90vw - 1em);
+    margin: 0 .5em;
+    border-radius: 1em;
+    transition: width var(--photos-dur) linear, margin var(--photos-dur) linear, border-radius var(--photos-dur) linear;
+}
+
+.hide.photos-expanded .carousel-container.carousel-animated {
+    transition: transform var(--carousel-duration) cubic-bezier(.5, -0.53, .14, 1.23);
+}
+
+.hide:is(.photos-expanding, .photos-expanded:not(.photos-collapsing)) .carousel-slide.active :is(img, video) {
+    transform: scale(1.1);
+    transform-origin: center center;
+}
+
+.hide.photos-expanding .carousel-slide.active :is(img, video),
+.hide.photos-expanded.photos-collapsing .carousel-slide.active :is(img, video) {
+    transition: transform var(--photos-dur) linear;
+}
+
+.hide.photos-expanded.photos-collapsing .carousel-slide.active :is(img, video) {
+    transform: scale(1);
+}
+
+.hide.photos-controls .photoB > button {
+    animation: drop .75s cubic-bezier(0, -0.11, 0, 1.4) backwards;
+}
+
+.hide.photos-closing .photoB > button,
+.show .photoB > button {
+    animation: rise .75s cubic-bezier(0, -0.11, 0, 1.4) forwards;
+}
+
+.hide:is(.photos-controls, .photos-closing) .photoB > button {
     opacity: 100%;
-    animation: .75s cubic-bezier(0, -0.11, 0, 1.4) 1s 1 drop backwards;
     height: 4rem;
     padding: .5rem;
 }
 
 .show .photoB > button {
     opacity: 100%;
-    animation: .75s cubic-bezier(0, -0.11, 0, 1.4) 0s 1 rise forwards;
     height: 4rem;
 }
 
@@ -514,6 +590,10 @@ footer {
 }
 
 @media (max-width: 799px) {
+    .carousel-container {
+        --carousel-duration: 0.75s;
+    }
+
     .body {
         margin: auto
     }
@@ -621,6 +701,7 @@ footer {
 
     .icons > ul > li {
         height: auto;
+        padding-right: 1rem;
     }
 
     .title,
@@ -807,7 +888,8 @@ footer {
 
 .bookCard--reveal {
     animation: bookCardEnter 0.3s ease-out backwards;
-    animation-delay: calc(var(--book-index, 0) * 35ms);
+    /* data-book-index + typed attr() — no inline styles (CSP style-src) */
+    animation-delay: calc(attr(data-book-index type(<number>), 0) * 35ms);
 }
 
 .bookShowMore {
@@ -878,30 +960,35 @@ html:has(#dark-mode-toggle:checked) > body {
 
 .theme-svg {
     transition: var(--transition);
-    color: #ffc011;
+    transform: rotate(40deg);
+    color: #000;
 }
 
 .mask-circle {
     transition: var(--transition);
+    cx: 18;
+    cy: 8;
 }
 
 .sun-rays {
     transition: var(--transition);
     transform-origin: center;
-}
-
-/* ANIMATION: Uses '+' because label is next to input */
-#dark-mode-toggle:checked + .theme-toggle-label .theme-svg {
-    transform: rotate(40deg);
-    color: #f0f0f0;
-}
-
-#dark-mode-toggle:checked + .theme-toggle-label .sun-rays {
     opacity: 0;
     transform: scale(0);
 }
 
+/* ANIMATION: Uses '+' because label is next to input */
+#dark-mode-toggle:checked + .theme-toggle-label .theme-svg {
+    transform: rotate(0deg);
+    color: #ffc011;
+}
+
+#dark-mode-toggle:checked + .theme-toggle-label .sun-rays {
+    opacity: 1;
+    transform: scale(1);
+}
+
 #dark-mode-toggle:checked + .theme-toggle-label .mask-circle {
-    cx: 18;
-    cy: 8;
+    cx: 24;
+    cy: 10;
 }

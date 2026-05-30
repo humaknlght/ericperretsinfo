@@ -18,7 +18,7 @@
     <link rel="icon" type="image/png" href="img/favicon.png" />
     <link rel="apple-touch-icon" href="img/favicon.png" />
     <link rel="canonical" href="https://www.ericperret.org" />
-    <script>{const _p=location.pathname;if(_p==='/art'||_p==='/photos'||_p==='/tea'){document.querySelector('link[rel="canonical"]').href='https://www.ericperret.org'+_p;}}</script>
+    <script>{const _p=location.pathname;if(_p==='/art'||_p==='/photos'||_p==='/tea'){document.querySelector('link[rel="canonical"]').href='https://www.ericperret.org'+_p;}if(_p==='/art'||_p==='/tea'){document.title=(_p==='/art'?'✏️ ':'🍵 ')+document.title.replace(/^(✏️ |🍵 )/,'');}}</script>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="color-scheme" content="dark light">
     <meta name="theme-color" content="#000">
@@ -47,7 +47,7 @@
 
 <body>
     <div class="carousel-wrapper">
-        <div class="carousel-container">
+        <div class="carousel-container" data-carousel-index="1">
             <!-- Leading buffer: fills the 5vw left-edge peek before the active slide. -->
             <div class="carousel-slide" id="slide-7-buffer">
                 <picture>
@@ -152,7 +152,7 @@
                     <li class="wordpress">
                         <div>
                             <a href="https://developer.salesforce.com/search#q=%22eric%20perret%22&amp;f:@commonsource=[Salesforce%20Developers%20Blog]">
-                                <!-- htmlmin:ignore --><svg aria-labelledby="simpleicons-wordpress-icon" width="25" height="25" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-wordpress-icon">WordPress</title><path d="M21 7a11 11 0 0 1-4 14l4-9a10 10 0 0 0 0-5m-8 0h2V6H9v1h1l2 4-3 8L5 7h2V6H3a11 11 0 0 1 16-2l-2 2 1 2 1 3-1 4-1 4-4-12zm-1 16l-3-1 3-9 4 9-4 1M1 12l1-4 5 14c-3-2-6-6-6-10M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24" fill="#fff" /></svg><!-- htmlmin:ignore -->
+                                <!-- htmlmin:ignore --><svg aria-labelledby="simpleicons-wordpress-icon" width="25" height="25" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-wordpress-icon">WordPress</title><circle cx="12" cy="12" r="12" fill="var(--nav-text-color)"/><path d="M21 7a11 11 0 0 1-4 14l4-9a10 10 0 0 0 0-5m-8 0h2V6H9v1h1l2 4-3 8L5 7h2V6H3a11 11 0 0 1 16-2l-2 2 1 2 1 3-1 4-1 4-4-12zm-1 16l-3-1 3-9 4 9-4 1M1 12l1-4 5 14c-3-2-6-6-6-10" fill="#21759b"/></svg><!-- htmlmin:ignore -->
                             </a>
                         </div>
                     </li>
@@ -167,7 +167,7 @@
                     <li class="toggle">
                         <input type="checkbox" id="dark-mode-toggle" aria-label="Toggle Dark Mode" />
                         <label for="dark-mode-toggle" class="theme-toggle-label" aria-label="Toggle Dark Mode" tabindex="-1">
-                            <!-- htmlmin:ignore --><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="theme-svg" viewBox="0 0 24 24"><mask id="a"><rect width="100%" height="100%" fill="#fff"/><circle cx="24" cy="10" r="6" fill="#000" class="mask-circle"/></mask><circle cx="12" cy="12" r="5" fill="currentColor" class="sun-body" mask="url(#a)"/><g class="sun-rays"><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></g></svg><!-- htmlmin:ignore -->
+                            <!-- htmlmin:ignore --><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="theme-svg" viewBox="0 0 24 24"><mask id="a"><rect width="100%" height="100%" fill="#fff"/><circle cx="18" cy="8" r="6" fill="#000" class="mask-circle"/></mask><circle cx="12" cy="12" r="5" fill="currentColor" class="sun-body" mask="url(#a)"/><g class="sun-rays"><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></g></svg><!-- htmlmin:ignore -->
                         </label>
                         <script>
                             if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
