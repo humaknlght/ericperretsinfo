@@ -6,7 +6,10 @@ const { existsSync } = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 
-const prodRoot = path.resolve(process.cwd(), process.argv[2] || "./prod");
+// Default to build/prod beside this script (not cwd ./prod, which is wrong from repo root).
+const prodRoot = path.resolve(process.argv[2] || path.join(__dirname, "prod"));
+const defaultProdRoot = path.resolve(path.join(__dirname, "prod"));
+const srcHtaccessPath = path.join(__dirname, "..", "src", ".htaccess");
 
 const THIRD_PARTY_PREFIXES = [
   "http://",
@@ -48,6 +51,15 @@ function addParam(url, hash) {
   const q = url.includes("?") ? "&" : "?";
   return `${url}${q}v=${hash}`;
 }
+
+function withVersion(url, hash) {
+  const base = url.split("?")[0];
+  return `${base}?v=${hash}`;
+}
+
+// Link / Speculation-Rules refs in .htaccess: </path/file.ext> or </path/file.ext?v=old>
+const HTACCESS_LINK_REF_RE =
+  /<(\/[^>?]+\.(?:avif|webp|svg|ico|css|js|json|html|mp4|png))(?:\?v=[^>]*)?>/g;
 
 // --- PROCESSING LOGIC (Your Original Regexes) ---
 
@@ -149,15 +161,20 @@ function processJs(content, filePath, hashMap) {
 
 function processHtaccess(content, hashMap) {
   let out = content;
-  out = out.replace(/<(\/[^>]+\.(?:avif|webp|svg|ico|css|js|json|html))>/g, (match, p) => {
+  out = out.replace(HTACCESS_LINK_REF_RE, (match, p) => {
     const key = p.replace(/^\//, "");
     if (!hashMap.has(key)) return match;
-    return `<${addParam(p, hashMap.get(key))}>`;
+    return `<${withVersion(p, hashMap.get(key))}>`;
   });
-  out = out.replace(/\\"\/prerender\.json\\"/g, () => {
-    const key = "prerender.json";
-    if (!hashMap.has(key)) return '\\"/prerender.json\\"';
-    return `\\"/prerender.json?v=${hashMap.get(key)}\\"`;
+  out = out.replace(/\\"(\/prerender\.json)(?:\?v=[^\\"]*)?\\"/g, (match, p) => {
+    const key = p.replace(/^\//, "");
+    if (!hashMap.has(key)) return match;
+    return `\\"${withVersion(p, hashMap.get(key))}\\"`;
+  });
+  out = out.replace(/(ErrorDocument\s+\d+\s+)(\/\S+\.html)(?:\?v=\S+)?/g, (match, prefix, p) => {
+    const key = p.replace(/^\//, "");
+    if (!hashMap.has(key)) return match;
+    return prefix + withVersion(p, hashMap.get(key));
   });
   return out;
 }
@@ -214,7 +231,7 @@ async function main() {
   const jsModules    = jsFiles.filter(f => path.dirname(f) !== prodRoot);
   const jsEntryPoints = jsFiles.filter(f => path.dirname(f) === prodRoot);
   const htmlFiles = allFiles.filter(f => f.endsWith(".html"));
-  const htaccessPath = path.join(prodRoot, ".htaccess");
+  const htaccessFiles = allFiles.filter((f) => path.basename(f) === ".htaccess");
 
   // 3. Update CSS (Pass 1) — rewrites url() refs to images
   await Promise.all(cssFiles.map(async (f) => {
@@ -257,11 +274,21 @@ async function main() {
     if (newContent !== content) await fs.writeFile(f, newContent, "utf8");
   });
 
-  if (existsSync(htaccessPath)) {
+  for (const htaccessPath of htaccessFiles) {
     finalTasks.push((async () => {
       const content = await fs.readFile(htaccessPath, "utf8");
       const newContent = processHtaccess(content, hashMap);
       if (newContent !== content) await fs.writeFile(htaccessPath, newContent, "utf8");
+    })());
+  }
+
+  // Keep src/.htaccess in sync so the next build copy starts with versioned URLs
+  // that match the processed app (Link preload headers, prerender.json, 404 page).
+  if (prodRoot === defaultProdRoot && existsSync(srcHtaccessPath)) {
+    finalTasks.push((async () => {
+      const content = await fs.readFile(srcHtaccessPath, "utf8");
+      const newContent = processHtaccess(content, hashMap);
+      if (newContent !== content) await fs.writeFile(srcHtaccessPath, newContent, "utf8");
     })());
   }
 
