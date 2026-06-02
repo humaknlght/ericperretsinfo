@@ -273,6 +273,12 @@
     margin-top: .2rem;
 }
 
+.teaPairing {
+    background-color: var(--background-color3);
+    border-radius: 1rem;
+    padding: .75rem;
+}
+
 /* Dark mode overrides for tea */
 html:has(#dark-mode-toggle:checked) .teaMap-frame {
     filter: invert(1) hue-rotate(180deg);

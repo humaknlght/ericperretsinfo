@@ -251,6 +251,12 @@ function setup(): void {
 
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (!mediaQuery.matches) {
+        carouselContainer.classList.add("is-entering");
+        carouselContainer.addEventListener("animationend", (e: AnimationEvent) => {
+            if (e.animationName === "carousel-container-enter" && e.target === carouselContainer) {
+                carouselContainer.classList.remove("is-entering");
+            }
+        }, { once: true });
         backgroundInterval = setInterval(animateCarousel, 7000);
         const onVisibilityChanged = () => {
             if (document.hidden) {
@@ -626,7 +632,8 @@ function ready(): void {
         currentIndex += delta;
         setBackgroundImg(currentIndex, carouselContainer);
         updateFarClass(currentIndex);
-        applySlideFiltersAfterMove(currentIndex, true);
+        // Photo slides are 100vw — deferring .active only delayed scale(1.1) until transitionend.
+        applySlideFiltersAfterMove(currentIndex, false);
         syncPhotoNavButtons();
     };
 
@@ -682,25 +689,27 @@ function ready(): void {
             return;
         }
 
-        let delay = 0;
+        let collapseDelay = 0;
         if (document.body.classList.contains("photos-controls")) {
-            schedulePhotoStage(() => {
-                document.body.classList.add("photos-closing");
-                document.body.classList.remove("photos-controls");
-            }, PHOTOS_EXPAND_MS);
-            delay = PHOTOS_EXPAND_MS;
+            document.body.classList.add("photos-closing");
+            document.body.classList.remove("photos-controls");
+            collapseDelay = PHOTOS_EXPAND_MS;
         } else {
             document.body.classList.remove("photos-expanding");
+            if (document.body.classList.contains("photos-expanded")) {
+                document.body.classList.add("photos-closing");
+                collapseDelay = PHOTOS_EXPAND_MS;
+            }
         }
 
         if (document.body.classList.contains("photos-expanded")) {
             schedulePhotoStage(() => {
                 void carouselContainer.offsetWidth;
                 document.body.classList.add("photos-collapsing");
-            }, delay);
-            schedulePhotoStage(finishClosePhotoMode, delay + PHOTOS_EXPAND_MS);
+            }, collapseDelay);
+            schedulePhotoStage(finishClosePhotoMode, collapseDelay + PHOTOS_EXPAND_MS);
         } else {
-            schedulePhotoStage(finishClosePhotoMode, delay);
+            schedulePhotoStage(finishClosePhotoMode, collapseDelay);
         }
     };
 

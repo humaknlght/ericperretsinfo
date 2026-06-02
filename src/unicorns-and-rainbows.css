@@ -172,6 +172,9 @@ footer,
     transition: opacity .5s;
     background-color: var(--background-color2);
     scale: 1;
+    perspective: 450vmin;
+    perspective-origin: 50% 42%;
+    isolation: isolate;
 }
 
 .carousel-container {
@@ -182,9 +185,10 @@ footer,
     --carousel-index: attr(data-carousel-index type(<number>), 1);
     --carousel-offset: calc(var(--carousel-index) * -90vw + 5vw);
     transform: translate3d(var(--carousel-offset), 0, 0);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
     /* Index/offset via data-carousel-index (not JS inline styles) for CSP style-src. */
     touch-action: pan-y;
-    will-change: transform;
 }
 
 .carousel-container.carousel-animated {
@@ -441,18 +445,23 @@ footer {
     transition: transform var(--carousel-duration) cubic-bezier(.5, -0.53, .14, 1.23);
 }
 
-.hide:is(.photos-expanding, .photos-expanded:not(.photos-collapsing)) .carousel-slide.active :is(img, video) {
+.hide:is(.photos-expanding, .photos-expanded:not(.photos-collapsing):not(.photos-closing)) .carousel-slide.active :is(img, video) {
     transform: scale(1.1);
     transform-origin: center center;
 }
 
 .hide.photos-expanding .carousel-slide.active :is(img, video),
-.hide.photos-expanded.photos-collapsing .carousel-slide.active :is(img, video) {
+.hide.photos-expanded.photos-closing:not(.photos-collapsing) .carousel-slide.active :is(img, video) {
     transition: transform var(--photos-dur) linear;
 }
 
+.hide.photos-expanded.photos-closing:not(.photos-collapsing) .carousel-slide.active :is(img, video),
 .hide.photos-expanded.photos-collapsing .carousel-slide.active :is(img, video) {
     transform: scale(1);
+}
+
+.hide.photos-expanded.photos-collapsing .carousel-slide.active :is(img, video) {
+    transition: none;
 }
 
 .hide.photos-controls .photoB > button {
@@ -554,20 +563,28 @@ footer {
         }
     }
 
-    @keyframes carousel-wrapper-enter {
-        from {
+    /* Depth via translateZ; blur radius animates on the track for focus pull. */
+    @keyframes carousel-container-enter {
+        0% {
             scale: 0.2;
-            transform: perspective(800px) rotateY(25deg) rotateX(10deg);
-            opacity: 0.2;
+            transform: translate3d(var(--carousel-offset), 0, -375vmin);
+            filter: blur(28px);
         }
-        to {
-            scale: 1;
-            opacity: 1;
+        45% {
+            filter: blur(2px);
+        }
+        100% {
+            transform: translate3d(var(--carousel-offset), 0, 0);
         }
     }
 
-    .carousel-wrapper {
-        animation: carousel-wrapper-enter 1s ease-out .2s both;
+    body:not(.hide):not(.show) .carousel-container {
+        animation: carousel-container-enter 2s cubic-bezier(0.22, 1, 0.36, 1) 0.2s backwards;
+        isolation: isolate;
+    }
+
+    .carousel-container.is-entering {
+        will-change: transform, filter;
     }
 
     body:not(.hide):not(.show) .title {

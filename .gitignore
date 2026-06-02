@@ -3,3 +3,4 @@ BingSiteAuth.xml
 google*.html
 build/prod/
 build/dev/
+node_modules/

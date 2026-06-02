@@ -8,9 +8,11 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true,        // Generate source maps for easier debugging
-    "alwaysStrict": true      // Always emit “use strict” for each source file
+    "alwaysStrict": true,     // Always emit “use strict” for each source file
+    "rootDir": "../src",      // TypeScript sources live in src/ (prod/ is build output)
+    "outDir": "./prod"        // Emit compiled JS into prod/ during build
   },
   "include": [
-    "./prod/**/*.ts"          // Tell the compiler to include all .ts files in the prod directory tree
+    "../src/**/*.ts"          // Source .ts files (prod/ is created by build.sh and may not exist yet)
   ]
 }
